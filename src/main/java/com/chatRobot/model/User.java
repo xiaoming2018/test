@@ -1,5 +1,6 @@
 package com.chatRobot.model;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class User {
@@ -118,5 +119,21 @@ public class User {
 
     public void setUserPicture(byte[] userPicture) {
         this.userPicture = userPicture;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", userNickname='" + userNickname + '\'' +
+                ", userEmail='" + userEmail + '\'' +
+                ", userPhoneNumber='" + userPhoneNumber + '\'' +
+                ", userAddress='" + userAddress + '\'' +
+                ", userPassword='" + userPassword + '\'' +
+                ", userCreateTime=" + userCreateTime +
+                ", userUpdateTime=" + userUpdateTime +
+                ", userPicture=" + Arrays.toString(userPicture) +
+                '}';
     }
 }
