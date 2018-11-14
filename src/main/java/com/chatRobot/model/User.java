@@ -3,91 +3,120 @@ package com.chatRobot.model;
 import java.util.Date;
 
 public class User {
+    private Integer userId;
 
-    private long id;
-    private String email;
-    private String password;
-    private String username;
-    private String role;
-    private int    status;
-    private Date   regtime;
-    private String regIp;
+    private String userName;
 
-    public long getId() {
-        return id;
+    private String userNickname;
+
+    private String userEmail;
+
+    private String userPhoneNumber;
+
+    private String userAddress;
+
+    private String userPassword;
+
+    private Date userCreateTime;
+
+    private Date userUpdateTime;
+
+    private byte[] userPicture;
+
+    public User(Integer userId, String userName, String userNickname, String userEmail, String userPhoneNumber, String userAddress, String userPassword, Date userCreateTime, Date userUpdateTime, byte[] userPicture) {
+        this.userId = userId;
+        this.userName = userName;
+        this.userNickname = userNickname;
+        this.userEmail = userEmail;
+        this.userPhoneNumber = userPhoneNumber;
+        this.userAddress = userAddress;
+        this.userPassword = userPassword;
+        this.userCreateTime = userCreateTime;
+        this.userUpdateTime = userUpdateTime;
+        this.userPicture = userPicture;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public User() {
+        super();
     }
 
-    public String getEmail() {
-        return email;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUserName(String userName) {
+        this.userName = userName == null ? null : userName.trim();
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserNickname() {
+        return userNickname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserNickname(String userNickname) {
+        this.userNickname = userNickname == null ? null : userNickname.trim();
     }
 
-    public String getRole() {
-        return role;
+    public String getUserEmail() {
+        return userEmail;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserEmail(String userEmail) {
+        this.userEmail = userEmail == null ? null : userEmail.trim();
     }
 
-    public int getStatus() {
-        return status;
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber == null ? null : userPhoneNumber.trim();
     }
 
-    public Date getRegtime() {
-        return regtime;
+    public String getUserAddress() {
+        return userAddress;
     }
 
-    public void setRegtime(Date regtime) {
-        this.regtime = regtime;
+    public void setUserAddress(String userAddress) {
+        this.userAddress = userAddress == null ? null : userAddress.trim();
     }
 
-    public String getRegIp() {
-        return regIp;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setRegIp(String regIp) {
-        this.regIp = regIp;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", role='" + role + '\'' +
-                ", status=" + status +
-                ", regtime=" + regtime +
-                ", regIp='" + regIp + '\'' +
-                '}';
+    public Date getUserCreateTime() {
+        return userCreateTime;
+    }
+
+    public void setUserCreateTime(Date userCreateTime) {
+        this.userCreateTime = userCreateTime;
+    }
+
+    public Date getUserUpdateTime() {
+        return userUpdateTime;
+    }
+
+    public void setUserUpdateTime(Date userUpdateTime) {
+        this.userUpdateTime = userUpdateTime;
+    }
+
+    public byte[] getUserPicture() {
+        return userPicture;
+    }
+
+    public void setUserPicture(byte[] userPicture) {
+        this.userPicture = userPicture;
     }
 }

@@ -1,7 +1,5 @@
 package com.chaRobot.dao;
 
-import com.chatRobot.dao.GoodsMapper;
-import com.chatRobot.model.Goods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
