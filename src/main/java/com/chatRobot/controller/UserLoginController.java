@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @Controller
@@ -22,9 +20,7 @@ public class UserLoginController {
 
     @RequestMapping("/login")
     @ResponseBody
-    public Msg userLogin(HttpServletRequest request, HttpServletResponse response){
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    public Msg userLogin(String email, String password){
         System.out.println("获取值:"+ email);
 
         List<User> userList = UserService.selectByEmail(email);
