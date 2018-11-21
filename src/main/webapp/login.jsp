@@ -13,83 +13,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <!--<script type="application/x-javascript">-->
-    <!--addEventListener("load", function () {-->
-    <!--setTimeout(hideURLbar, 0);-->
-    <!--}, false);-->
-
-    <!--function hideURLbar() {-->
-    <!--window.scrollTo(0, 1);-->
-    <!--}-->
-    <!--</script>-->
-    <link href="resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-    <script src="resource/js/jquery.min.js"></script>
-    <!-- for bootstrap working -->
-    <script type="text/javascript" src="resource/js/bootstrap-3.1.1.min.js"></script>
-    <!-- //for bootstrap working -->
-    <link href='resource/css/font.css' rel='stylesheet' type='text/css'>
-    <link href='resource/css/font1.css' rel='stylesheet' type='text/css'>
-    <!-- timer -->
-    <!--<link rel="stylesheet" href="resource/css/jquery.countdown.css"/>-->
-    <!-- //timer -->
-    <!-- animation-effect -->
-    <!--<link href="resource/css/animate.min.css" rel="stylesheet">-->
-    <!--<script src="resource/js/wow.min.js">data-wow-delay=".5s"</script>-->
-    <!--<script>-->
-    <!--new WOW().init();-->
-    <!--</script>-->
+    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="${pageContext.request.contextPath}/resource/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/bootstrap-3.1.1.min.js"></script>
+    <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
+    <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
 </head>
 
 <script type="text/javascript">
     $(function(){
-        alert("页面加载完毕");
-        $("#login").click(function () {
+        $("#login1").click(function () {
             var email = $("#email").val();
             var password = $("#password").val();
-
-            var url = "servlet/login";
-            var args = {"email": email, "password": password};
-
-            $.post(url,args,function(data){
-                alert(111111);
-                console.log(data);
-                debugger;
+            $.ajax({
+                type: "post",
+                url: "servlet/index",
+                data: {"email": email, "password": password},
+                success: function (result) {
+                    alert(12345);
+                    debugger;
+                    console.log(result);
+                    if(result.code == 200){
+                        alert(result.extend.message);
+                        $("#message").text(result.extend.message);
+                    }else if(result.code == 100){
+                        alert("登陆成功!");
+                        //进行页面跳转 到home
+                        window.location.href='index.html';
+                    }
+                },
+                dataType: "json",
+                async: true
             })
-            // $.ajax({
-            //     type: "post",
-            //     url: "servlet/login",
-            //     data: {"email": email, "password": password},
-            //     success: function (result) {
-            //         debugger;
-            //         console.log(result);
-            //     },
-            //     dataType: "json",
-            //     async: true
-            // })
-            return false;
+            return false; // 取消默认请求发送
         });
     })
 </script>
-
 <body>
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="${pageContext.request.contextPath}/index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">登陆</li>
         </ol>
     </div>
 </div>
-<!-- //breadcrumbs -->
 <!-- login -->
 <div class="login">
     <div class="container">
-        <h2>login.jsp</h2>
         <h3 class="animated wow zoomIn">登陆</h3>
         <p class="est animated wow zoomIn" >请使用邮箱及密码登录！</p>
         <div class="login-form-grids animated wow slideInUp">
-            <form action="">
+            <div id="message" style="color: #ff0000">${message}</div>
+            <form action="servlet/index" method="post">
                 <input type="email" id="email" name="email" placeholder="邮箱" required=" ">
                 <input type="password" id="password" name="password" placeholder="密码" required=" ">
                 <div class="forgot">
@@ -101,7 +78,7 @@
         </div>
         <h4 class="animated wow slideInUp" >未注册账号</h4>
         <p class="animated wow slideInUp" ><a href="register.html">前往注册</a> 或者 返回
-            <a href="index.html">主页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
+            <a href="${pageContext.request.contextPath}/index.html">主页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
     </div>
 </div>
 
@@ -110,7 +87,7 @@
     <div class="container">
         <div class="footer-grids">
             <div class="footer-logo animated wow slideInUp" >
-                <h2><a href="index.html">Best Store <span>shop anywhere</span></a></h2>
+                <h2><a href="${pageContext.request.contextPath}/index.html">Best Store <span>shop anywhere</span></a></h2>
             </div>
             <div class="copy-right animated wow slideInUp" >
                 <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>

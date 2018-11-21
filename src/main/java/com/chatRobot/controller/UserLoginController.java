@@ -29,8 +29,8 @@ public class UserLoginController {
             return Msg.fail().add("message","该邮箱未注册！");
         }
         if(password.equals(userList.get(0).getUserPassword())){
-            model.addAttribute("User",userList.get(0));
-            return Msg.success();
+            //model.addAttribute("User",userList.get(0));
+            return Msg.success().add("user",userList.get(0));
         }else{
             return Msg.fail().add("message","密码错误！");
         }
