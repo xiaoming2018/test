@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
 @Controller
-@RequestMapping(value = "/file")
+@RequestMapping(value = "file")
 public class PictureController {
 
     ImgEditor imgEditor = new ImgEditor();
@@ -36,7 +35,7 @@ public class PictureController {
 
     @RequestMapping(value = "/img/upload",method = RequestMethod.POST)
     @ResponseBody
-    public Parameters addImage(@RequestParam("userphoto") MultipartFile file, HttpServletResponse response, HttpServletRequest request, HttpSession session){
+    public Parameters addImage(@RequestParam("userphoto") MultipartFile file, HttpServletRequest request, HttpSession session){
         String filePath= "";
         try{
             filePath = imgEditor.uploadFile(file,request,session);
@@ -48,6 +47,6 @@ public class PictureController {
         logger.info("filePath:"+filePath);
         Parameters parameter = new Parameters();
         parameter.setFileName(imgEditor.getFileName(file,request,session));
-        return null;
+        return parameter;
     }
 }
