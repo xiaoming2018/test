@@ -150,6 +150,14 @@
             <artifactId>mybatis</artifactId>
             <version>3.2.8</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>3.1.0.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
