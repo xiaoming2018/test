@@ -10,22 +10,9 @@
       <arg column="user_phone_number" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_address" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_password" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="user_picture" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="user_create_time" javaType="java.util.Date" jdbcType="DATE" />
       <arg column="user_update_time" javaType="java.util.Date" jdbcType="DATE" />
-    </constructor>
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.chatRobot.model.User">
-    <constructor>
-      <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
-      <arg column="user_name" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_nickName" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_email" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_phone_number" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_address" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_password" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="user_create_time" javaType="java.util.Date" jdbcType="DATE" />
-      <arg column="user_update_time" javaType="java.util.Date" jdbcType="DATE" />
-      <arg column="user_picture" javaType="_byte[]" jdbcType="LONGVARBINARY" />
     </constructor>
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -88,28 +75,8 @@
   </sql>
   <sql id="Base_Column_List">
     user_id, user_name, user_nickName, user_email, user_phone_number, user_address, user_password, 
-    user_create_time, user_update_time
+    user_picture, user_create_time, user_update_time
   </sql>
-  <sql id="Blob_Column_List">
-    user_picture
-  </sql>
-  <select id="selectByExampleWithBLOBs" parameterType="com.chatRobot.model.UserExample" resultMap="ResultMapWithBLOBs">
-    select
-    <if test="distinct">
-      distinct
-    </if>
-    'true' as QUERYID,
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from userinfo
-    <if test="_parameter != null">
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null">
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" parameterType="com.chatRobot.model.UserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -125,11 +92,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from userinfo
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
@@ -146,12 +111,12 @@
   <insert id="insert" parameterType="com.chatRobot.model.User">
     insert into userinfo (user_id, user_name, user_nickName, 
       user_email, user_phone_number, user_address, 
-      user_password, user_create_time, user_update_time, 
-      user_picture)
+      user_password, user_picture, user_create_time, 
+      user_update_time)
     values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{userNickname,jdbcType=VARCHAR}, 
       #{userEmail,jdbcType=VARCHAR}, #{userPhoneNumber,jdbcType=VARCHAR}, #{userAddress,jdbcType=VARCHAR}, 
-      #{userPassword,jdbcType=VARCHAR}, #{userCreateTime,jdbcType=DATE}, #{userUpdateTime,jdbcType=DATE}, 
-      #{userPicture,jdbcType=LONGVARBINARY})
+      #{userPassword,jdbcType=VARCHAR}, #{userPicture,jdbcType=VARCHAR}, #{userCreateTime,jdbcType=DATE}, 
+      #{userUpdateTime,jdbcType=DATE})
   </insert>
   <insert id="insertSelective" parameterType="com.chatRobot.model.User">
     insert into userinfo
@@ -177,14 +142,14 @@
       <if test="userPassword != null">
         user_password,
       </if>
+      <if test="userPicture != null">
+        user_picture,
+      </if>
       <if test="userCreateTime != null">
         user_create_time,
       </if>
       <if test="userUpdateTime != null">
         user_update_time,
-      </if>
-      <if test="userPicture != null">
-        user_picture,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -209,14 +174,14 @@
       <if test="userPassword != null">
         #{userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="userPicture != null">
+        #{userPicture,jdbcType=VARCHAR},
+      </if>
       <if test="userCreateTime != null">
         #{userCreateTime,jdbcType=DATE},
       </if>
       <if test="userUpdateTime != null">
         #{userUpdateTime,jdbcType=DATE},
-      </if>
-      <if test="userPicture != null">
-        #{userPicture,jdbcType=LONGVARBINARY},
       </if>
     </trim>
   </insert>
@@ -250,32 +215,16 @@
       <if test="record.userPassword != null">
         user_password = #{record.userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="record.userPicture != null">
+        user_picture = #{record.userPicture,jdbcType=VARCHAR},
+      </if>
       <if test="record.userCreateTime != null">
         user_create_time = #{record.userCreateTime,jdbcType=DATE},
       </if>
       <if test="record.userUpdateTime != null">
         user_update_time = #{record.userUpdateTime,jdbcType=DATE},
       </if>
-      <if test="record.userPicture != null">
-        user_picture = #{record.userPicture,jdbcType=LONGVARBINARY},
-      </if>
     </set>
-    <if test="_parameter != null">
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map">
-    update userinfo
-    set user_id = #{record.userId,jdbcType=INTEGER},
-      user_name = #{record.userName,jdbcType=VARCHAR},
-      user_nickName = #{record.userNickname,jdbcType=VARCHAR},
-      user_email = #{record.userEmail,jdbcType=VARCHAR},
-      user_phone_number = #{record.userPhoneNumber,jdbcType=VARCHAR},
-      user_address = #{record.userAddress,jdbcType=VARCHAR},
-      user_password = #{record.userPassword,jdbcType=VARCHAR},
-      user_create_time = #{record.userCreateTime,jdbcType=DATE},
-      user_update_time = #{record.userUpdateTime,jdbcType=DATE},
-      user_picture = #{record.userPicture,jdbcType=LONGVARBINARY}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -289,6 +238,7 @@
       user_phone_number = #{record.userPhoneNumber,jdbcType=VARCHAR},
       user_address = #{record.userAddress,jdbcType=VARCHAR},
       user_password = #{record.userPassword,jdbcType=VARCHAR},
+      user_picture = #{record.userPicture,jdbcType=VARCHAR},
       user_create_time = #{record.userCreateTime,jdbcType=DATE},
       user_update_time = #{record.userUpdateTime,jdbcType=DATE}
     <if test="_parameter != null">
@@ -316,29 +266,16 @@
       <if test="userPassword != null">
         user_password = #{userPassword,jdbcType=VARCHAR},
       </if>
+      <if test="userPicture != null">
+        user_picture = #{userPicture,jdbcType=VARCHAR},
+      </if>
       <if test="userCreateTime != null">
         user_create_time = #{userCreateTime,jdbcType=DATE},
       </if>
       <if test="userUpdateTime != null">
         user_update_time = #{userUpdateTime,jdbcType=DATE},
       </if>
-      <if test="userPicture != null">
-        user_picture = #{userPicture,jdbcType=LONGVARBINARY},
-      </if>
     </set>
-    where user_id = #{userId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.chatRobot.model.User">
-    update userinfo
-    set user_name = #{userName,jdbcType=VARCHAR},
-      user_nickName = #{userNickname,jdbcType=VARCHAR},
-      user_email = #{userEmail,jdbcType=VARCHAR},
-      user_phone_number = #{userPhoneNumber,jdbcType=VARCHAR},
-      user_address = #{userAddress,jdbcType=VARCHAR},
-      user_password = #{userPassword,jdbcType=VARCHAR},
-      user_create_time = #{userCreateTime,jdbcType=DATE},
-      user_update_time = #{userUpdateTime,jdbcType=DATE},
-      user_picture = #{userPicture,jdbcType=LONGVARBINARY}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.chatRobot.model.User">
@@ -349,6 +286,7 @@
       user_phone_number = #{userPhoneNumber,jdbcType=VARCHAR},
       user_address = #{userAddress,jdbcType=VARCHAR},
       user_password = #{userPassword,jdbcType=VARCHAR},
+      user_picture = #{userPicture,jdbcType=VARCHAR},
       user_create_time = #{userCreateTime,jdbcType=DATE},
       user_update_time = #{userUpdateTime,jdbcType=DATE}
     where user_id = #{userId,jdbcType=INTEGER}

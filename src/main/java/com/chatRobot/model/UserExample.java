@@ -612,6 +612,76 @@ public class UserExample {
             return (Criteria) this;
         }
 
+        public Criteria andUserPictureIsNull() {
+            addCriterion("user_picture is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureIsNotNull() {
+            addCriterion("user_picture is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureEqualTo(String value) {
+            addCriterion("user_picture =", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureNotEqualTo(String value) {
+            addCriterion("user_picture <>", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureGreaterThan(String value) {
+            addCriterion("user_picture >", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureGreaterThanOrEqualTo(String value) {
+            addCriterion("user_picture >=", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureLessThan(String value) {
+            addCriterion("user_picture <", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureLessThanOrEqualTo(String value) {
+            addCriterion("user_picture <=", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureLike(String value) {
+            addCriterion("user_picture like", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureNotLike(String value) {
+            addCriterion("user_picture not like", value, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureIn(List<String> values) {
+            addCriterion("user_picture in", values, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureNotIn(List<String> values) {
+            addCriterion("user_picture not in", values, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureBetween(String value1, String value2) {
+            addCriterion("user_picture between", value1, value2, "userPicture");
+            return (Criteria) this;
+        }
+
+        public Criteria andUserPictureNotBetween(String value1, String value2) {
+            addCriterion("user_picture not between", value1, value2, "userPicture");
+            return (Criteria) this;
+        }
+
         public Criteria andUserCreateTimeIsNull() {
             addCriterion("user_create_time is null");
             return (Criteria) this;

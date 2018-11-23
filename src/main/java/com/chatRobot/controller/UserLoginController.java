@@ -46,6 +46,8 @@ public class UserLoginController {
         if(password.equals(userList.get(0).getUserPassword())){
             model.addAttribute("message","登陆成功！");
             model.addAttribute("User",userList.get(0));
+            String picturePath = userList.get(0).getUserPicture();
+            System.out.println(picturePath);
             return "index";
         }else{
             model.addAttribute("message","密码错误！");

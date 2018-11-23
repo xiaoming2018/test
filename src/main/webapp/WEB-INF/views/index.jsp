@@ -32,6 +32,7 @@
 
     <script type="text/javascript">
         $(function () {
+            alert(111);
             var flag = "${message}";
             if (flag.toString().length > 0) {
                 $("#first").hide();
@@ -66,7 +67,7 @@
                     <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890</li>
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a
                             href="${pageContext.request.contextPath}/login.jsp">${User.userName}</a></li>
-                    <li class="layui-nav-item"><a href="javascript:;"> <img src="${User.userPicture}" class="layui-nav-img"> 管理员</a>
+                    <li class="layui-nav-item"><a href="javascript:;"> <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img"> 管理员</a>
                         <dl class="layui-nav-child">
                             <dd>
                                 <a href="">基本资料</a>

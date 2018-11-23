@@ -1,6 +1,5 @@
 package com.chatRobot.model;
 
-import java.util.Arrays;
 import java.util.Date;
 
 public class User {
@@ -18,13 +17,13 @@ public class User {
 
     private String userPassword;
 
+    private String userPicture;
+
     private Date userCreateTime;
 
     private Date userUpdateTime;
 
-    private byte[] userPicture;
-
-    public User(Integer userId, String userName, String userNickname, String userEmail, String userPhoneNumber, String userAddress, String userPassword, Date userCreateTime, Date userUpdateTime, byte[] userPicture) {
+    public User(Integer userId, String userName, String userNickname, String userEmail, String userPhoneNumber, String userAddress, String userPassword, String userPicture, Date userCreateTime, Date userUpdateTime) {
         this.userId = userId;
         this.userName = userName;
         this.userNickname = userNickname;
@@ -32,9 +31,9 @@ public class User {
         this.userPhoneNumber = userPhoneNumber;
         this.userAddress = userAddress;
         this.userPassword = userPassword;
+        this.userPicture = userPicture;
         this.userCreateTime = userCreateTime;
         this.userUpdateTime = userUpdateTime;
-        this.userPicture = userPicture;
     }
 
     public User() {
@@ -97,6 +96,14 @@ public class User {
         this.userPassword = userPassword == null ? null : userPassword.trim();
     }
 
+    public String getUserPicture() {
+        return userPicture;
+    }
+
+    public void setUserPicture(String userPicture) {
+        this.userPicture = userPicture == null ? null : userPicture.trim();
+    }
+
     public Date getUserCreateTime() {
         return userCreateTime;
     }
@@ -111,29 +118,5 @@ public class User {
 
     public void setUserUpdateTime(Date userUpdateTime) {
         this.userUpdateTime = userUpdateTime;
-    }
-
-    public byte[] getUserPicture() {
-        return userPicture;
-    }
-
-    public void setUserPicture(byte[] userPicture) {
-        this.userPicture = userPicture;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", userNickname='" + userNickname + '\'' +
-                ", userEmail='" + userEmail + '\'' +
-                ", userPhoneNumber='" + userPhoneNumber + '\'' +
-                ", userAddress='" + userAddress + '\'' +
-                ", userPassword='" + userPassword + '\'' +
-                ", userCreateTime=" + userCreateTime +
-                ", userUpdateTime=" + userUpdateTime +
-                ", userPicture=" + Arrays.toString(userPicture) +
-                '}';
     }
 }

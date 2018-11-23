@@ -20,11 +20,11 @@ public class UserServiceImpl implements IUserService {
         return this.userMapper.selectByPrimaryKey(userId);
     }
 
-    public List<User> selectByEmail(String email){
+    public List<User> selectByEmail(String email) {
         UserExample userExample = new UserExample();
         UserExample.Criteria criteria = userExample.createCriteria();
         criteria.andUserEmailEqualTo(email);
-        List<User> userList= this.userMapper.selectByExampleWithBLOBs(userExample);
+        List<User> userList = this.userMapper.selectByExample(userExample);
         return userList;
     }
 
