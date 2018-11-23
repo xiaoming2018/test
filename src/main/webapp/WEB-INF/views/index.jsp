@@ -32,7 +32,6 @@
 
     <script type="text/javascript">
         $(function () {
-            alert(111);
             var flag = "${message}";
             if (flag.toString().length > 0) {
                 $("#first").hide();
