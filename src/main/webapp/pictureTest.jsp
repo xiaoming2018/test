@@ -32,10 +32,8 @@
     </style>
     <script type="text/javascript">
         $(function () {
-            var jcrop_api;
             $("#file_upload").change(function () {
                 debugger;
-                alert(222);
                 $("#msg").text('');
                 var oFile = $(this)[0].files[0];
                 //判断上传文件大小
@@ -46,7 +44,6 @@
                 }
                 //判断类型
                 var filepath = $(this).val();
-                debugger;
                 var extStart = filepath.lastIndexOf(".");
                 var ext = filepath.substring(extStart, filepath.length).toUpperCase();
                 if (ext != ".JPEG" && ext != ".PNG" && ext != ".JPG") {
@@ -60,9 +57,8 @@
                     dataType: "json",
                     contentType: "application/json",
                     success: function (parameter) {
-                        debugger;
-                        $("#target2").attr('src', '/upload/' + parameter.fileName);
-                        $("#filePathInput").val('/upload/' + parameter.fileName);
+                        $("#target2").attr('src', 'upload/' + parameter.fileName);
+                        $("#filePathInput").val('upload/' + parameter.fileName);
                         if ($("#format").text() == "重新上传") {
                             jcrop_api.destroy()
                         }
@@ -75,30 +71,6 @@
                     }
                 });
             });
-            function photoSummit() {
-                alert("photoSummit");
-                //alert($("#w").val()+","+$("#h").val()+","+$("#x").val()+","+$("#y").val());
-                //$("#fileUp").attr("action", "/file/img/upload").submit();
-                if ($("#w").val() > 0 && $("#h").val() > 0) {
-                    $("#fileUp").ajaxSubmit({
-                        type: "POST",
-                        url: "/file/img/cutandscale",
-                        dataType: "json",
-                        contentType: "application/json",
-                        success: function (data) {
-                            $("#msg").text('上传头像成功！！！').css('color', 'red');
-                            //alert($("#filePathInput").val());
-                            window.parent.back($("#filePathInput").val());
-                        },
-                        error: function (data) {
-                            alert("ajax传输发生错误！！！");
-                        }
-                    });
-                } else {
-                    $("#msg").text('请用鼠标截取图片').css('color', 'red');
-                }
-            }
-
             //启动jcrop
             function openJcrop(imgPath) {
                 //启动jcrop支持
@@ -138,6 +110,28 @@
                 };
             }
         });
+        function photoSummit() {
+            //alert($("#w").val()+","+$("#h").val()+","+$("#x").val()+","+$("#y").val());
+            //$("#fileUp").attr("action", "/file/img/upload").submit();
+            if ($("#w").val() > 0 && $("#h").val() > 0) {
+                $("#fileUp").ajaxSubmit({
+                    type: "POST",
+                    url: "file/img/cutandscale",
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        $("#msg").text('上传头像成功！！！').css('color', 'red');
+                        //alert($("#filePathInput").val());
+                        window.parent.back($("#filePathInput").val());
+                    },
+                    error: function (data) {
+                        alert("ajax传输发生错误！！！");
+                    }
+                });
+            } else {
+                $("#msg").text('请用鼠标截取图片').css('color', 'red');
+            }
+        }
     </script>
 </head>
 <body>
@@ -169,11 +163,10 @@
                         <input type="hidden" id="x" name="x"/>
                         <input type="hidden" id="y" name="y"/>
                     </a>
-                    <input type="submit"value="提交" />
                 </form>
             </dt>
             <dd class="info">
-                请从本地选择一张照片，支持jpg,png格式    <span id="msg"></span>
+                请从本地选择一张照片，支持jpg,png格式  <span id="msg"></span>
                 <div id="targetDiv">
                     <img src="" id="target" width="400" height="400" alt="未选择图片"/>
                 </div>

@@ -39,7 +39,7 @@ public class PictureController {
         String filePath= "";
         try{
             filePath = imgEditor.uploadFile(file,request,session);
-            filePathFinal = filePath;
+            this.filePathFinal = filePath;
             imgEditor.zoomImage(filePath,filePath,400,400);
         }catch (IOException e){
             e.printStackTrace();
