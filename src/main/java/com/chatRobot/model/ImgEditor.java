@@ -1,6 +1,5 @@
 package com.chatRobot.model;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -123,12 +122,12 @@ public class ImgEditor {
     }
     //获得文件名字
     public String getFileName(MultipartFile file, HttpServletRequest request,HttpSession session){
-        String FILE_PATH = session.getServletContext().getRealPath("/") + "upload";
+        //String FILE_PATH = session.getServletContext().getRealPath("/") + "upload";
         String fileName = file.getOriginalFilename();
         String[] suffixNameArr = fileName.split("\\.");
         String suffixName = suffixNameArr[suffixNameArr.length-1];
-        String userName = SecurityContextHolder.getContext().getAuthentication().getName();
-
+        //String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+        String userName = "xiaoming";
         return getTime() + userName+"."+suffixName;
     }
     //文件上传,返回文件路径

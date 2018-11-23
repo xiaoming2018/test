@@ -68,7 +68,7 @@
                         }
                         $("#format").text("重新上传");
                         //启动jcrop支持
-                        openJcrop('/upload/' + parameter.fileName);
+                        openJcrop('upload/' + parameter.fileName);
                     },
                     error: function (data) {
                         alert("ajax传输发生错误！！！");
@@ -159,7 +159,7 @@
         </dl>
         <dl class="bisinessInfo">
             <dt class="btnBox02">
-                <form id="fileUp" action="file/img/upload" method="post" enctype="multipart/form-data" target="ifm">
+                <form id="fileUp" action="/file/img/upload" method="post" enctype="multipart/form-data" target="ifm">
                     <a class="btnGray" href="javascript:;">
                         <span class="text" id="format">选择图片</span>
                         <b class="bgR"></b>
