@@ -8,4 +8,6 @@ public interface IUserService {
     User selectByPrimaryKey(Integer userId);
 
     List<User> selectByEmail(String email);
+
+    int insterSelective(User user);
 }

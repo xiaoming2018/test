@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -19,9 +20,10 @@ public class UserLoginController {
     @Autowired
     UserServiceImpl UserService;
 
+    //ajax的后台登陆控制
     @RequestMapping("/login")
     @ResponseBody
-    public Msg userLogin(String email, String password, Model model){
+    public Msg userLogin(String email, String password){
         System.out.println("获取值:"+ email);
 
         List<User> userList = UserService.selectByEmail(email);
@@ -36,6 +38,7 @@ public class UserLoginController {
         }
     }
 
+    //from action 登陆控制
     @RequestMapping("/index")
     public String userForIndex(String email,String password,Model model){
         List<User> userList = UserService.selectByEmail(email);
@@ -46,12 +49,38 @@ public class UserLoginController {
         if(password.equals(userList.get(0).getUserPassword())){
             model.addAttribute("message","登陆成功！");
             model.addAttribute("User",userList.get(0));
-            String picturePath = userList.get(0).getUserPicture();
-            System.out.println(picturePath);
             return "index";
         }else{
             model.addAttribute("message","密码错误！");
             return "login";
         }
+    }
+
+    //简单注册控制
+    @RequestMapping("/register")
+    public String userRegister(User user,Model model){
+        Date date = new Date();
+        user.setUserCreateTime(date);
+        user.setUserUpdateTime(date);
+
+        //邮箱作为唯一标识
+
+        List<User> userList = UserService.selectByEmail(user.getUserEmail());
+        if(userList.isEmpty()){
+            try{
+                int count = UserService.insterSelective(user);
+                if(count>0){
+                    return "login";
+                }else {
+                    model.addAttribute("message","注册失败！请检查字段");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            model.addAttribute("message","该邮箱已被注册！");
+            return "register";
+        }
+        return "register";
     }
 }

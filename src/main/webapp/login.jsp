@@ -77,7 +77,7 @@
             <div id="content"></div>
         </div>
         <h4 class="animated wow slideInUp" >未注册账号</h4>
-        <p class="animated wow slideInUp" ><a href="register.html">前往注册</a> 或者 返回
+        <p class="animated wow slideInUp" ><a href="register.jsp">前往注册</a> 或者 返回
             <a href="${pageContext.request.contextPath}/index.html">主页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
     </div>
 </div>
