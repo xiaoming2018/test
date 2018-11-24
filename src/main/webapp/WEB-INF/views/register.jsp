@@ -41,8 +41,9 @@
             <h5 class="animated wow slideInUp">基础信息</h5>
             <form class="animated wow slideInUp" method="post" action="register">
                 <div id="message" style="color: #ff0000">${message}</div>
-                <input type="text" name="userName" value="${User.userName}"  placeholder="姓名：" required=" ">
-                <input type="text" name="userPhoneNumber" value="${User.userPhoneNumber}" placeholder="手机号码：" required=" ">
+                <input type="text" name="userName" value="${User.userName}" placeholder="姓名：" required=" ">
+                <input type="text" name="userPhoneNumber" value="${User.userPhoneNumber}" placeholder="手机号码："
+                       required=" ">
                 <input type="text" name="userAddress" value="${User.userAddress}" placeholder="地址：" required=" ">
 
                 <h6 class="animated wow slideInUp">个性信息</h6>

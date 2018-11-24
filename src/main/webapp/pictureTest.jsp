@@ -71,6 +71,7 @@
                     }
                 });
             });
+
             //启动jcrop
             function openJcrop(imgPath) {
                 //启动jcrop支持
@@ -110,6 +111,7 @@
                 };
             }
         });
+
         function photoSummit() {
             //alert($("#w").val()+","+$("#h").val()+","+$("#x").val()+","+$("#y").val());
             //$("#fileUp").attr("action", "/file/img/upload").submit();
