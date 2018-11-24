@@ -58,27 +58,36 @@ public class UserLoginController {
 
     //简单注册控制
     @RequestMapping("/register")
-    public String userRegister(User user,Model model){
+    public String userRegister(User user,String userPassword2,Model model){
         Date date = new Date();
-        user.setUserCreateTime(date);
-        user.setUserUpdateTime(date);
-
+        user.setUserCreateTime(date); //创建时间
+        user.setUserUpdateTime(date); //更新时间
+        user.setUserPicture("upload\\20181123193008xiaoming.jpg"); //设置默认头像。
+        //验证两次密码是否一致。
+        if(!userPassword2.equals(user.getUserPassword())){
+            model.addAttribute("User",user);
+            model.addAttribute("message","两次密码不一致，请重新输入！");
+            return "register";
+        }
         //邮箱作为唯一标识
-
         List<User> userList = UserService.selectByEmail(user.getUserEmail());
         if(userList.isEmpty()){
             try{
                 int count = UserService.insterSelective(user);
                 if(count>0){
+                    // 注册成功，返回登陆页面。
+                    model.addAttribute("userLogin","注册成功，请登陆！");
                     return "login";
                 }else {
                     model.addAttribute("message","注册失败！请检查字段");
+                    return "register";
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }else{
             model.addAttribute("message","该邮箱已被注册！");
+            model.addAttribute("User",user);
             return "register";
         }
         return "register";

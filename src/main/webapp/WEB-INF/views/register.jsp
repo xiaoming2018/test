@@ -39,21 +39,22 @@
         <p class="est animated wow zoomIn">请填写真实信息！</p>
         <div class="login-form-grids">
             <h5 class="animated wow slideInUp">基础信息</h5>
-            <form class="animated wow slideInUp" method="post" action="servlet/register">
-                <input type="text" name="userName" placeholder="姓名：" required=" ">
-                <input type="text" name="userPhoneNumber" placeholder="手机号码：" required=" ">
-                <input type="text" name="userAddress" placeholder="地址：" required=" ">
+            <form class="animated wow slideInUp" method="post" action="register">
+                <div id="message" style="color: #ff0000">${message}</div>
+                <input type="text" name="userName" value="${User.userName}"  placeholder="姓名：" required=" ">
+                <input type="text" name="userPhoneNumber" value="${User.userPhoneNumber}" placeholder="手机号码：" required=" ">
+                <input type="text" name="userAddress" value="${User.userAddress}" placeholder="地址：" required=" ">
 
                 <h6 class="animated wow slideInUp">个性信息</h6>
-                <input type="text" name="userNickname" placeholder="昵称：" required=" ">
+                <input type="text" name="userNickname" value="${User.userNickname}" placeholder="昵称：" required=" ">
 
                 <h6 class="animated wow slideInUp">登陆信息</h6>
-                <input type="email" name="userEmail" placeholder="邮箱:" required=" ">
+                <input type="email" name="userEmail" value="${User.userEmail}" placeholder="邮箱:" required=" ">
                 <input type="password" name="userPassword" placeholder="密码:" required=" ">
                 <input type="password" name="userPassword2" placeholder="重复密码:" required=" ">
                 <div class="register-check-box">
                     <div class="check">
-                        <label class="checkbox"><input type="checkbox" name="checkbox"><i> </i>我接受网站协议条款</label>
+                        <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>我接受网站协议条款</label>
                     </div>
                 </div>
                 <input type="submit" value="注册">

@@ -16,11 +16,24 @@
     <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <script src="${pageContext.request.contextPath}/resource/js/jquery.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resource/layui/layui.js"></script>
+    <link href="${pageContext.request.contextPath}/resource/layui/css/layui.css">
     <!-- for bootstrap working -->
     <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/bootstrap-3.1.1.min.js"></script>
     <!-- //for bootstrap working -->
     <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+        $(function () {
+            var message = "${userLogin}";
+            console.log(message);
+            if(message != "") {
+                layui.use('layer', function () {
+                    layer.msg(message);
+                })
+            }
+        })
+    </script>
 </head>
 <body>
 <div class="breadcrumbs">
@@ -35,7 +48,6 @@
 <!-- login -->
 <div class="login">
     <div class="container">
-        <h2>login.jsp</h2>
         <h3 class="animated wow zoomIn">登陆</h3>
         <p class="est animated wow zoomIn" >请使用邮箱及密码登录！</p>
         <div class="login-form-grids animated wow slideInUp">
@@ -44,14 +56,14 @@
                 <input type="email" id="email" name="email" placeholder="邮箱" required=" ">
                 <input type="password" id="password" name="password" placeholder="密码" required=" ">
                 <div class="forgot">
-                    <a href="register.html">Forgot Password?</a>
+                    <a href="${pageContext.request.contextPath}/register.jsp">Forgot Password?</a>
                 </div>
                 <input type="submit" id="login" value="登陆">
             </form>
             <div id="content"></div>
         </div>
         <h4 class="animated wow slideInUp" >未注册账号</h4>
-        <p class="animated wow slideInUp" ><a href="${pageContext.request.contextPath}/register.html">前往注册</a> 或者 返回
+        <p class="animated wow slideInUp" ><a href="${pageContext.request.contextPath}/register.jsp">前往注册</a> 或者 返回
             <a href="${pageContext.request.contextPath}/index.html">主页<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span></a></p>
     </div>
 </div>
