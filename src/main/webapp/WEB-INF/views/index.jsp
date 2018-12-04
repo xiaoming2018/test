@@ -13,8 +13,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css"
+          media="all"/>
+    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css"
+          media="all"/>
     <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
     <link href="${pageContext.request.contextPath}/resource/layui/css/layui.css" rel="stylesheet" type="text/css">
@@ -31,6 +33,9 @@
     <script src="${pageContext.request.contextPath}/webgl_resource/js/controls/OrbitControls.js"></script>
 
     <script type="text/javascript">
+        layui.use('element',function(){
+            var element = layui.element;
+        })
         $(function () {
             var flag = "${message}";
             if (flag.toString().length > 0) {
@@ -60,20 +65,13 @@
                 </ul>
             </div>
             <div id="second" class="header-grid-left animated wow slideInLeft">
-                <ul>
-                    <li><i class="glyphicon glyphicon-envelope" aria-hidden="true"></i><a
-                            href="${pageContext.request.contextPath}/mail.html">邮箱</a></li>
-                    <li><i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890</li>
-                    <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a
-                            href="${pageContext.request.contextPath}/login.jsp">${User.userName}</a></li>
-                    <li class="layui-nav-item"><a href="javascript:;"> <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img"> 管理员</a>
+                <ul class="layui-nav">
+                    <li class="layui-nav-item" lay-unselect="">
+                        <a href="javascript:;">
+                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
                         <dl class="layui-nav-child">
-                            <dd>
-                                <a href="">基本资料</a>
-                            </dd>
-                            <dd>
-                                <a href="">安全设置</a>
-                            </dd>
+                            <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
+                            <dd><a href="">退出</a></dd>
                         </dl>
                     </li>
                 </ul>

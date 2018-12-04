@@ -92,4 +92,15 @@ public class UserLoginController {
         }
         return "register";
     }
+
+    //配置个人资料标记跳转页面
+    @RequestMapping("editPage")
+    public String userEditPage(int userId,Model model){
+        System.out.println("userId");
+        User user = UserService.selectByPrimaryKey(userId);
+        model.addAttribute("User",user); //将user放入页面参数
+
+        //跳转 返回页面
+        return "personInfo";
+    }
 }
