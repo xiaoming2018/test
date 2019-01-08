@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class UserLoginController {
 
     //from action 登陆控制
     @RequestMapping("/index")
-    public String userForIndex(String email, String password, Model model) {
+    public String userForIndex(String email, String password, Model model, HttpSession session) {
         List<User> userList = UserService.selectByEmail(email);
         if (userList.isEmpty()) {
             model.addAttribute("message", "该邮箱未注册!");
@@ -49,6 +50,7 @@ public class UserLoginController {
         if (password.equals(userList.get(0).getUserPassword())) {
             model.addAttribute("message", "登陆成功！");
             model.addAttribute("User", userList.get(0));
+            session.setAttribute("User",userList.get(0)); // 用户存入session
             return "index";
         } else {
             model.addAttribute("message", "密码错误！");
@@ -93,14 +95,15 @@ public class UserLoginController {
         return "register";
     }
 
+    //个人基础信息注册更新（根据form表单参数，进行个人信息更新）
+
+
     //配置个人资料标记跳转页面
     @RequestMapping("editPage")
     public String userEditPage(int userId,Model model){
-        System.out.println("userId");
         User user = UserService.selectByPrimaryKey(userId);
         model.addAttribute("User",user); //将user放入页面参数
-
-        //跳转 返回页面
+        //跳转 个人信息编辑页面
         return "personInfo";
     }
 }

@@ -41,8 +41,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="${pageContext.request.contextPath}/index.html"><span class="glyphicon glyphicon-home"
-                                                                              aria-hidden="true"></span>主页</a></li>
+            <li><a href="${pageContext.request.contextPath}/index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">登陆</li>
         </ol>
     </div>
