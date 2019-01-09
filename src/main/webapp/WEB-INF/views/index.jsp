@@ -13,10 +13,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css"
-          media="all"/>
-    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css"
-          media="all"/>
+    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
     <link href="${pageContext.request.contextPath}/resource/layui/css/layui.css" rel="stylesheet" type="text/css">
@@ -80,7 +78,7 @@
         </div>
         <div class="logo-nav">
             <div class="logo-nav-left animated wow zoomIn">
-                <h1><a href="${pageContext.request.contextPath}/index.html">Best Store <span>Shop anywhere</span></a>
+                <h1><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>Shop anywhere</span></a>
                 </h1>
             </div>
             <div class="logo-nav-left1">
@@ -97,8 +95,7 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="${pageContext.request.contextPath}/index.html"
-                                                  class="act">主页</a></li>
+                            <li class="active"><a href="${pageContext.request.contextPath}/index.html" class="act">主页</a></li>
                             <!-- Mega Menu -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品<b class="caret"></b></a>
