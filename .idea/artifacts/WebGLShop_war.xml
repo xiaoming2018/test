@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WebGLShop:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="WebGLShop.war">
+      <element id="artifact" artifact-name="WebGLShop:war exploded" />
+    </root>
+  </artifact>
+</component>
