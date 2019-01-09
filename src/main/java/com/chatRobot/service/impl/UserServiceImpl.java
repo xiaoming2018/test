@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserService {
         return userList;
     }
 
-    public int insterSelective(User user){
+    public int insterSelective(User user) {
         return userMapper.insertSelective(user);
     }
 
