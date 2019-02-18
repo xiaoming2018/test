@@ -94,87 +94,11 @@
                         </button>
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
+                        <%-- 菜单栏 --%>
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="${pageContext.request.contextPath}/index.html" class="act">主页</a></li>
-                            <!-- Mega Menu -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">商品<b class="caret"></b></a>
-                                <ul class="dropdown-menu multi-column columns-3">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>男士</h6>
-                                                <li><a href="products.html">服装</a></li>
-                                                <li><a href="products.html">钱包</a></li>
-                                                <li><a href="products.html">鞋子</a></li>
-                                                <li><a href="products.html">腕表</a></li>
-                                                <li><a href="products.html">饰品</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>女士</h6>
-                                                <li><a href="products.html">服装</a></li>
-                                                <li><a href="products.html">钱包</a></li>
-                                                <li><a href="products.html">鞋子</a></li>
-                                                <li><a href="products.html">腕表</a></li>
-                                                <li><a href="products.html">饰品</a></li>
-                                                <li><a href="products.html">珠宝</a></li>
-                                                <li><a href="products.html">美容、护理</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>儿童</h6>
-                                                <li><a href="products.html">家庭风</a></li>
-                                                <li><a href="products.html">男生服饰</a></li>
-                                                <li><a href="products.html">女生服饰</a></li>
-                                                <li><a href="products.html">鞋子</a></li>
-                                                <li><a href="products.html">名牌店</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </ul>
-                            </li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">家具<b class="caret"></b></a>
-                                <ul class="dropdown-menu multi-column columns-3">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>家装家具</h6>
-                                                <li><a href="furniture.html">炊具</a></li>
-                                                <li><a href="furniture.html">沙发</a></li>
-                                                <li><a href="furniture.html">餐桌</a></li>
-                                                <li><a href="furniture.html">鞋柜</a></li>
-                                                <li><a href="furniture.html">家居服饰</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>办公室家具</h6>
-                                                <li><a href="furniture.html">地毯</a></li>
-                                                <li><a href="furniture.html">办公桌</a></li>
-                                                <li><a href="furniture.html">沙发</a></li>
-                                                <li><a href="furniture.html">鞋柜</a></li>
-                                                <li><a href="furniture.html">插座</a></li>
-                                                <li><a href="furniture.html">电动装备</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <ul class="multi-column-dropdown">
-                                                <h6>装饰</h6>
-                                                <li><a href="furniture.html">玩具</a></li>
-                                                <li><a href="furniture.html">壁钟</a></li>
-                                                <li><a href="furniture.html">灯具</a></li>
-                                                <li><a href="furniture.html">品牌商店</a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </ul>
-                            </li>
+                            <li class="active"><a href="" class="act"> 商品  </a></li>
+                            <li class="active"><a href="" class="act"> 家具  </a></li>
                             <li><a href="${pageContext.request.contextPath}/mail.html">联系我们</a></li>
                         </ul>
                     </div>
@@ -507,6 +431,9 @@
         </div>
     </div>
 </div>
+
+<%--底部布局--%>
+
 <div class="footer">
     <div class="container">
         <div class="footer-grids">

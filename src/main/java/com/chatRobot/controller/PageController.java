@@ -29,10 +29,13 @@ public class PageController {
         * @Date: 2019/1/8 15:51
         */
         //获取商品信息，回显在主页上
-        PageHelper.startPage(1,10);
+        //设置页码 和 页面大小
+        PageHelper.startPage(1,1);
         List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList,10);
+        //navigatePages : 连续显示的页数
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
         model.addAttribute("goodList",goodsList);
+        // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         model.addAttribute("PageInfo",pageInfo);
         return "index";
     }
