@@ -6,6 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> <!--输出,条件,迭代标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt"%> <!--数据格式化标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sql"%> <!--数据库相关标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn"%> <!--常用函数标签库-->
+<%@ page isELIgnored="false"%> <!--支持EL表达式，不设的话，EL表达式不会解析-->
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,6 +56,7 @@
 <!-- header -->
 <div class="header">
     <div class="container">
+        <%-- 账户信息 --%>
         <div class="header-grid">
             <div id="first" class="header-grid-left animated wow slideInLeft">
                 <ul>
@@ -81,6 +88,7 @@
                 <h1><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>Shop anywhere</span></a>
                 </h1>
             </div>
+            <%--标题栏 按钮--%>
             <div class="logo-nav-left1">
                 <nav class="navbar navbar-default">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -104,9 +112,11 @@
                     </div>
                 </nav>
             </div>
+            <%--搜索按钮--%>
             <div class="logo-nav-right">
                 <div class="search-box">
                     <div id="sb-search" class="sb-search">
+                        <%--搜索按钮 完善--%>
                         <form>
                             <input class="sb-search-input" placeholder="输入关键词..." type="search" id="search">
                             <input class="sb-search-submit" type="submit" value="">
@@ -123,317 +133,59 @@
     <div class="container">
         <h3 class="animated wow zoomIn">2018 新品上架</h3>
         <p class="est animated wow zoomIn">没有最时尚，只有更时尚</p>
+        <%-- c标签 循环 --%>
         <div class="new-collections-grids">
-            <div class="col-md-3 new-collections-grid">
-                <div class="new-collections-grid1 animated wow slideInUp">
-                    <div class="new-collections-grid1-image">
-                        <a href="single.html" class="product-image"><img
-                                src="${pageContext.request.contextPath}/resource/images/7.jpg" alt=" "
-                                class="img-responsive"/></a>
-                        <div class="new-collections-grid1-image-pos">
-                            <a href="${pageContext.request.contextPath}/single.html">预览详情</a>
-                        </div>
-                        <div class="new-collections-grid1-right">
-                            <div class="rating">
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="clearfix"></div>
+            <c:forEach var="i" begin="0" step="2" end = "${PageInfo.list.size()-2}">
+            <%-- 对于商品进行重复性布局 代码重用--%>
+                <div class="col-md-4 new-collections-grid">
+                    <div class="new-collections-grid1 animated wow slideInUp">
+                        <div class="new-collections-grid1-image">
+                            <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i].goodsId}" class="product-image">
+                                <img src="${pageContext.request.contextPath}/${PageInfo.list[i].goodsPicture}" alt=" " class="img-responsive"/>
+                            </a>
+                            <div class="new-collections-grid1-image-pos">
+                                <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i].goodsId}">预览详情</a>
                             </div>
                         </div>
+                        <h4>
+                            <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i].goodsId}">${PageInfo.list[i].goodsName}</a>
+                        </h4>
+                        <p>${PageInfo.list[i].goodsDesc}</p>
+                        <div class="new-collections-grid1-left simpleCart_shelfItem">
+                            <p>
+                                <span class="item_price">${PageInfo.list[i].goodsPrice}</span>
+                                <a class="item_add" href="${pageContext.request.contextPath}/addcart?canshu">加入购物车</a>
+                            </p>
+                        </div>
                     </div>
-                    <h4><a href="${pageContext.request.contextPath}/single.html">女士夹克</a></h4>
-                    <p>灰色系女士春冬款</p>
-                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                        <p><i>￥325</i> <span class="item_price">￥249</span><a class="item_add" href="#">
-                            加入购物车</a></p>
+                    <div class="new-collections-grid1 animated wow slideInUp">
+                        <div class="new-collections-grid1-image">
+                            <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i+1].goodsId}" class="product-image">
+                                <img src="${pageContext.request.contextPath}/${PageInfo.list[i+1].goodsPicture}" alt=" " class="img-responsive"/>
+                            </a>
+                            <div class="new-collections-grid1-image-pos">
+                                <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i+1].goodsId}">预览详情</a>
+                            </div>
+                        </div>
+                        <h4>
+                            <a href="${pageContext.request.contextPath}/page/toGoods?id=${PageInfo.list[i+1].goodsId}">${PageInfo.list[i+1].goodsName}</a>
+                        </h4>
+                        <p>${PageInfo.list[i+1].goodsDesc}</p>
+                        <div class="new-collections-grid1-left simpleCart_shelfItem">
+                            <p>
+                                <i>￥280</i>
+                                <span class="item_price">${PageInfo.list[i+1].goodsPrice}</span>
+                                <a class="item_add" href="#">加入购物车</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="new-collections-grid1 animated wow slideInUp">
-                    <div class="new-collections-grid1-image">
-                        <a href="${pageContext.request.contextPath}/single.html" class="product-image"><img
-                                src="${pageContext.request.contextPath}/resource/images/8.jpg" alt=" "
-                                class="img-responsive"/></a>
-                        <div class="new-collections-grid1-image-pos">
-                            <a href="${pageContext.request.contextPath}/single.html">预览详情</a>
-                        </div>
-                        <div class="new-collections-grid1-right">
-                            <div class="rating">
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <h4><a href="${pageContext.request.contextPath}/single.html">运动鞋</a></h4>
-                    <p>春夏男子轻便跑步鞋减震休闲男鞋.</p>
-                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                        <p><i>￥280</i> <span class="item_price">￥150</span><a class="item_add" href="#">加入购物车 </a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 new-collections-grid">
-                <div class="new-collections-grid1 new-collections-grid1-image-width animated wow slideInUp"
-                >
-                    <div class="new-collections-grid1-image">
-                        <a href="${pageContext.request.contextPath}/single1.html" class="product-image"><img
-                                src="${pageContext.request.contextPath}/resource/images/canzhuo1.jpg" alt=" "
-                                class="img-responsive"/></a>
-                        <div class="new-collections-grid1-image-pos new-collections-grid1-image-pos1">
-                            <a href="${pageContext.request.contextPath}/single1.html">预览详情</a>
-                        </div>
-                        <div class="new-collections-grid1-right new-collections-grid1-right-rate">
-                            <div class="rating">
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                        <div class="new-one">
-                            <p>New</p>
-                        </div>
-                    </div>
-                    <h4><a href="${pageContext.request.contextPath}/single1.html">餐桌</a></h4>
-                    <p>简约、时尚餐桌，大理石制作.</p>
-                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                        <p><i>￥580</i> <span class="item_price">￥550</span><a class="item_add" href="#">加入购物车 </a></p>
-                    </div>
-                </div>
-                <div class="new-collections-grid-sub-grids">
-                    <div class="new-collections-grid1-sub">
-                        <div class="new-collections-grid1 animated wow slideInUp">
-                            <div class="new-collections-grid1-image">
-                                <a href="${pageContext.request.contextPath}/single.html" class="product-image"><img
-                                        src="${pageContext.request.contextPath}/resource/images/6.jpg" alt=" "
-                                        class="img-responsive"/></a>
-                                <div class="new-collections-grid1-image-pos">
-                                    <a href="${pageContext.request.contextPath}/single2.html">预览详情</a>
-                                </div>
-                                <div class="new-collections-grid1-right">
-                                    <div class="rating">
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4><a href="${pageContext.request.contextPath}/single.html">壁灯</a></h4>
-                            <p>最新时尚壁灯，最新欧美风.</p>
-                            <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                <p><i>￥480</i> <span class="item_price">￥400</span><a class="item_add"
-                                                                                      href="#">加入购物车</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="new-collections-grid1-sub">
-                        <div class="new-collections-grid1 animated wow slideInUp">
-                            <div class="new-collections-grid1-image">
-                                <a href="${pageContext.request.contextPath}/single.html" class="product-image">
-                                    <img src="${pageContext.request.contextPath}/resource/images/9.jpg" alt=" "
-                                         class="img-responsive"/>
-                                </a>
-                                <div class="new-collections-grid1-image-pos">
-                                    <a href="${pageContext.request.contextPath}/single.html">预览详情</a>
-                                </div>
-                                <div class="new-collections-grid1-right">
-                                    <div class="rating">
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="rating-left">
-                                            <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                                 class="img-responsive"/>
-                                        </div>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <h4><a href="${pageContext.request.contextPath}/single.html">壁灯</a></h4>
-                            <p>最新时尚壁灯，最新欧美风.</p>
-                            <div class="new-collections-grid1-left simpleCart_shelfItem">
-                                <p><i>￥280</i> <span class="item_price">￥150</span><a class="item_add"
-                                                                                      href="#">加入购物车</a></p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div class="col-md-3 new-collections-grid">
-                <div class="new-collections-grid1 animated wow slideInUp">
-                    <div class="new-collections-grid1-image">
-                        <a href="${pageContext.request.contextPath}/single2.html" class="product-image"><img
-                                src="${pageContext.request.contextPath}/resource/images/shaonv1.jpg" alt=" "
-                                class="img-responsive"/></a>
-                        <div class="new-collections-grid1-image-pos">
-                            <a href="${pageContext.request.contextPath}/single2.html">预览详情</a>
-                        </div>
-                        <div class="new-collections-grid1-right">
-                            <div class="rating">
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <h4><a href="${pageContext.request.contextPath}/single2.html">女士蓝色流苏衫</a></h4>
-                    <p>清新亮丽流苏衫</p>
-                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                        <p><i>￥180</i> <span class="item_price">￥120</span>
-                            <a class="item_add" href="#">添加到购物车 </a>
-                        </p>
-                    </div>
-                </div>
-                <div class="new-collections-grid1 animated wow slideInUp">
-                    <div class="new-collections-grid1-image">
-                        <a href="${pageContext.request.contextPath}/single.html" class="product-image"><img
-                                src="${pageContext.request.contextPath}/resource/images/11.jpg" alt=" "
-                                class="img-responsive"/></a>
-                        <div class="new-collections-grid1-image-pos">
-                            <a href="${pageContext.request.contextPath}/single.html">预览详情</a>
-                        </div>
-                        <div class="new-collections-grid1-right">
-                            <div class="rating">
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/2.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="rating-left">
-                                    <img src="${pageContext.request.contextPath}/resource/images/1.png" alt=" "
-                                         class="img-responsive"/>
-                                </div>
-                                <div class="clearfix"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <h4><a href="${pageContext.request.contextPath}/single.html">石质手镯</a></h4>
-                    <p>欧美异域风情，舒适手感.</p>
-                    <div class="new-collections-grid1-left simpleCart_shelfItem">
-                        <p><i>￥340</i> <span class="item_price">￥257</span><a class="item_add" href="#">加入购物车</a></p>
-                    </div>
-                </div>
-            </div>
-            <div class="clearfix"></div>
+            </c:forEach>
         </div>
     </div>
 </div>
 
 <%--底部布局--%>
-
 <div class="footer">
     <div class="container">
         <div class="footer-grids">
