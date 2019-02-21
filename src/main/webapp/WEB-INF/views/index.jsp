@@ -42,6 +42,7 @@
         })
         $(function () {
             var flag = "${message}";
+            debugger;
             if (flag.toString().length > 0) {
                 $("#first").hide();
                 $("#second").show();
@@ -103,12 +104,15 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-megadropdown-tabs">
                         <%-- 菜单栏 --%>
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="${pageContext.request.contextPath}/index.html" class="act">主页</a></li>
-                            <li class="active"><a href="" class="act"> 商品  </a></li>
-                            <li class="active"><a href="" class="act"> 家具  </a></li>
-                            <li><a href="${pageContext.request.contextPath}/mail.html">联系我们</a></li>
-                        </ul>
+                        <h3>
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex" class="act">主页</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good" class="act">商品</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture" class="act">家具</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Mail">联系我们</a></li>
+                            </ul>
+                        </h3>
+
                     </div>
                 </nav>
             </div>
@@ -191,7 +195,7 @@
         <div class="footer-grids">
         </div>
         <div class="footer-logo animated wow slideInUp">
-            <h2><a href="${pageContext.request.contextPath}/index.html">Best Store <span>shop anywhere</span></a></h2>
+            <h2><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
         </div>
         <div class="copy-right animated wow slideInUp">
             <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>

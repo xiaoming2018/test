@@ -1,6 +1,7 @@
 package com.chatRobot.controller;
 
 import com.chatRobot.model.Goods;
+import com.chatRobot.model.GoodsModel;
 import com.chatRobot.service.impl.GoodsServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -38,6 +39,15 @@ public class PageController {
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         model.addAttribute("PageInfo",pageInfo);
         return "index";
+    }
+
+    @RequestMapping("toGoods")
+    public String PageToGoodsWithID(Integer id,Model model){
+        Goods good = goodsServiceImpl.selectGoodsWithId(id);
+        GoodsModel goodsModel = goodsServiceImpl.selectGoodsModelWithId(good.getGoodsModelId());
+        model.addAttribute("Goods",good);
+        model.addAttribute("GoodsModelFile",goodsModel);
+        return "GoodsInfo";
     }
 
 

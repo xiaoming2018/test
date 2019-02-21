@@ -1,9 +1,13 @@
 package com.chatRobot.controller;
 
 
+import com.chatRobot.model.Goods;
 import com.chatRobot.model.Msg;
 import com.chatRobot.model.User;
+import com.chatRobot.service.impl.GoodsServiceImpl;
 import com.chatRobot.service.impl.UserServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,13 +24,13 @@ public class UserLoginController {
 
     @Autowired
     UserServiceImpl UserService;
+    @Autowired
+    private GoodsServiceImpl goodsServiceImpl;
 
     //ajax的后台登陆控制
     @RequestMapping("/login")
     @ResponseBody
     public Msg userLogin(String email, String password) {
-        System.out.println("获取值:" + email);
-
         List<User> userList = UserService.selectByEmail(email);
         if (userList.isEmpty()) {
             return Msg.fail().add("message", "该邮箱未注册！");
@@ -48,9 +52,15 @@ public class UserLoginController {
             return "login"; // 直接带参数的网页跳转
         }
         if (password.equals(userList.get(0).getUserPassword())) {
-            model.addAttribute("message", "登陆成功！");
-            model.addAttribute("User", userList.get(0));
+            //model.addAttribute("message", "登陆成功！");
+            session.setAttribute("message","登陆成功！");
             session.setAttribute("User",userList.get(0)); // 用户存入session
+            PageHelper.startPage(1,1);
+            List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
+            //navigatePages : 连续显示的页数
+            PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
+            // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
+            model.addAttribute("PageInfo",pageInfo);
             return "index";
         } else {
             model.addAttribute("message", "密码错误！");
