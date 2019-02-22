@@ -283,9 +283,8 @@
                     </div>
                     <div class="occasional"></div>
                     <div class="occasion-cart">
-                        <a class="item_add" href="#">加入购物车</a>
-                        <button class="" id="addGoods"> jiaru 购物车</button>
-                        <a class="item_buy" href="#">立即购买</a>
+                        <button class="btn btn-success" id="item_add" >加入购物车</button>
+                        <button class="btn btn-danger" id="item_buy">立即购买</button>
                     </div>
                 </div>
                 <script type="text/javascript">
@@ -296,7 +295,33 @@
                         });
                         start();  //调用渲染函数
                     })
+                    $("#item_add").click(function(){
+                        alert("点击加入购物车");
+                        debugger;
+                        var message = "${sessionScope.get("message")}";
+                        if(message.length == 0){
+                            layer.msg("请先登录网站");
+                        }else{
+                            var userId = ${sessionScope.get("User")}.userId;
+                            var goodsId = ${Goods.goodsId};
+                            var goodsamount = 1;
+                            debugger;
+                            $.ajax({
+                                url:"<%=path %>/Goods/add",
+                                data:"userId="+userId+"goodsId="+goodsId+"goodsamount="+goodsamount,
+                                success:function (result) {
+                                    if(result.code == 100){
+                                        alert("succes")
+                                    }else{
+                                        alert("failed")
+                                    }
+                                }
+                            });
+
+                        }
+                    })
                 </script>
+
                 <div class="clearfix"></div>
                 <div class="bootstrap-tab animated wow slideInUp" data-wow-delay=".5s">
                     <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
