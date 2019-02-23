@@ -77,7 +77,8 @@
                             <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
                         <dl class="layui-nav-child">
                             <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
-                            <dd><a href="">退出</a></dd>
+                            <dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>
+                            <dd><a href="${pageContext.request.contextPath}/servlet/Logout?userId=${User.userId}">退出登录</a></dd>
                         </dl>
                     </li>
                 </ul>

@@ -46,8 +46,9 @@
     </style>
 
     <script type="text/javascript">
-        layui.use('element',function(){
+        layui.use(['element','layer'],function(){
             var element = layui.element;
+            var layer = layui.layer;
         })
         $(function () {
             var flag = "${message}";
@@ -91,7 +92,8 @@
                                 <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
                             <dl class="layui-nav-child">
                                 <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
-                                <dd><a href="">退出</a></dd>
+                                <dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>
+                                <dd><a href="${pageContext.request.contextPath}/servlet/Logout?userId=${User.userId}">退出登录</a></dd>
                             </dl>
                         </li>
                     </ul>
@@ -159,7 +161,7 @@
     <div class="breadcrumbs">
         <div class="container">
             <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-                <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
+                <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
                 <li class="active">详情</li>
             </ol>
         </div>
@@ -296,32 +298,42 @@
                         start();  //调用渲染函数
                     })
                     $("#item_add").click(function(){
-                        alert("点击加入购物车");
+                        alert("点击加入购物车,检测用户，添加购物车");
                         debugger;
-                        var message = "${sessionScope.get("message")}";
-                        if(message.length == 0){
-                            layer.msg("请先登录网站");
-                        }else{
-                            var userId = ${sessionScope.get("User")}.userId;
-                            var goodsId = ${Goods.goodsId};
-                            var goodsamount = 1;
-                            debugger;
-                            $.ajax({
-                                url:"<%=path %>/Goods/add",
-                                data:"userId="+userId+"goodsId="+goodsId+"goodsamount="+goodsamount,
-                                success:function (result) {
-                                    if(result.code == 100){
-                                        alert("succes")
-                                    }else{
-                                        alert("failed")
-                                    }
+                        // 后台检测是否登陆
+                        $.ajax({
+                            url:"<%=path %>/servlet/CheckUserOnline",
+                            type:"POST",
+                            success:function(result){
+                                debugger;
+                                if(result.code == 100){
+                                    layer.msg("已经登陆！");
+                                    addToshopCart(result.extend.user.userId);
+                                }else{
+                                    layer.msg("未登陆！请先登录");
+
                                 }
-                            });
-
-                        }
+                            }
+                        })
                     })
+                    function addToshopCart(userId) {
+                        var goodsId,goodsamount=1;
+                        goodsId = ${Goods.goodsId};
+                        debugger;
+                        $.ajax({
+                            url:"<%=path %>/Goods/add",
+                            data:"userId="+userId+"&goodsId="+goodsId+"&goodsamount="+goodsamount,
+                            success:function (result) {
+                                debugger;
+                                if(result.code == 100){
+                                    layer.msg("成功加入购物车");
+                                }else{
+                                    layer.msg("加入购物车失败");
+                                }
+                            }
+                        });
+                    }
                 </script>
-
                 <div class="clearfix"></div>
                 <div class="bootstrap-tab animated wow slideInUp" data-wow-delay=".5s">
                     <div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">

@@ -116,4 +116,25 @@ public class UserLoginController {
         //跳转 个人信息编辑页面
         return "personInfo";
     }
+
+    // 检测用户是否已经登陆
+    @ResponseBody
+    @RequestMapping("/CheckUserOnline")
+    public Msg checkUserOnline(HttpSession session){
+        if(session.getAttribute("User")!=null){
+            User user = (User)session.getAttribute("User");
+            return Msg.success().add("user",user);
+        }else{
+            return Msg.fail();
+        }
+    }
+
+    // 用户登出操作
+    @ResponseBody
+    @RequestMapping("/Logout")
+    public Msg userLogout(Integer UserId,HttpSession session){
+        session.removeAttribute("message");
+        session.removeAttribute("User");
+        return Msg.success();
+    }
 }
