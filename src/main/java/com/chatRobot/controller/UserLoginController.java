@@ -130,11 +130,16 @@ public class UserLoginController {
     }
 
     // 用户登出操作
-    @ResponseBody
     @RequestMapping("/Logout")
-    public Msg userLogout(Integer UserId,HttpSession session){
+    public String  userLogout(HttpSession session,Model model){
         session.removeAttribute("message");
         session.removeAttribute("User");
-        return Msg.success();
+        PageHelper.startPage(1,1);
+        List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
+        //navigatePages : 连续显示的页数
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
+        // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
+        model.addAttribute("PageInfo",pageInfo);
+        return "index";
     }
 }
