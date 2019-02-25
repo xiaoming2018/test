@@ -298,8 +298,6 @@
                         start();  //调用渲染函数
                     })
                     $("#item_add").click(function(){
-                        alert("点击加入购物车,检测用户，添加购物车");
-                        debugger;
                         // 后台检测是否登陆
                         $.ajax({
                             url:"<%=path %>/servlet/CheckUserOnline",

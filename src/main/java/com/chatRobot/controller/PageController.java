@@ -52,6 +52,7 @@ public class PageController {
         /**
          * @Author: sun xiaoming
          * @Description: 跳转到对应商品详情页
+         * @parm: GoodsId and model
          */
         Goods good = goodsServiceImpl.selectGoodsWithId(id);
         GoodsModel goodsModel = goodsServiceImpl.selectGoodsModelWithId(good.getGoodsModelId());
@@ -71,12 +72,17 @@ public class PageController {
              //如果购物车非空
              for (int i = 0; i < goodsCartList.size(); i++) {
                  Goods goods = goodsServiceImpl.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
+                 // 返回购物车中商品数量 赋值给对应的商品数量
+                 goods.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
                  goodsList.add(goods);
              }
              model.addAttribute("goodsList",goodsList);
-             model.addAttribute("goodsCartList",goodsCartList);
+             return "GoodsCart";
+         }else{
+             model.addAttribute("message","购物车为空，请购物。");
+             return "warn";
          }
-         return "GoodsCart";
+
     }
 
 

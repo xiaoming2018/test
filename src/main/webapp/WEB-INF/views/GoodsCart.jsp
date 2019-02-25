@@ -46,6 +46,7 @@
             var layer = layui.layer;
         })
         $(function () {
+            //页面加载完毕
             //标题栏的设置
             var flag = "${message}";
             if (flag.toString().length > 0) {
@@ -55,6 +56,9 @@
                 $("#first").show();
                 $("#second").hide();
             }
+            // 页面加载完毕，实现结算中心的数据解析
+            debugger;
+            check();
         })
     </script>
 </head>
@@ -155,7 +159,7 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span> ${goodsCartList.size()} 件商品</span>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} 件商品</span>
         </h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
@@ -166,114 +170,146 @@
                     <th>数量</th>
                     <th>商品名称</th>
                     <th>快递服务费</th>
-                    <th>价格</th>
+                    <th>单价</th>
                     <th>移除</th>
                 </tr>
                 </thead>
-
-
-
-
-                <tr class="rem1">
-                    <td class="invert">1</td>
-                    <td class="invert-image"><a href="single.html"><img src="resource/images/22.jpg" class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active">&nbsp;</div>
+                <% int i=0;%>
+                <c:forEach items="${goodsList}" var="goods">
+                    <tr class="${goods.goodsId}">
+                        <td class="invert"><%=i %></td>
+                        <% i++;%>
+                        <td class="invert-image">
+                            <a href="<%=path%>/page/toGoods?id=${goods.goodsId}">
+                                <img src="<%=path %>/${goods.goodsPicture}" class="img-responsive"/>
+                            </a>
+                        </td>
+                        <td class="invert">
+                            <div class="quantity">
+                                <div class="quantity-select">
+                                    <div class="entry value-minus">&nbsp;</div>
+                                    <div class="entry value"><span id="goodsAmount">${goods.goodsAmount}</span></div>
+                                    <div class="entry value-plus active">&nbsp;</div>
+                                    <div class="entry goodsIdValue" style="visibility:hidden"><span id="goodsId">${goods.goodsId}</span></div>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td class="invert">黑色皮靴</td>
-                    <td class="invert">￥5.00</td>
-                    <td class="invert">￥290.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close1"></div>
-                        </div>
-                        <script>$(document).ready(function (c) {
-                            $('.close1').on('click', function (c) {
-                                $('.rem1').fadeOut('slow', function (c) {
-                                    $('.rem1').remove();
+                        </td>
+                        <td class="invert">${goods.goodsName}</td>
+                        <td class="invert">￥5.00</td>
+                        <td class="invert">${goods.goodsPrice}</td>
+                        <td class="invert">
+                            <div class="rem">
+                                <div class="close<%=i%>"></div>
+                            </div>
+                            <script>$(document).ready(function (c) {
+                                $('.close<%=i%>').on('click', function (c) {
+                                    // 后台进行数据操作
+                                    $.ajax({
+                                        url:"<%=path %>/Goods/Remove",
+                                        data:"userId="+ '${User.userId}'+"&goodsId="+'${goods.goodsId}',
+                                        async:false,
+                                        success:function (result) {
+                                            debugger;
+                                            if(result.code == 100){
+                                                // 删除成功 结算中心重建
+                                                layer.msg("商品移除成功！");
+                                                // 表格显示删除
+                                                $('.${goods.goodsId}').fadeOut('slow', function (c) {
+                                                    $('.${goods.goodsId}').remove();
+                                                });
+                                                check();
+                                            }else{
+                                                // 删除失败，信息提示。
+                                                layer.msg("商品未移除，请重新操作！");
+                                            }
+                                        }
+                                    });
+
                                 });
                             });
-                        });
-                        </script>
-                    </td>
-                </tr>
-                <tr class="rem2">
-                    <td class="invert">2</td>
-                    <td class="invert-image"><a href="single.html"><img src="resource/images/30.jpg" alt=" "
-                                                                        class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active">&nbsp;</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="invert">木制小方桌</td>
-                    <td class="invert">￥5.00</td>
-                    <td class="invert">￥250.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close2"></div>
-                        </div>
-                        <script>$(document).ready(function (c) {
-                            $('.close2').on('click', function (c) {
-                                $('.rem2').fadeOut('slow', function (c) {
-                                    $('.rem2').remove();
-                                });
-                            });
-                        });
-                        </script>
-                    </td>
-                </tr>
-                <tr class="rem3">
-                    <td class="invert">3</td>
-                    <td class="invert-image"><a href="single.html"><img src="resource/images/11.jpg" alt=" "
-                                                                        class="img-responsive"/></a></td>
-                    <td class="invert">
-                        <div class="quantity">
-                            <div class="quantity-select">
-                                <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span>1</span></div>
-                                <div class="entry value-plus active">&nbsp;</div>
-                            </div>
-                        </div>
-                    </td>
-                    <td class="invert">石质手镯</td>
-                    <td class="invert">￥5.00</td>
-                    <td class="invert">￥299.00</td>
-                    <td class="invert">
-                        <div class="rem">
-                            <div class="close3"></div>
-                        </div>
-                        <script>$(document).ready(function (c) {
-                            $('.close3').on('click', function (c) {
-                                $('.rem3').fadeOut('slow', function (c) {
-                                    $('.rem3').remove();
-                                });
-                            });
-                        });
-                        </script>
-                    </td>
-                </tr>
+                            function check(){
+                                // 对结算中心进行更新 重新请求
+                                debugger;
+                                $.ajax({
+                                    url:"<%=path %>/Goods/updateCart",
+                                    data:"userId="+"${User.userId}",
+                                    async:false,
+                                    success:function (result) {
+                                        debugger;
+                                        console.log(result);
+                                        if(result.code == 100){
+                                            //结算中心返回数据解析
+                                            resolveResult(result);
+                                        }else{
+                                            layer.msg("更新结算失败，请重新操作。");
+                                        }
+                                    }
+                                })
+
+                            }
+                            function resolveResult(result){
+                                debugger;
+                                // 首先数据清空
+                                $("#checkBox").html("");
+                                var goodslist = result.extend.goodsList;
+                                console.log(goodslist);
+                                var totalPrice = result.extend.totalPrice;
+                                $.each(goodslist,function(index,item){
+                                    var li = $("<li></li>").append(item.goodsName)
+                                            .append($("<i></i>").append('-'))
+                                            .append(item.goodsAmount)
+                                            .append("件      ￥")
+                                            .append( $("<span></span>"))
+                                            .append(item.goodsAmount * item.goodsPrice);
+                                    $("#checkBox").append(li);
+                                })
+                                var FreeLi = $("<li></li>").append("总服务费:￥").append(5*goodslist.length);
+                                var TotalLi = $("<li></li>").append("共消费：").append("<i></i>").append(" ￥").append(totalPrice);
+                                $("#checkBox").append(FreeLi).append(TotalLi);
+                            }
+                            </script>
+                        </td>
+                    </tr>
+                </c:forEach>
                 <!--quantity-->
                 <script>
                     $('.value-plus').on('click', function () {
                         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+                        var goodsIdtext = $(this).parent().find('.goodsIdValue');
+                        var goodsId = parseInt(goodsIdtext.text(),10);
+                        updateAmount(${User.userId},goodsId,newVal);
                         divUpd.text(newVal);
                     });
 
                     $('.value-minus').on('click', function () {
                         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
-                        if (newVal >= 1) divUpd.text(newVal);
+
+                        var goodsIdtext = $(this).parent().find('.goodsIdValue');
+                        var goodsId = parseInt(goodsIdtext.text(),10);
+                        if (newVal >= 1){
+                            // 数据更新
+                            updateAmount(${User.userId},goodsId,newVal);
+                            divUpd.text(newVal);
+                        }
                     });
+
+                    function updateAmount(userId,goodsId,newVal){
+                        debugger;
+                        $.ajax({
+                            url:"<%=path %>/Goods/amountChange",
+                            data:"userId="+ userId +"&goodsId=" + goodsId +"&amount=" + newVal,
+                            async:false,
+                            success:function(result){
+                                debugger;
+                                if(result.code == 100){
+                                    layer.msg("数量改变成功");
+                                }else{
+                                    layer.msg("数量改变失败，请重新操作");
+                                }
+                            }
+                        })
+                        check();
+                    }
                 </script>
                 <!--quantity-->
             </table>
@@ -281,22 +317,15 @@
         <div class="checkout-left">
             <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
                 <h4>商品结算中心</h4>
-                <ul>
-                    <li>黑色皮靴 <i>-</i> <span>￥250.00 </span></li>
-                    <li>木制小方桌 <i>-</i> <span>￥290.00 </span></li>
-                    <li>石质手镯 <i>-</i> <span>￥299.00 </span></li>
-                    <li>总服务费 <i>-</i> <span>￥15.00</span></li>
-                    <li>总计 <i>-</i> <span>￥854.00</span></li>
-                </ul>
+                <ul id="checkBox"></ul>
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
-                <a href="index.html"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>继续购物</a>
+                <a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>继续购物</a>
             </div>
             <div class="clearfix"></div>
         </div>
     </div>
 </div>
-<!-- //checkout -->
 <!-- footer -->
 <div class="footer">
     <div class="container">
@@ -309,6 +338,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

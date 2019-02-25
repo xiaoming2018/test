@@ -51,4 +51,12 @@ public class GoodsCartServiceImpl {
         return goodsCartList;
     }
 
+    public int deleteByUserIdAndGoodsId(Integer userId,Integer goodsId){
+        GoodsCartExample goodsCartExample = new GoodsCartExample();
+        GoodsCartExample.Criteria criteria = goodsCartExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andGoodsIdEqualTo(goodsId);
+        int flag = goodsCartMapper.deleteByExample(goodsCartExample);
+        return flag;
+    }
 }
