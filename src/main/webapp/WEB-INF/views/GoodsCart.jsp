@@ -159,7 +159,7 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} 件商品</span>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品
         </h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
@@ -201,7 +201,8 @@
                             <div class="rem">
                                 <div class="close<%=i%>"></div>
                             </div>
-                            <script>$(document).ready(function (c) {
+                            <script>
+                                $(document).ready(function (c) {
                                 $('.close<%=i%>').on('click', function (c) {
                                     // 后台进行数据操作
                                     $.ajax({
@@ -252,19 +253,26 @@
                                 // 首先数据清空
                                 $("#checkBox").html("");
                                 var goodslist = result.extend.goodsList;
-                                console.log(goodslist);
                                 var totalPrice = result.extend.totalPrice;
+                                var totalGoodsAmount = result.extend.totalGoodsAmount;
+                                // 更新商品总件数
+                                debugger;
+                                var total_Amount = $("#goodsTotalAmount").text();
+                                console.log(total_Amount);
+                                $("#goodsTotalAmount").text(totalGoodsAmount);
+
                                 $.each(goodslist,function(index,item){
                                     var li = $("<li></li>").append(item.goodsName)
-                                            .append($("<i></i>").append('-'))
+                                            .append($("<i></i>").append(' -- '))
                                             .append(item.goodsAmount)
-                                            .append("件      ￥")
-                                            .append( $("<span></span>"))
-                                            .append(item.goodsAmount * item.goodsPrice);
+                                            .append("件")
+                                            .append( $("<span></span>").append("￥" + item.goodsAmount * item.goodsPrice));
                                     $("#checkBox").append(li);
                                 })
-                                var FreeLi = $("<li></li>").append("总服务费:￥").append(5*goodslist.length);
-                                var TotalLi = $("<li></li>").append("共消费：").append("<i></i>").append(" ￥").append(totalPrice);
+                                var FreeLi = $("<li></li>").append("总服务费:").append($("<i></i>"))
+                                    .append( $("<span></span>").append("￥" + 5*goodslist.length));
+                                var TotalLi = $("<li></li>").append("共消费：").append($("<i></i>"))
+                                    .append($("<span></span>").append("￥" + totalPrice));
                                 $("#checkBox").append(FreeLi).append(TotalLi);
                             }
                             </script>

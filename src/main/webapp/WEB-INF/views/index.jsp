@@ -16,6 +16,8 @@
 <html>
 <head>
     <title>TheWebGL</title>
+    <% String path = request.getContextPath(); %>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
@@ -37,8 +39,9 @@
     <script src="${pageContext.request.contextPath}/webgl_resource/js/controls/OrbitControls.js"></script>
 
     <script type="text/javascript">
-        layui.use('element',function(){
+        layui.use(['element','layer'],function(){
             var element = layui.element;
+            var layer = layui.layer;
         })
         $(function () {
             var flag = "${message}";
@@ -159,7 +162,8 @@
                         <div class="new-collections-grid1-left simpleCart_shelfItem">
                             <p>
                                 <span class="item_price">${PageInfo.list[i].goodsPrice}</span>
-                                <a class="item_add" href="${pageContext.request.contextPath}/addcart?canshu">加入购物车</a>
+                                <button class="btn btn-success" id="item_add_${i}">加入购物车</button>
+                                <button class="btn btn-danger" id="item_buy_${i}">立即购买</button>
                             </p>
                         </div>
                     </div>
@@ -178,13 +182,68 @@
                         <p>${PageInfo.list[i+1].goodsDesc}</p>
                         <div class="new-collections-grid1-left simpleCart_shelfItem">
                             <p>
-                                <i>￥280</i>
                                 <span class="item_price">${PageInfo.list[i+1].goodsPrice}</span>
-                                <a class="item_add" href="#">加入购物车</a>
+                                <button class="btn btn-success" id="item_add_${i+1}">加入购物车</button>
+                                <button class="btn btn-danger" id="item_buy_${i+1}">立即购买</button>
                             </p>
                         </div>
                     </div>
                 </div>
+                <script>
+                    $(document).ready(function (c) {
+                        $("#item_add_${i}").on('click', function (c){
+                            debugger;
+                            var goodsId = ${PageInfo.list[i].goodsId};
+                            console.log(goodsId);
+                            $.ajax({
+                                url:"<%=path %>/servlet/CheckUserOnline",
+                                type:"POST",
+                                success:function(result){
+                                    debugger;
+                                    if(result.code == 100){
+                                        //layer.msg("已经登陆！");
+                                        addToshopCart(result.extend.user.userId,goodsId);
+                                    }else{
+                                        layer.msg("未登陆！请先登录");
+                                    }
+                                }
+                            })
+                        })
+                        $("#item_add_${i+1}").on('click', function (c){
+                            debugger;
+                            var goodsId = ${PageInfo.list[i+1].goodsId};
+                            $.ajax({
+                                url:"<%=path %>/servlet/CheckUserOnline",
+                                type:"POST",
+                                success:function(result){
+                                    debugger;
+                                    if(result.code == 100){
+                                        //layer.msg("已经登陆！");
+                                        addToshopCart(result.extend.user.userId,goodsId);
+                                    }else{
+                                        layer.msg("未登陆！请先登录");
+                                    }
+                                }
+                            })
+                        })
+                    });
+                    function addToshopCart(userId,goodsId) {
+                        var goodsamount=1;
+                        debugger;
+                        $.ajax({
+                            url:"<%=path %>/Goods/add",
+                            data:"userId="+userId+"&goodsId="+goodsId+"&goodsAmount="+goodsamount,
+                            success:function (result) {
+                                debugger;
+                                if(result.code == 100){
+                                    layer.msg("成功加入购物车");
+                                }else{
+                                    layer.msg("加入购物车失败");
+                                }
+                            }
+                        });
+                    }
+                </script>
             </c:forEach>
         </div>
     </div>

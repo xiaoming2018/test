@@ -305,7 +305,7 @@
                             success:function(result){
                                 debugger;
                                 if(result.code == 100){
-                                    layer.msg("已经登陆！");
+                                    //layer.msg("已经登陆！");
                                     addToshopCart(result.extend.user.userId);
                                 }else{
                                     layer.msg("未登陆！请先登录");
@@ -320,7 +320,7 @@
                         debugger;
                         $.ajax({
                             url:"<%=path %>/Goods/add",
-                            data:"userId="+userId+"&goodsId="+goodsId+"&goodsamount="+goodsamount,
+                            data:"userId="+userId+"&goodsId="+goodsId+"&goodsAmount="+goodsamount,
                             success:function (result) {
                                 debugger;
                                 if(result.code == 100){

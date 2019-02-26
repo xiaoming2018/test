@@ -135,19 +135,22 @@ public class GoodsController {
     public Msg updateGoodsCart(Integer userId, Model model) {
         List<Goods> goodsList = new ArrayList<>();
         List<GoodsCart> goodsCartList = goodsCartService.selectByUserId(userId);
-        double totalPrice = 0;
+        double totalPrice = 0.0;
+        int totalGoodsAmount = 0;
         if (!goodsCartList.isEmpty()) {
             //如果购物车非空
             for (int i = 0; i < goodsCartList.size(); i++) {
                 Goods goods = goodsService.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
                 // 返回购物车中商品数量 赋值给对应的商品数量
                 goods.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
+                totalGoodsAmount += goodsCartList.get(i).getGoodsAmount();
                 totalPrice += goods.getGoodsPrice().doubleValue() * goods.getGoodsAmount();
                 goodsList.add(goods);
             }
-            model.addAttribute("goodsList", goodsList);
-            model.addAttribute("totalPrice", totalPrice);
-            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice);
+            //model.addAttribute("goodsList", goodsList);
+            //model.addAttribute("totalPrice", totalPrice);
+            //model.addAttribute("totalGoodsAmount",totalGoodsAmount);
+            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount",totalGoodsAmount);
         } else {
             return Msg.fail();
         }
