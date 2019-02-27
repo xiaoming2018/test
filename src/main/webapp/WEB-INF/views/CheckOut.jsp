@@ -46,6 +46,168 @@
     </script>
 </head>
 <body>
+<%-- 用户信息显示 --%>
 
+<%-- 商品信息表格 --%>
+<div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
+    <table class="timetable_sub">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th>商品</th>
+            <th>数量</th>
+            <th>商品名称</th>
+            <th>快递服务费</th>
+            <th>总价</th>
+            <th>移除</th>
+        </tr>
+        </thead>
+        <% int i=0;%>
+        <c:forEach items="${goodsList}" var="goods">
+            <tr class="${goods.goodsId}">
+                <td class="invert"><%=i %></td>
+                <% i++;%>
+                <td class="invert-image">
+                    <a href="<%=path%>/page/toGoods?id=${goods.goodsId}">
+                        <img src="<%=path %>/${goods.goodsPicture}" class="img-responsive"/>
+                    </a>
+                </td>
+                <td class="invert">
+                    <div class="quantity">
+                        <div class="quantity-select">
+                            <div class="entry value-minus">&nbsp;</div>
+                            <div class="entry value"><span id="goodsAmount">${goods.goodsAmount}</span></div>
+                            <div class="entry value-plus active">&nbsp;</div>
+                            <div class="entry goodsIdValue" style="visibility:hidden"><span id="goodsId">${goods.goodsId}</span></div>
+                        </div>
+                    </div>
+                </td>
+                <td class="invert">${goods.goodsName}</td>
+                <td class="invert">￥5.00</td>
+                <td class="invert">${goods.goodsPrice}</td>
+                <td class="invert">
+                    <div class="rem">
+                        <div class="close<%=i%>"></div>
+                    </div>
+                    <script>
+                        $(document).ready(function (c) {
+                            $('.close<%=i%>').on('click', function (c) {
+                                // 后台进行数据操作
+                                $.ajax({
+                                    url:"<%=path %>/Goods/Remove",
+                                    data:"userId="+ '${User.userId}'+"&goodsId="+'${goods.goodsId}',
+                                    async:false,
+                                    success:function (result) {
+                                        debugger;
+                                        if(result.code == 100){
+                                            // 删除成功 结算中心重建
+                                            layer.msg("商品移除成功！");
+                                            // 表格显示删除
+                                            $('.${goods.goodsId}').fadeOut('slow', function (c) {
+                                                $('.${goods.goodsId}').remove();
+                                            });
+                                            check();
+                                        }else{
+                                            // 删除失败，信息提示。
+                                            layer.msg("商品未移除，请重新操作！");
+                                        }
+                                    }
+                                });
+
+                            });
+                        });
+                        function check(){
+                            // 对结算中心进行更新 重新请求
+                            debugger;
+                            $.ajax({
+                                url:"<%=path %>/Goods/updateCart",
+                                data:"userId="+"${User.userId}",
+                                async:false,
+                                success:function (result) {
+                                    debugger;
+                                    console.log(result);
+                                    if(result.code == 100){
+                                        //结算中心返回数据解析
+                                        resolveResult(result);
+                                    }else{
+                                        layer.msg("更新结算失败，请重新操作。");
+                                    }
+                                }
+                            })
+
+                        }
+                        function resolveResult(result){
+                            debugger;
+                            // 首先数据清空
+                            $("#checkBox").html("");
+                            var goodslist = result.extend.goodsList;
+                            var totalPrice = result.extend.totalPrice;
+                            var totalGoodsAmount = result.extend.totalGoodsAmount;
+                            // 更新商品总件数
+                            debugger;
+                            var total_Amount = $("#goodsTotalAmount").text();
+                            console.log(total_Amount);
+                            $("#goodsTotalAmount").text(totalGoodsAmount);
+
+                            $.each(goodslist,function(index,item){
+                                var li = $("<li></li>").append(item.goodsName)
+                                    .append($("<i></i>").append(' -- '))
+                                    .append(item.goodsAmount)
+                                    .append("件")
+                                    .append( $("<span></span>").append("￥" + item.goodsAmount * item.goodsPrice));
+                                $("#checkBox").append(li);
+                            })
+                            var FreeLi = $("<li></li>").append("总服务费:").append($("<i></i>"))
+                                .append( $("<span></span>").append("￥" + 5*goodslist.length));
+                            var TotalLi = $("<li></li>").append("共消费：").append($("<i></i>"))
+                                .append($("<span></span>").append("￥" + totalPrice));
+                            $("#checkBox").append(FreeLi).append(TotalLi);
+                        }
+                    </script>
+                </td>
+            </tr>
+        </c:forEach>
+        <!--quantity-->
+        <script>
+            $('.value-plus').on('click', function () {
+                var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+                var goodsIdtext = $(this).parent().find('.goodsIdValue');
+                var goodsId = parseInt(goodsIdtext.text(),10);
+                updateAmount(${User.userId},goodsId,newVal);
+                divUpd.text(newVal);
+            });
+
+            $('.value-minus').on('click', function () {
+                var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
+
+                var goodsIdtext = $(this).parent().find('.goodsIdValue');
+                var goodsId = parseInt(goodsIdtext.text(),10);
+                if (newVal >= 1){
+                    // 数据更新
+                    updateAmount(${User.userId},goodsId,newVal);
+                    divUpd.text(newVal);
+                }
+            });
+            function updateAmount(userId,goodsId,newVal){
+                debugger;
+                $.ajax({
+                    url:"<%=path %>/Goods/amountChange",
+                    data:"userId="+ userId +"&goodsId=" + goodsId +"&amount=" + newVal,
+                    async:false,
+                    success:function(result){
+                        debugger;
+                        if(result.code == 100){
+                            layer.msg("数量改变成功");
+                        }else{
+                            layer.msg("数量改变失败，请重新操作");
+                        }
+                    }
+                })
+                check();
+            }
+        </script>
+        <!--quantity-->
+    </table>
+</div>
 </body>
 </html>
