@@ -17,7 +17,6 @@
 <head>
     <title>TheWebGL</title>
     <% String path = request.getContextPath(); %>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
@@ -30,13 +29,6 @@
     <script src="${pageContext.request.contextPath}/resource/js/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/bootstrap-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/resource/layui/layui.js"></script>
-
-    <script src="${pageContext.request.contextPath}/webgl_resource/webgl_test.js"></script>
-    <script src="${pageContext.request.contextPath}/webgl_resource/build/three.js"></script>
-    <script src="${pageContext.request.contextPath}/webgl_resource/js/libs/stats.min.js"></script>
-    <script src="${pageContext.request.contextPath}/webgl_resource/js/libs/dat.gui.min.js"></script>
-    <script src="${pageContext.request.contextPath}/webgl_resource/js/loaders/OBJLoader.js"></script>
-    <script src="${pageContext.request.contextPath}/webgl_resource/js/controls/OrbitControls.js"></script>
 
     <script type="text/javascript">
         layui.use(['element','layer'],function(){
@@ -209,6 +201,28 @@
                                 }
                             })
                         })
+
+                        $("#item_buy_${i}").on('click',function(c){
+                            // 立即购买按钮 点击事件的绑定
+                           debugger;
+                           var goodsId = ${PageInfo.list[i].goodsId};
+                           $.ajax({
+                               url:"<%=path %>/servlet/CheckUserOnline",
+                               type:"POST",
+                               success:function (result) {
+                                   debugger;
+                                   if(result.code == 100){
+                                       debugger;
+                                       location.href="<%=path%>/page/toCheckOut?userId="+result.extend.user.userId+
+                                           "&goodsId="+goodsId;
+                                   }else{
+                                       layer.msg("未登录，请先登录");
+                                   }
+                               }
+                           })
+
+                        });
+
                         $("#item_add_${i+1}").on('click', function (c){
                             debugger;
                             var goodsId = ${PageInfo.list[i+1].goodsId};
@@ -252,8 +266,7 @@
 <%--底部布局--%>
 <div class="footer">
     <div class="container">
-        <div class="footer-grids">
-        </div>
+        <div class="footer-grids"></div>
         <div class="footer-logo animated wow slideInUp">
             <h2><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
         </div>

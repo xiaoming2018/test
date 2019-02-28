@@ -47,6 +47,25 @@
 </head>
 <body>
 <%-- 用户信息显示 --%>
+<div class="breadcrumbs">
+    <div class="container">
+        <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
+            <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
+            <li class="active">商品结算页</li>
+        </ol>
+    </div>
+</div>
+
+<h6>收货人信息：</h6>
+<dl class="dl-horizontal">
+    <dt>姓名：</dt>
+    <dd>${User.userName}</dd>
+    <dt>邮箱：</dt>
+    <dd>${User.userEmail}</dd>
+    <dt>地址: </dt>
+    <dd>${User.userAddress}</dd>
+</dl>
+
 
 <%-- 商品信息表格 --%>
 <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">

@@ -3,8 +3,10 @@ package com.chatRobot.controller;
 import com.chatRobot.model.Goods;
 import com.chatRobot.model.GoodsCart;
 import com.chatRobot.model.GoodsModel;
+import com.chatRobot.model.User;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.chatRobot.service.impl.UserServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,9 @@ public class PageController {
     private GoodsServiceImpl goodsServiceImpl;
     @Autowired
     private GoodsCartServiceImpl goodsCartService;
+    @Autowired
+    private UserServiceImpl userService;
+
 
     @RequestMapping("/toIndex")
     public String PageToIndex(Model model){
@@ -83,6 +88,20 @@ public class PageController {
              return "warn";
          }
 
+    }
+
+    @RequestMapping("/toCheckOut")
+    public String PageToCheckOut(Integer userId, Integer goodsId,Model model){
+        /**
+        * @Author: sun xiaoming 
+        * @Description: 跳转到订单确认页面
+        * @Date: 2019/2/28 15:05
+        */
+        User user = userService.selectByPrimaryKey(userId);
+        Goods goods = goodsServiceImpl.selectGoodsWithId(goodsId);
+        model.addAttribute("User",user);
+        model.addAttribute("Goods",goods);
+        return "CheckOut";
     }
 
 
