@@ -33,27 +33,27 @@ public class PageController {
 
 
     @RequestMapping("/toIndex")
-    public String PageToIndex(Model model){
+    public String PageToIndex(Model model) {
         /**
-        * @Author: sun xiaoming
-        * @Description: 跳转到主页
-        * @Date: 2019/1/8 15:51
-        */
+         * @Author: sun xiaoming
+         * @Description: 跳转到主页
+         * @Date: 2019/1/8 15:51
+         */
         //获取商品信息，回显在主页上
         //设置页码 和 页面大小
-        PageHelper.startPage(1,1);
+        PageHelper.startPage(1, 1);
         List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
         //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
-        model.addAttribute("goodList",goodsList);
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 2);
+        model.addAttribute("goodList", goodsList);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
-        model.addAttribute("PageInfo",pageInfo);
+        model.addAttribute("PageInfo", pageInfo);
         return "index";
     }
 
 
     @RequestMapping("/toGoods")
-    public String PageToGoodsWithID(Integer id,Model model){
+    public String PageToGoodsWithID(Integer id, Model model) {
         /**
          * @Author: sun xiaoming
          * @Description: 跳转到对应商品详情页
@@ -61,48 +61,45 @@ public class PageController {
          */
         Goods good = goodsServiceImpl.selectGoodsWithId(id);
         GoodsModel goodsModel = goodsServiceImpl.selectGoodsModelWithId(good.getGoodsModelId());
-        model.addAttribute("Goods",good);
-        model.addAttribute("GoodsModelFile",goodsModel);
+        model.addAttribute("Goods", good);
+        model.addAttribute("GoodsModelFile", goodsModel);
         return "GoodsInfo";
     }
 
     @RequestMapping("/toCart")
-    public String PageToGoodsCartWithUserId(Integer userId,Model model){
+    public String PageToGoodsCartWithUserId(Integer userId, Model model) {
         /**
          * @Description: 跳转到用户的购物车界面
          */
-         List<Goods> goodsList = new ArrayList<>();
-         List<GoodsCart> goodsCartList = goodsCartService.selectByUserId(userId);
-         if(!goodsCartList.isEmpty()) {
-             //如果购物车非空
-             for (int i = 0; i < goodsCartList.size(); i++) {
-                 Goods goods = goodsServiceImpl.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
-                 // 返回购物车中商品数量 赋值给对应的商品数量
-                 goods.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
-                 goodsList.add(goods);
-             }
-             model.addAttribute("goodsList",goodsList);
-             return "GoodsCart";
-         }else{
-             model.addAttribute("message","购物车为空，请购物。");
-             return "warn";
-         }
-
+        List<Goods> goodsList = new ArrayList<>();
+        List<GoodsCart> goodsCartList = goodsCartService.selectByUserId(userId);
+        if (!goodsCartList.isEmpty()) {
+            //如果购物车非空
+            for (int i = 0; i < goodsCartList.size(); i++) {
+                Goods goods = goodsServiceImpl.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
+                // 返回购物车中商品数量 赋值给对应的商品数量
+                goods.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
+                goodsList.add(goods);
+            }
+            model.addAttribute("goodsList", goodsList);
+            return "GoodsCart";
+        } else {
+            model.addAttribute("message", "购物车为空，请购物。");
+            return "warn";
+        }
     }
 
     @RequestMapping("/toCheckOut")
-    public String PageToCheckOut(Integer userId, Integer goodsId,Model model){
+    public String PageToCheckOut(Integer userId, Integer goodsId, Model model) {
         /**
-        * @Author: sun xiaoming 
-        * @Description: 跳转到订单确认页面
-        * @Date: 2019/2/28 15:05
-        */
+         * @Author: sun xiaoming
+         * @Description: 跳转到订单确认页面
+         * @Date: 2019/2/28 15:05
+         */
         User user = userService.selectByPrimaryKey(userId);
         Goods goods = goodsServiceImpl.selectGoodsWithId(goodsId);
-        model.addAttribute("User",user);
-        model.addAttribute("Goods",goods);
+        model.addAttribute("User", user);
+        model.addAttribute("Goods", goods);
         return "CheckOut";
     }
-
-
 }

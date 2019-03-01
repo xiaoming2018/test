@@ -159,8 +159,7 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品
-        </h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
                 <thead>
