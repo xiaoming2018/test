@@ -33,13 +33,6 @@
     <script src="<%=path %>/resource/js/bootstrap-3.1.1.min.js"></script>
     <script src="${pageContext.request.contextPath}/resource/layui/layui.js"></script>
 
-    <!-- 引入模型js -->
-    <script type="text/javascript" src="<%=path %>/webgl_resource/webgl_test.js"></script>
-    <script src="<%=path %>/webgl_resource/build/three.js"></script>
-    <script src="<%=path %>/webgl_resource/js/libs/stats.min.js"></script>
-    <script src="<%=path %>/webgl_resource/js/libs/dat.gui.min.js"></script>
-    <script src="<%=path %>/webgl_resource/js/loaders/OBJLoader.js"></script>
-    <script src="<%=path %>/webgl_resource/js/controls/OrbitControls.js"></script>
     <script type="text/javascript">
         layui.use(['element','layer'],function(){
             var element = layui.element;
@@ -328,6 +321,10 @@
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
                 <a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>继续购物</a>
+            </div>
+            <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
+                <a href="<%=path %>/order/ListAdd?userId=${User.userId}">
+                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>确认订单</a>
             </div>
             <div class="clearfix"></div>
         </div>

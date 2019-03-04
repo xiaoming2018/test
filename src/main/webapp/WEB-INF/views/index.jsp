@@ -69,13 +69,17 @@
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
                         <a href="javascript:;">
-                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
-                            <dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>
-                            <dd><a href="${pageContext.request.contextPath}/servlet/Logout">退出登录</a></dd>
-                        </dl>
+                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}
+                        </a>
+                        <%--<dl class="layui-nav-child">--%>
+                            <%--<dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>--%>
+                            <%--<dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>--%>
+                            <%--<dd><a href="${pageContext.request.contextPath}/servlet/Logout">退出登录</a></dd>--%>
+                        <%--</dl>--%>
                     </li>
+                    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></li>
+                    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></li>
+                    <li class="layui-nav-item"><a href="${pageContext.request.contextPath}/servlet/Logout">退出登录</a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -220,6 +224,27 @@
                                    }
                                }
                            })
+
+                        });
+
+                        $("#item_buy_${i+1}").on('click',function(c){
+                            // 立即购买按钮 点击事件的绑定
+                            debugger;
+                            var goodsId = ${PageInfo.list[i+1].goodsId};
+                            $.ajax({
+                                url:"<%=path %>/servlet/CheckUserOnline",
+                                type:"POST",
+                                success:function (result) {
+                                    debugger;
+                                    if(result.code == 100){
+                                        debugger;
+                                        location.href="<%=path%>/page/toCheckOut?userId="+result.extend.user.userId+
+                                            "&goodsId="+goodsId;
+                                    }else{
+                                        layer.msg("未登录，请先登录");
+                                    }
+                                }
+                            })
 
                         });
 

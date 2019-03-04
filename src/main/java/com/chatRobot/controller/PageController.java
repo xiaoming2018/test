@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class PageController {
      * author ：xiaoming
      */
     @Autowired
-    private GoodsServiceImpl goodsServiceImpl;
+    private GoodsServiceImpl goodsService;
     @Autowired
     private GoodsCartServiceImpl goodsCartService;
     @Autowired
@@ -33,7 +34,7 @@ public class PageController {
 
 
     @RequestMapping("/toIndex")
-    public String PageToIndex(Model model) {
+    public String PageToIndex(@RequestParam(value = "pn", defaultValue = "1") Integer pn,Model model) {
         /**
          * @Author: sun xiaoming
          * @Description: 跳转到主页
@@ -41,10 +42,10 @@ public class PageController {
          */
         //获取商品信息，回显在主页上
         //设置页码 和 页面大小
-        PageHelper.startPage(1, 1);
-        List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
+        PageHelper.startPage(pn, 6);
+        List<Goods> goodsList = goodsService.selectAllGoods();
         //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 2);
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 5);
         model.addAttribute("goodList", goodsList);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         model.addAttribute("PageInfo", pageInfo);
@@ -59,8 +60,8 @@ public class PageController {
          * @Description: 跳转到对应商品详情页
          * @parm: GoodsId and model
          */
-        Goods good = goodsServiceImpl.selectGoodsWithId(id);
-        GoodsModel goodsModel = goodsServiceImpl.selectGoodsModelWithId(good.getGoodsModelId());
+        Goods good = goodsService.selectGoodsWithId(id);
+        GoodsModel goodsModel = goodsService.selectGoodsModelWithId(good.getGoodsModelId());
         model.addAttribute("Goods", good);
         model.addAttribute("GoodsModelFile", goodsModel);
         return "GoodsInfo";
@@ -76,7 +77,7 @@ public class PageController {
         if (!goodsCartList.isEmpty()) {
             //如果购物车非空
             for (int i = 0; i < goodsCartList.size(); i++) {
-                Goods goods = goodsServiceImpl.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
+                Goods goods = goodsService.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
                 // 返回购物车中商品数量 赋值给对应的商品数量
                 goods.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
                 goodsList.add(goods);
@@ -84,7 +85,7 @@ public class PageController {
             model.addAttribute("goodsList", goodsList);
             return "GoodsCart";
         } else {
-            model.addAttribute("message", "购物车为空，请购物。");
+            model.addAttribute("message", "购物车为空，请先购物。");
             return "warn";
         }
     }
@@ -97,7 +98,7 @@ public class PageController {
          * @Date: 2019/2/28 15:05
          */
         User user = userService.selectByPrimaryKey(userId);
-        Goods goods = goodsServiceImpl.selectGoodsWithId(goodsId);
+        Goods goods = goodsService.selectGoodsWithId(goodsId);
         model.addAttribute("User", user);
         model.addAttribute("Goods", goods);
         return "CheckOut";

@@ -42,7 +42,6 @@ public class GoodsController {
         goodsCart.setGoodsAmount(goodsAmount);
         goodsCart.setCreateTime(date);
         goodsCart.setUpdateTime(date);
-
         // 检测 购物车中是否已经存在userId 和 goodsId 相同记录 若存在 数据合并；否则新建记录加入数据库
         List<GoodsCart> goodsCartList = goodsCartService.selectByExample(goodsCart);
         if (goodsCartList.isEmpty()) {

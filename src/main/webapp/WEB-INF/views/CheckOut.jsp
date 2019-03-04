@@ -172,7 +172,7 @@
                         <div class="quantity">
                             <div class="quantity-select">
                                 <div class="entry value-minus">&nbsp;</div>
-                                <div class="entry value"><span id="goodsAmount">1</span></div>
+                                <div class="entry value" id="amount"><span id="goodsAmount">1</span></div>
                                 <div class="entry value-plus active">&nbsp;</div>
                                 <div class="entry goodsIdValue" style="visibility:hidden"><span id="goodsId">${Goods.goodsId}</span></div>
                             </div>
@@ -227,18 +227,16 @@
                 </div>
                 <script>
                     $("#checkOrder").click(function(){
-                        debugger;
-                        alert("确认订单");
-                        var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
+                        var divUpd = $("#amount").parent().find('.value'), newVal = parseInt(divUpd.text(), 10);
                         var goodsAmount = newVal;
                         $.ajax({
                             url:"<%=path %>/order/add",
                             data:"userId="+"${User.userId}"+"&goodsId="+"${Goods.goodsId}"+"&goodsAmount="+goodsAmount,
                             success:function (result) {
-                                debugger;
                                 if(result.code == 100){
                                     layer.msg("订单添加成功");
                                     // 订单展示，或者直接返回主页继续购物。
+                                    $("#checkOrder").hide();
                                 }else{
                                     layer.msg("订单添加失败，请重新操作");
                                 }
@@ -246,12 +244,22 @@
                         });
                     })
                     $("#continue").click(function(){
-                        debugger;
-                        alert("转到主页。");
                         location.href="<%=path%>/page/toIndex";
                     })
                 </script>
             </div>
+        </div>
+    </div>
+</div>
+<!-- footer -->
+<div class="footer">
+    <div class="container">
+        <div class="footer-grids"></div>
+        <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
+            <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
+        </div>
+        <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
+            <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>
         </div>
     </div>
 </div>
