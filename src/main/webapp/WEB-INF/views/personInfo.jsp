@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>TheWebGL</title>
+    <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
@@ -29,21 +30,17 @@
         layui.use('element', function () {
             var element = layui.element;
         })
-
-
         layui.use('upload', function () {
             var $ = layui.jquery,
                 upload = layui.upload;
         })
     </script>
-
 </head>
-
 <body>
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="<%=path%>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">编辑个人信息</li>
         </ol>
     </div>
@@ -74,7 +71,7 @@
                         <label class="checkbox"><input type="checkbox" name="checkbox"><i></i>我接受网站协议条款</label>
                     </div>
                 </div>
-                <input type="submit" value="注册">
+                <input type="submit" value="提交">
             </form>
         </div>
     </div>
@@ -84,7 +81,7 @@
     <div class="container">
         <div class="footer-grids">
             <div class="footer-logo animated wow slideInUp">
-                <h2><a href="index.html">Best Store <span>shop anywhere</span></a></h2>
+                <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
             </div>
             <div class="copy-right animated wow slideInUp">
                 <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>

@@ -36,16 +36,16 @@
             var layer = layui.layer;
         })
         $(function () {
-            var flag = "${message}";
+            var flag = "${loginFlag}";
             debugger;
-            if (flag.toString().length > 0) {
+            if (flag.toString() == "success") {
                 $("#first").hide();
                 $("#second").show();
             } else {
                 $("#first").show();
                 $("#second").hide();
             }
-        });
+        })
     </script>
 </head>
 <body>

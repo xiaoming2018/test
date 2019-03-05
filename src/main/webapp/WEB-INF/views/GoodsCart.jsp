@@ -41,8 +41,8 @@
         $(function () {
             //页面加载完毕
             //标题栏的设置
-            var flag = "${message}";
-            if (flag.toString().length > 0) {
+            var flag = "${loginFlag}";
+            if (flag.toString() == "success") {
                 $("#first").hide();
                 $("#second").show();
             } else {
@@ -234,7 +234,9 @@
                                             //结算中心返回数据解析
                                             resolveResult(result);
                                         }else{
-                                            layer.msg("更新结算失败，请重新操作。");
+                                            var message = "购物车为空";
+                                            location.href="<%=path%>/page/warn?message="+message;
+                                            //layer.msg("更新结算失败，请重新操作。");
                                         }
                                     }
                                 })

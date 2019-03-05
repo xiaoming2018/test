@@ -1,9 +1,6 @@
 package com.chatRobot.controller;
 
-import com.chatRobot.model.Goods;
-import com.chatRobot.model.GoodsCart;
-import com.chatRobot.model.GoodsModel;
-import com.chatRobot.model.User;
+import com.chatRobot.model.*;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
 import com.chatRobot.service.impl.UserServiceImpl;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,16 +40,30 @@ public class PageController {
          */
         //获取商品信息，回显在主页上
         //设置页码 和 页面大小
+        System.out.println(pn);
         PageHelper.startPage(pn, 6);
         List<Goods> goodsList = goodsService.selectAllGoods();
         //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 5);
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
         model.addAttribute("goodList", goodsList);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         model.addAttribute("PageInfo", pageInfo);
         return "index";
     }
 
+    // 导航条 点击事件控制：
+    @RequestMapping("/pageInfo")
+    @ResponseBody
+    public Msg updateIndexWithPageNumber(Integer pn, Model model){
+        System.out.println(pn);
+        PageHelper.startPage(pn,6);
+        List<Goods> goodsList = goodsService.selectAllGoods();
+        //navigatePages : 连续显示的页数
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList,6);
+        // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
+        model.addAttribute("PageInfo", pageInfo);
+        return Msg.success().add("pageInfo",pageInfo);
+    }
 
     @RequestMapping("/toGoods")
     public String PageToGoodsWithID(Integer id, Model model) {
@@ -102,5 +114,30 @@ public class PageController {
         model.addAttribute("User", user);
         model.addAttribute("Goods", goods);
         return "CheckOut";
+    }
+
+    // Good 商品页
+    @RequestMapping("/Good")
+    public String PageToGood(Model model){
+        model.addAttribute("message","页面正在开发中。。");
+        return "warn";
+    }
+    // Furniture 家具页面
+    @RequestMapping("/Furniture")
+    public String PageToFurniture(Model model){
+        model.addAttribute("message","页面正在开发中。。");
+        return "warn";
+    }
+    // Mail 邮箱
+    @RequestMapping("/Mail")
+    public String PageToMail(Model model){
+        model.addAttribute("message","页面正在开发中。。");
+        return "warn";
+    }
+
+    @RequestMapping("/warn")
+    public String PageToWarn(String message, Model model){
+        model.addAttribute("message",message);
+        return "warn";
     }
 }

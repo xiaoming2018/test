@@ -51,8 +51,8 @@
             var layer = layui.layer;
         })
         $(function () {
-            var flag = "${message}";
-            if (flag.toString().length > 0) {
+            var flag = "${loginFlag}";
+            if (flag.toString() == "success") {
                 $("#first").hide();
                 $("#second").show();
             } else {

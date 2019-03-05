@@ -58,7 +58,7 @@ public class OrderController {
     @RequestMapping("/ListAdd")
     public String OrderListAdd(Integer userId, Model model) {
         System.out.println(userId);
-        User user = new User();
+        User user;
         user = userService.selectByPrimaryKey(userId);
         List<Goods> goodsList = new ArrayList<>();
         Goods good;

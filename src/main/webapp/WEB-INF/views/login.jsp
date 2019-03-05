@@ -41,7 +41,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="${pageContext.request.contextPath}/index.html"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="${pageContext.request.contextPath}/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">登陆</li>
         </ol>
     </div>
@@ -65,9 +65,12 @@
             <div id="content"></div>
         </div>
         <h4 class="animated wow slideInUp">未注册账号</h4>
-        <p class="animated wow slideInUp"><a href="${pageContext.request.contextPath}/register.jsp">前往注册</a> 或者 返回
-            <a href="${pageContext.request.contextPath}/index.html">主页<span class="glyphicon glyphicon-menu-right"
-                                                                            aria-hidden="true"></span></a></p>
+        <p class="animated wow slideInUp">
+            <a href="${pageContext.request.contextPath}/register.jsp">前往注册</a> 或者 返回
+            <a href="${pageContext.request.contextPath}/page/toIndex">主页
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+            </a>
+        </p>
     </div>
 </div>
 
@@ -76,7 +79,7 @@
     <div class="container">
         <div class="footer-grids">
             <div class="footer-logo animated wow slideInUp">
-                <h2><a href="${pageContext.request.contextPath}/index.html">Best Store <span>shop anywhere</span></a>
+                <h2><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>shop anywhere</span></a>
                 </h2>
             </div>
             <div class="copy-right animated wow slideInUp">

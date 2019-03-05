@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
@@ -45,7 +46,7 @@ public class UserLoginController {
 
     //from action 登陆控制
     @RequestMapping("/index")
-    public String userForIndex(String email, String password, Model model, HttpSession session) {
+    public String userForIndex(@RequestParam(value = "pn", defaultValue = "1") Integer pn, String email, String password, Model model, HttpSession session) {
         List<User> userList = UserService.selectByEmail(email);
         if (userList.isEmpty()) {
             model.addAttribute("message", "该邮箱未注册!");
@@ -53,12 +54,13 @@ public class UserLoginController {
         }
         if (password.equals(userList.get(0).getUserPassword())) {
             //model.addAttribute("message", "登陆成功！");
+            session.setAttribute("loginFlag","success");
             session.setAttribute("message","登陆成功！");
             session.setAttribute("User",userList.get(0)); // 用户存入session
-            PageHelper.startPage(1,1);
+            PageHelper.startPage(pn,6);
             List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
             //navigatePages : 连续显示的页数
-            PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
+            PageInfo<Goods> pageInfo = new PageInfo(goodsList,6);
             // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
             model.addAttribute("PageInfo",pageInfo);
             return "index";
@@ -133,6 +135,7 @@ public class UserLoginController {
     @RequestMapping("/Logout")
     public String  userLogout(HttpSession session,Model model){
         session.removeAttribute("message");
+        session.removeAttribute("loginFlag");
         session.removeAttribute("User");
         PageHelper.startPage(1,1);
         List<Goods> goodsList = goodsServiceImpl.selectAllGoods();

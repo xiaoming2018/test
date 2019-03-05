@@ -41,8 +41,8 @@
         $(function () {
             //页面加载完毕
             //标题栏的设置
-            var flag = "${message}";
-            if (flag.toString().length > 0) {
+            var flag = "${loginFlag}";
+            if (flag.toString() == "success") {
                 $("#first").hide();
                 $("#second").show();
             } else {

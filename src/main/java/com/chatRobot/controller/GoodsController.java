@@ -31,7 +31,6 @@ public class GoodsController {
     @Autowired
     GoodsServiceImpl goodsService;
 
-
     @RequestMapping("/add")
     @ResponseBody
     public Msg addGoodsInShopCart(Integer goodsId, Integer userId, Integer goodsAmount) {
@@ -78,11 +77,9 @@ public class GoodsController {
     @ResponseBody
     @RequestMapping("/Remove")
     public Msg CartRemoveGoods(Integer userId, Integer goodsId) {
-        System.out.println(userId + goodsId);
         // 购物车中删除购物记录
         try {
-            int flag;
-            flag = goodsCartService.deleteByUserIdAndGoodsId(userId, goodsId);
+            int flag = goodsCartService.deleteByUserIdAndGoodsId(userId, goodsId);
             if (flag == 0) {
                 return Msg.fail();
             } else {
@@ -90,8 +87,7 @@ public class GoodsController {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            return Msg.success();
+            return Msg.fail();
         }
     }
 
@@ -105,7 +101,6 @@ public class GoodsController {
         goodsCart.setUserId(userId);
         goodsCart.setGoodsAmount(amount);
         goodsCart.setUpdateTime(date);
-
         List<GoodsCart> goodsCartList = goodsCartService.selectByExample(goodsCart);
         if(goodsCartList.isEmpty()){
             return Msg.fail();
@@ -127,7 +122,6 @@ public class GoodsController {
             return Msg.fail();
         }
     }
-
     // 结算中心的更新
     @ResponseBody
     @RequestMapping("/updateCart")
@@ -146,11 +140,9 @@ public class GoodsController {
                 totalPrice += goods.getGoodsPrice().doubleValue() * goods.getGoodsAmount();
                 goodsList.add(goods);
             }
-            //model.addAttribute("goodsList", goodsList);
-            //model.addAttribute("totalPrice", totalPrice);
-            //model.addAttribute("totalGoodsAmount",totalGoodsAmount);
             return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount",totalGoodsAmount);
         } else {
+            // 购物车为空
             return Msg.fail();
         }
     }
