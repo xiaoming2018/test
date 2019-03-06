@@ -61,7 +61,7 @@ public class PageController {
         //navigatePages : 连续显示的页数
         PageInfo<Goods> pageInfo = new PageInfo(goodsList,6);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
-        model.addAttribute("PageInfo", pageInfo);
+        //model.addAttribute("PageInfo", pageInfo);
         return Msg.success().add("pageInfo",pageInfo);
     }
 

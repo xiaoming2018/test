@@ -6,12 +6,17 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%> <!--输出,条件,迭代标签库-->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt"%> <!--数据格式化标签库-->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sql"%> <!--数据库相关标签库-->
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn"%> <!--常用函数标签库-->
-<%@ page isELIgnored="false"%> <!--支持EL表达式，不设的话，EL表达式不会解析-->
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!--输出,条件,迭代标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt" %>
+<!--数据格式化标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sql" %>
+<!--数据库相关标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn" %>
+<!--常用函数标签库-->
+<%@ page isELIgnored="false" %>
+<!--支持EL表达式，不设的话，EL表达式不会解析-->
 <html>
 <head>
     <title>GoodsCarts</title>
@@ -23,7 +28,7 @@
 
     <link href='<%=path %>/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='<%=path %>/resource/css/font1.css' rel='stylesheet' type='text/css'>
-    <link href="<%=path %>/resource/css/jquery.countdown.css" rel="stylesheet" >
+    <link href="<%=path %>/resource/css/jquery.countdown.css" rel="stylesheet">
     <link href="<%=path %>/resource/css/animate.min.css" rel="stylesheet">
     <link href="<%=path %>/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="<%=path %>/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
@@ -34,7 +39,7 @@
     <script src="${pageContext.request.contextPath}/resource/layui/layui.js"></script>
 
     <script type="text/javascript">
-        layui.use(['element','layer'],function(){
+        layui.use(['element', 'layer'], function () {
             var element = layui.element;
             var layer = layui.layer;
         })
@@ -50,7 +55,6 @@
                 $("#second").hide();
             }
             // 页面加载完毕，实现结算中心的数据解析
-            debugger;
             check();
         })
     </script>
@@ -67,7 +71,8 @@
                         <a href="<%=path %>/mail.html">邮箱</a>
                     </li>
                     <li>
-                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890</li>
+                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890
+                    </li>
                     <li>
                         <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i>
                         <a href="<%=path %>/login.jsp">登陆</a>
@@ -81,7 +86,8 @@
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
                         <a href="javascript:;">
-                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
+                            <img src="${pageContext.request.contextPath}/${User.userPicture}"
+                                 class="layui-nav-img">${User.userName}</a>
                         <dl class="layui-nav-child">
                             <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
                             <dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>
@@ -115,8 +121,8 @@
                         <h3>
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex" class="act">主页</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good" class="act">商品</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture" class="act">家具</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good">商品</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture">家具</a></li>
                                 <li class="active"><a href="${pageContext.request.contextPath}/page/Mail">联系我们</a></li>
                             </ul>
                         </h3>
@@ -152,7 +158,8 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">购物车中包含: <span
+                id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
                 <thead>
@@ -166,10 +173,11 @@
                     <th>移除</th>
                 </tr>
                 </thead>
-                <% int i=0;%>
+                <% int i = 0;%>
                 <c:forEach items="${goodsList}" var="goods">
                     <tr class="${goods.goodsId}">
-                        <td class="invert"><%=i %></td>
+                        <td class="invert"><%=i %>
+                        </td>
                         <% i++;%>
                         <td class="invert-image">
                             <a href="<%=path%>/page/toGoods?id=${goods.goodsId}">
@@ -195,80 +203,81 @@
                             </div>
                             <script>
                                 $(document).ready(function (c) {
-                                $('.close<%=i%>').on('click', function (c) {
-                                    // 后台进行数据操作
+                                    $('.close<%=i%>').on('click', function (c) {
+                                        // 后台进行数据操作
+                                        $.ajax({
+                                            url: "<%=path %>/Goods/Remove",
+                                            data: "userId=" + '${User.userId}' + "&goodsId=" + '${goods.goodsId}',
+                                            async: false,
+                                            success: function (result) {
+                                                debugger;
+                                                if (result.code == 100) {
+                                                    // 删除成功 结算中心重建
+                                                    layer.msg("商品移除成功！");
+                                                    // 表格显示删除
+                                                    $('.${goods.goodsId}').fadeOut('slow', function (c) {
+                                                        $('.${goods.goodsId}').remove();
+                                                    });
+                                                    check();
+                                                } else {
+                                                    // 删除失败，信息提示。
+                                                    layer.msg("商品未移除，请重新操作！");
+                                                }
+                                            }
+                                        });
+
+                                    });
+                                });
+
+                                function check() {
+                                    // 对结算中心进行更新 重新请求
+                                    debugger;
                                     $.ajax({
-                                        url:"<%=path %>/Goods/Remove",
-                                        data:"userId="+ '${User.userId}'+"&goodsId="+'${goods.goodsId}',
-                                        async:false,
-                                        success:function (result) {
+                                        url: "<%=path %>/Goods/updateCart",
+                                        data: "userId=" + "${User.userId}",
+                                        async: false,
+                                        success: function (result) {
                                             debugger;
-                                            if(result.code == 100){
-                                                // 删除成功 结算中心重建
-                                                layer.msg("商品移除成功！");
-                                                // 表格显示删除
-                                                $('.${goods.goodsId}').fadeOut('slow', function (c) {
-                                                    $('.${goods.goodsId}').remove();
-                                                });
-                                                check();
-                                            }else{
-                                                // 删除失败，信息提示。
-                                                layer.msg("商品未移除，请重新操作！");
+                                            console.log(result);
+                                            if (result.code == 100) {
+                                                //结算中心返回数据解析
+                                                resolveResult(result);
+                                            } else {
+                                                var message = "购物车为空";
+                                                location.href = "<%=path%>/page/warn?message=" + message;
+                                                //layer.msg("更新结算失败，请重新操作。");
                                             }
                                         }
-                                    });
+                                    })
+                                }
 
-                                });
-                            });
-                            function check(){
-                                // 对结算中心进行更新 重新请求
-                                debugger;
-                                $.ajax({
-                                    url:"<%=path %>/Goods/updateCart",
-                                    data:"userId="+"${User.userId}",
-                                    async:false,
-                                    success:function (result) {
-                                        debugger;
-                                        console.log(result);
-                                        if(result.code == 100){
-                                            //结算中心返回数据解析
-                                            resolveResult(result);
-                                        }else{
-                                            var message = "购物车为空";
-                                            location.href="<%=path%>/page/warn?message="+message;
-                                            //layer.msg("更新结算失败，请重新操作。");
-                                        }
-                                    }
-                                })
+                                function resolveResult(result) {
+                                    debugger;
+                                    // 首先数据清空
+                                    $("#checkBox").html("");
+                                    var goodslist = result.extend.goodsList;
+                                    var totalPrice = result.extend.totalPrice;
+                                    var totalGoodsAmount = result.extend.totalGoodsAmount;
+                                    // 更新商品总件数
+                                    debugger;
+                                    var total_Amount = $("#goodsTotalAmount").text();
+                                    console.log(total_Amount);
+                                    $("#goodsTotalAmount").text(totalGoodsAmount);
 
-                            }
-                            function resolveResult(result){
-                                debugger;
-                                // 首先数据清空
-                                $("#checkBox").html("");
-                                var goodslist = result.extend.goodsList;
-                                var totalPrice = result.extend.totalPrice;
-                                var totalGoodsAmount = result.extend.totalGoodsAmount;
-                                // 更新商品总件数
-                                debugger;
-                                var total_Amount = $("#goodsTotalAmount").text();
-                                console.log(total_Amount);
-                                $("#goodsTotalAmount").text(totalGoodsAmount);
-
-                                $.each(goodslist,function(index,item){
-                                    var li = $("<li></li>").append(item.goodsName)
+                                    $.each(goodslist, function (index, item) {
+                                        var li = $("<li></li>").append(item.goodsName)
                                             .append($("<i></i>").append(' -- '))
                                             .append(item.goodsAmount)
                                             .append("件")
-                                            .append( $("<span></span>").append("￥" + item.goodsAmount * item.goodsPrice));
-                                    $("#checkBox").append(li);
-                                })
-                                var FreeLi = $("<li></li>").append("总服务费:").append($("<i></i>"))
-                                    .append( $("<span></span>").append("￥" + 5*goodslist.length));
-                                var TotalLi = $("<li></li>").append("共消费：").append($("<i></i>"))
-                                    .append($("<span></span>").append("￥" + totalPrice));
-                                $("#checkBox").append(FreeLi).append(TotalLi);
-                            }
+                                            .append($("<span></span>").append("￥" + item.goodsAmount * item.goodsPrice));
+                                        $("#checkBox").append(li);
+                                    })
+                                    var FreeLi = $("<li></li>").append("总服务费:").append($("<i></i>"))
+                                        .append($("<span></span>").append("￥" + 5 * goodslist.length));
+                                    var TotalLi = $("<li></li>").append("共消费：").append($("<i></i>"))
+                                        .append($("<span></span>").append("￥" + totalPrice));
+                                    $("#checkBox").append(FreeLi).append(TotalLi);
+                                }
                             </script>
                         </td>
                     </tr>
@@ -278,8 +287,8 @@
                     $('.value-plus').on('click', function () {
                         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) + 1;
                         var goodsIdtext = $(this).parent().find('.goodsIdValue');
-                        var goodsId = parseInt(goodsIdtext.text(),10);
-                        updateAmount(${User.userId},goodsId,newVal);
+                        var goodsId = parseInt(goodsIdtext.text(), 10);
+                        updateAmount(${User.userId}, goodsId, newVal);
                         divUpd.text(newVal);
                     });
 
@@ -287,25 +296,25 @@
                         var divUpd = $(this).parent().find('.value'), newVal = parseInt(divUpd.text(), 10) - 1;
 
                         var goodsIdtext = $(this).parent().find('.goodsIdValue');
-                        var goodsId = parseInt(goodsIdtext.text(),10);
-                        if (newVal >= 1){
+                        var goodsId = parseInt(goodsIdtext.text(), 10);
+                        if (newVal >= 1) {
                             // 数据更新
-                            updateAmount(${User.userId},goodsId,newVal);
+                            updateAmount(${User.userId}, goodsId, newVal);
                             divUpd.text(newVal);
                         }
                     });
 
-                    function updateAmount(userId,goodsId,newVal){
+                    function updateAmount(userId, goodsId, newVal) {
                         debugger;
                         $.ajax({
-                            url:"<%=path %>/Goods/amountChange",
-                            data:"userId="+ userId +"&goodsId=" + goodsId +"&amount=" + newVal,
-                            async:false,
-                            success:function(result){
+                            url: "<%=path %>/Goods/amountChange",
+                            data: "userId=" + userId + "&goodsId=" + goodsId + "&amount=" + newVal,
+                            async: false,
+                            success: function (result) {
                                 debugger;
-                                if(result.code == 100){
+                                if (result.code == 100) {
                                     layer.msg("数量改变成功");
-                                }else{
+                                } else {
                                     layer.msg("数量改变失败，请重新操作");
                                 }
                             }

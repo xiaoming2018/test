@@ -54,15 +54,15 @@ public class UserLoginController {
         }
         if (password.equals(userList.get(0).getUserPassword())) {
             //model.addAttribute("message", "登陆成功！");
-            session.setAttribute("loginFlag","success");
-            session.setAttribute("message","登陆成功！");
-            session.setAttribute("User",userList.get(0)); // 用户存入session
-            PageHelper.startPage(pn,6);
+            session.setAttribute("loginFlag", "success");
+            session.setAttribute("message", "登陆成功！");
+            session.setAttribute("User", userList.get(0)); // 用户存入session
+            PageHelper.startPage(pn, 6);
             List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
             //navigatePages : 连续显示的页数
-            PageInfo<Goods> pageInfo = new PageInfo(goodsList,6);
+            PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
             // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
-            model.addAttribute("PageInfo",pageInfo);
+            model.addAttribute("PageInfo", pageInfo);
             return "index";
         } else {
             model.addAttribute("message", "密码错误！");
@@ -112,9 +112,9 @@ public class UserLoginController {
 
     //配置个人资料标记跳转页面
     @RequestMapping("editPage")
-    public String userEditPage(int userId,Model model){
+    public String userEditPage(int userId, Model model) {
         User user = UserService.selectByPrimaryKey(userId);
-        model.addAttribute("User",user); //将user放入页面参数
+        model.addAttribute("User", user); //将user放入页面参数
         //跳转 个人信息编辑页面
         return "personInfo";
     }
@@ -122,27 +122,27 @@ public class UserLoginController {
     // 检测用户是否已经登陆
     @ResponseBody
     @RequestMapping("/CheckUserOnline")
-    public Msg checkUserOnline(HttpSession session){
-        if(session.getAttribute("User")!=null){
-            User user = (User)session.getAttribute("User");
-            return Msg.success().add("user",user);
-        }else{
+    public Msg checkUserOnline(HttpSession session) {
+        if (session.getAttribute("User") != null) {
+            User user = (User) session.getAttribute("User");
+            return Msg.success().add("user", user);
+        } else {
             return Msg.fail();
         }
     }
 
     // 用户登出操作
     @RequestMapping("/Logout")
-    public String  userLogout(HttpSession session,Model model){
+    public String userLogout(HttpSession session, Model model) {
         session.removeAttribute("message");
         session.removeAttribute("loginFlag");
         session.removeAttribute("User");
-        PageHelper.startPage(1,1);
+        PageHelper.startPage(1, 6);
         List<Goods> goodsList = goodsServiceImpl.selectAllGoods();
         //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList,2);
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
-        model.addAttribute("PageInfo",pageInfo);
+        model.addAttribute("PageInfo", pageInfo);
         return "index";
     }
 }
