@@ -78,6 +78,7 @@
                     </li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
                     <li class="layui-nav-item"><a href="<%=path%>/page/toCart?userId=${User.userId}">购物车</a></li>
+                    <li class="layui-nav-item"><a href="<%=path%>/order/orderCenter?userId=${User.userId}">订单中心</a></li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/Logout">退出登录</a></li>
                 </ul>
             </div>

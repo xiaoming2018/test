@@ -10,24 +10,25 @@
 <html>
 <head>
     <title>TheWebGL</title>
+    <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css"
+    <link href="<%=path%>/resource/css/bootstrap.css" rel="stylesheet" type="text/css"
           media="all"/>
-    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css"
+    <link href="<%=path%>/resource/css/style.css" rel="stylesheet" type="text/css"
           media="all"/>
-    <script src="${pageContext.request.contextPath}/resource/js/jquery.min.js"></script>
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/bootstrap-3.1.1.min.js"></script>
-    <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
-    <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
+    <script src="<%=path%>/resource/js/jquery.min.js"></script>
+    <script type="text/javascript" src="<%=path%>/resource/js/bootstrap-3.1.1.min.js"></script>
+    <link href='<%=path%>/resource/css/font.css' rel='stylesheet' type='text/css'>
+    <link href='<%=path%>/resource/css/font1.css' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="${pageContext.request.contextPath}/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="<%=path%>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">注册</li>
         </ol>
     </div>
@@ -68,7 +69,7 @@
     <div class="container">
         <div class="footer-grids">
             <div class="footer-logo animated wow slideInUp">
-                <h2><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
+                <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
             </div>
             <div class="copy-right animated wow slideInUp">
                 <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>

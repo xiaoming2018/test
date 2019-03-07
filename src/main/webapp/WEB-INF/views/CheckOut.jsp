@@ -68,13 +68,13 @@
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
                         <a href="javascript:;">
-                            <img src="<%=path %>/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
-                        <dl class="layui-nav-child">
-                            <dd><a href="<%=path %>/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
-                            <dd><a href="<%=path %>/page/toCart?userId=${User.userId}">购物车</a></dd>
-                            <dd><a href="<%=path %>/servlet/Logout">退出登录</a></dd>
-                        </dl>
+                            <img src="<%=path %>/${User.userPicture}" class="layui-nav-img">${User.userName}
+                        </a>
                     </li>
+                    <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
+                    <li class="layui-nav-item"><a href="<%=path%>/page/toCart?userId=${User.userId}">购物车</a></li>
+                    <li class="layui-nav-item"><a href="<%=path%>/order/orderCenter?userId=${User.userId}">订单中心</a></li>
+                    <li class="layui-nav-item"><a href="<%=path%>/servlet/Logout">退出登录</a></li>
                 </ul>
             </div>
             <div class="clearfix"></div>
@@ -237,6 +237,9 @@
                                     layer.msg("订单添加成功");
                                     // 订单展示，或者直接返回主页继续购物。
                                     $("#checkOrder").hide();
+                                    // 跳转到订单页
+                                    debugger;
+                                    location.href="<%=path%>/order/orderCenter?userId="+${User.userId};
                                 }else{
                                     layer.msg("订单添加失败，请重新操作");
                                 }

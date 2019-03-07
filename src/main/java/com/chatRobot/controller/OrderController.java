@@ -38,6 +38,11 @@ public class OrderController {
     @RequestMapping("/add")
     @ResponseBody
     public Msg OrderAdd(Order order) {
+        /**
+         * @Author: sun xiaoming
+         * @Description: 单一商品添加订单 订单数据库注入
+         * @Date: 2019/3/7 10:52
+         */
         Date date = new Date();
         order.setOrderTime(date);
         order.setOrderCreateTime(date);
@@ -70,31 +75,78 @@ public class OrderController {
         order.setOrderCreateTime(date);
         if (!goodsCartList.isEmpty()) {
             // 购物车非空
-            for (int i = 0; i <goodsCartList.size();i++){
+            for (int i = 0; i < goodsCartList.size(); i++) {
                 good = goodsService.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
                 good.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
                 goodsList.add(good);
                 order.setGoodsId(goodsCartList.get(i).getGoodsId());
                 order.setGoodsAmount(goodsCartList.get(i).getGoodsAmount());
-                try{
+                try {
                     int flag = orderService.insertSelective(order);
-                    if(flag == 0) {
-                        model.addAttribute("message","订单插入失败1，请重新操作");
+                    if (flag == 0) {
+                        model.addAttribute("message", "订单插入失败1，请重新操作");
                         return "warn";
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    model.addAttribute("message","订单插入失败2，请重新操作");
+                    model.addAttribute("message", "订单插入失败2，请重新操作");
                     return "warn";
                 }
             }
             //订单数据入库后，进行订单展示。
-            model.addAttribute("goodsList",goodsList);
+            //订单生成，，购物车内容删除。
+            model.addAttribute("goodsList", goodsList);
             model.addAttribute("User", user);
             return "CheckOutList";
         } else {
-            model.addAttribute("message","订单插入失败3，请重新操作");
+            model.addAttribute("message", "订单插入失败3，请重新操作");
             return "warn";
+        }
+    }
+
+    @RequestMapping("/orderCenter")
+    public String OrderCenter(Integer userId, Model model) {
+        Goods goods;
+        User user = userService.selectByPrimaryKey(userId);
+        List<Goods> goodsList = new ArrayList<>();
+        List<Order> orderList = orderService.selectByUserId(userId);
+        if (!orderList.isEmpty()) {
+            //订单非空
+            for (int i = 0; i < orderList.size(); i++) {
+                goods = goodsService.selectGoodsWithId(orderList.get(i).getGoodsId());
+                goods.setGoodsAmount(orderList.get(i).getGoodsAmount());
+                goodsList.add(goods);
+            }
+            model.addAttribute("goodsList", goodsList);
+            model.addAttribute("User", user);
+            model.addAttribute("orderList", orderList);
+            return "orderDetails";
+        } else {
+            model.addAttribute("message", "您的订单为空，请先购物！");
+            return "warn";
+        }
+    }
+
+    // 订单中心的更新
+    @ResponseBody
+    @RequestMapping("/updateOrder")
+    public Msg updateGoodsCart(Integer userId) {
+        Goods goods;
+        int totalGoodsAmount = 0;
+        double totalPrice = 0.0;
+        List<Goods> goodsList = new ArrayList<>();
+        List<Order> orderList = orderService.selectByUserId(userId);
+        if (!orderList.isEmpty()) {
+            for (int i = 0; i < orderList.size(); i++) {
+                goods = goodsService.selectGoodsWithId(orderList.get(i).getGoodsId());
+                goods.setGoodsAmount(orderList.get(i).getGoodsAmount());
+                totalGoodsAmount += orderList.get(i).getGoodsAmount();
+                totalPrice += goods.getGoodsPrice().doubleValue() * orderList.get(i).getGoodsAmount();
+                goodsList.add(goods);
+            }
+            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount",totalGoodsAmount);
+        }else{
+            return Msg.fail();
         }
     }
 }

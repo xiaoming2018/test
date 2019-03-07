@@ -10,29 +10,28 @@
 <html>
 <head>
     <title>TheWebGL</title>
+    <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <link href="${pageContext.request.contextPath}/resource/css/bootstrap.css" rel="stylesheet" type="text/css"
-          media="all"/>
-    <link href="${pageContext.request.contextPath}/resource/css/style.css" rel="stylesheet" type="text/css"
-          media="all"/>
-    <script src="${pageContext.request.contextPath}/resource/js/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/resource/layui/layui.js"></script>
-    <link href="${pageContext.request.contextPath}/resource/layui/css/layui.css">
-    <!-- for bootstrap working -->
-    <script type="text/javascript" src="${pageContext.request.contextPath}/resource/js/bootstrap-3.1.1.min.js"></script>
-    <!-- //for bootstrap working -->
-    <link href='${pageContext.request.contextPath}/resource/css/font.css' rel='stylesheet' type='text/css'>
-    <link href='${pageContext.request.contextPath}/resource/css/font1.css' rel='stylesheet' type='text/css'>
+    <link href="<%=path%>/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<%=path%>/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <script src="<%=path%>/resource/js/jquery.min.js"></script>
+    <script src="<%=path%>/resource/layui/layui.js"></script>
+    <link href="<%=path%>/resource/layui/css/layui.css">
+    <script type="text/javascript" src="<%=path%>/resource/js/bootstrap-3.1.1.min.js"></script>
+    <link href='<%=path%>/resource/css/font.css' rel='stylesheet' type='text/css'>
+    <link href='<%=path%>/resource/css/font1.css' rel='stylesheet' type='text/css'>
     <script type="text/javascript">
+        layui.use(['element', 'layer'], function () {
+            var element = layui.element;
+            var layer = layui.layer;
+        })
+
         $(function () {
             var message = "${userLogin}";
-            console.log(message);
             if (message != "") {
-                layui.use('layer', function () {
-                    layer.msg(message);
-                })
+                layer.msg(message);
             }
         })
     </script>
@@ -41,7 +40,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft">
-            <li><a href="${pageContext.request.contextPath}/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
+            <li><a href="<%=path%>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>主页</a></li>
             <li class="active">登陆</li>
         </ol>
     </div>
@@ -58,7 +57,7 @@
                 <input type="email" id="email" name="email" placeholder="邮箱" required=" ">
                 <input type="password" id="password" name="password" placeholder="密码" required=" ">
                 <div class="forgot">
-                    <a href="${pageContext.request.contextPath}/register.jsp">Forgot Password?</a>
+                    <a href="<%=path%>/register.jsp">Forgot Password?</a>
                 </div>
                 <input type="submit" id="login" value="登陆">
             </form>
@@ -66,8 +65,8 @@
         </div>
         <h4 class="animated wow slideInUp">未注册账号</h4>
         <p class="animated wow slideInUp">
-            <a href="${pageContext.request.contextPath}/register.jsp">前往注册</a> 或者 返回
-            <a href="${pageContext.request.contextPath}/page/toIndex">主页
+            <a href="<%=path%>/register.jsp">前往注册</a> 或者 返回
+            <a href="<%=path%>/page/toIndex">主页
                 <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
             </a>
         </p>
@@ -79,7 +78,7 @@
     <div class="container">
         <div class="footer-grids">
             <div class="footer-logo animated wow slideInUp">
-                <h2><a href="${pageContext.request.contextPath}/page/toIndex">Best Store <span>shop anywhere</span></a>
+                <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a>
                 </h2>
             </div>
             <div class="copy-right animated wow slideInUp">

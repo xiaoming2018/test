@@ -89,13 +89,13 @@
                     <ul class="layui-nav">
                         <li class="layui-nav-item" lay-unselect="">
                             <a href="javascript:;">
-                                <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}</a>
-                            <dl class="layui-nav-child">
-                                <dd><a href="${pageContext.request.contextPath}/servlet/editPage?userId=${User.userId}">基本资料</a></dd>
-                                <dd><a href="${pageContext.request.contextPath}/page/toCart?userId=${User.userId}">购物车</a></dd>
-                                <dd><a href="${pageContext.request.contextPath}/servlet/Logout">退出登录</a></dd>
-                            </dl>
+                                <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}
+                            </a>
                         </li>
+                        <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
+                        <li class="layui-nav-item"><a href="<%=path%>/page/toCart?userId=${User.userId}">购物车</a></li>
+                        <li class="layui-nav-item"><a href="<%=path%>/order/orderCenter?userId=${User.userId}">订单中心</a></li>
+                        <li class="layui-nav-item"><a href="<%=path%>/servlet/Logout">退出登录</a></li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>

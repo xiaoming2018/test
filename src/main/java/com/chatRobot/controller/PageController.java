@@ -106,7 +106,7 @@ public class PageController {
     public String PageToCheckOut(Integer userId, Integer goodsId, Model model) {
         /**
          * @Author: sun xiaoming
-         * @Description: 跳转到订单确认页面
+         * @Description: 单一商品直接跳转到订单确认页面
          * @Date: 2019/2/28 15:05
          */
         User user = userService.selectByPrimaryKey(userId);

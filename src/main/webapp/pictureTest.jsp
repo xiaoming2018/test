@@ -13,7 +13,7 @@
     <script src="${pageContext.request.contextPath}/resource/js/jquery.Jcrop.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/jquery.color.js"></script>
     <script src="${pageContext.request.contextPath}/resource/js/jquery.form.js"></script>
-    <link href="${pageContext.request.contextPath}/resource/css/jquery.Jcrop.css" rel="stylesheet" type="text/css">
+    <link   href="${pageContext.request.contextPath}/resource/css/jquery.Jcrop.css" rel="stylesheet" type="text/css">
 
     <style type="text/css">
         /* 控制预览区域大小*/

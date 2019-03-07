@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: sun xiaoming
-  Date: 2019/3/4
-  Time: 15:52
+  Date: 2019/3/7
+  Time: 13:52
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,37 +16,32 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn" %>
 <!--常用函数标签库-->
 <%@ page isELIgnored="false" %>
-<!--支持EL表达式，不设的话，EL表达式不会解析-->
 <html>
 <head>
-    <title>GoodsCarts</title>
+    <title>TheWebGL--orderDetails</title>
     <% String path = request.getContextPath(); %>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-
+    <link href="<%=path %>/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
+    <link href="<%=path %>/resource/layui/css/layui.css" rel="stylesheet" type="text/css">
+    <link href="<%=path %>/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href='<%=path %>/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='<%=path %>/resource/css/font1.css' rel='stylesheet' type='text/css'>
-    <link href="<%=path %>/resource/css/jquery.countdown.css" rel="stylesheet">
-    <link href="<%=path %>/resource/css/animate.min.css" rel="stylesheet">
-    <link href="<%=path %>/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="<%=path %>/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
-    <link href="${pageContext.request.contextPath}/resource/layui/css/layui.css" rel="stylesheet" type="text/css">
 
     <script src="<%=path %>/resource/js/jquery.min.js"></script>
     <script src="<%=path %>/resource/js/bootstrap-3.1.1.min.js"></script>
     <script src="<%=path %>/resource/layui/layui.js"></script>
 
     <script type="text/javascript">
-        layui.use(['element', 'layer'], function () {
+        layui.use(['element','layer'],function(){
             var element = layui.element;
             var layer = layui.layer;
         })
         $(function () {
-            //页面加载完毕
-            //标题栏的设置
             var flag = "${loginFlag}";
+            debugger;
             if (flag.toString() == "success") {
                 $("#first").hide();
                 $("#second").show();
@@ -54,8 +49,6 @@
                 $("#first").show();
                 $("#second").hide();
             }
-            // 页面加载完毕，实现结算中心的数据解析
-            debugger;
             check();
         })
 
@@ -63,7 +56,7 @@
             // 对结算中心进行更新 重新请求
             debugger;
             $.ajax({
-                url: "<%=path %>/Goods/updateCart",
+                url: "<%=path %>/order/updateOrder",
                 data: "userId=" + "${User.userId}",
                 async: false,
                 success: function (result) {
@@ -88,11 +81,7 @@
             var totalPrice = result.extend.totalPrice;
             var totalGoodsAmount = result.extend.totalGoodsAmount;
             // 更新商品总件数
-            debugger;
-            var total_Amount = $("#goodsTotalAmount").text();
-            console.log(total_Amount);
             $("#goodsTotalAmount").text(totalGoodsAmount);
-
             $.each(goodslist, function (index, item) {
                 var li = $("<li></li>").append(item.goodsName)
                     .append($("<i></i>").append(' -- '))
@@ -121,8 +110,7 @@
                         <a href="<%=path %>/mail.html">邮箱</a>
                     </li>
                     <li>
-                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890
-                    </li>
+                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890</li>
                     <li>
                         <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i>
                         <a href="<%=path %>/login.jsp">登陆</a>
@@ -136,8 +124,7 @@
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
                         <a href="javascript:;">
-                            <img src="${pageContext.request.contextPath}/${User.userPicture}"
-                                 class="layui-nav-img">${User.userName}
+                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}
                         </a>
                     </li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
@@ -170,12 +157,9 @@
                         <%-- 菜单栏 --%>
                         <h3>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex"
-                                                      class="act">主页</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good"
-                                                      class="act">商品</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture"
-                                                      class="act">家具</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex" class="act">主页</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good" class="act">商品</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture" class="act">家具</a></li>
                                 <li class="active"><a href="${pageContext.request.contextPath}/page/Mail">联系我们</a></li>
                             </ul>
                         </h3>
@@ -203,9 +187,8 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-            <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home"
-                                                        aria-hidden="true"></span>首页</a></li>
-            <li class="active">订单详情页</li>
+            <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
+            <li class="active">订单中心</li>
         </ol>
         <br>
         <dl>
@@ -221,8 +204,7 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">订单中包含: <span
-                id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">订单中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
                 <thead>
@@ -233,13 +215,13 @@
                     <th>商品名称</th>
                     <th>快递服务费</th>
                     <th>单价</th>
+                    <th>状态</th>
                 </tr>
                 </thead>
-                <% int i = 0;%>
+                <% int i=0;%>
                 <c:forEach items="${goodsList}" var="goods">
                     <tr class="${goods.goodsId}">
-                        <td class="invert"><%=i %>
-                        </td>
+                        <td class="invert"><%=i %></td>
                         <% i++;%>
                         <td class="invert-image">
                             <a href="<%=path%>/page/toGoods?id=${goods.goodsId}">
@@ -257,13 +239,14 @@
                         <td class="invert">${goods.goodsName}</td>
                         <td class="invert">￥5.00</td>
                         <td class="invert">${goods.goodsPrice}</td>
+                        <td class="invert">${orderList.get(i).orderStatus}</td>
                     </tr>
                 </c:forEach>
             </table>
         </div>
         <div class="checkout-left">
             <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
-                <h4>价格中心</h4>
+                <h4>订单中心</h4>
                 <ul id="checkBox"></ul>
             </div>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
@@ -285,5 +268,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

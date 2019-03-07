@@ -94,17 +94,14 @@
             //page_nav_area
             $("#page_nav_area").empty();
             var ul = $("<ul></ul>").addClass("pagination");
-
             //构建元素
             var fistPageli = $("<li></li>").append($("<a></a>").append("首页").attr("href", "#"));
             var prePageli = $("<li></li>").append($("<a></a>").append("&laquo;"));
-
             //判断是否存在前页
             if (result.extend.pageInfo.hasPreviousPage == false) {
                 fistPageli.addClass("disabled ");
                 prePageli.addClass("disabled ");
             }
-
             //为元素添加点击翻页事件
             fistPageli.click(function () {
                 to_page(1);
@@ -112,7 +109,6 @@
             prePageli.click(function () {
                 to_page(result.extend.pageInfo.pageNum - 1);
             });
-
             //构建元素
             var nextPageli = $("<li></li>").append($("<a></a>").append("&raquo;"));
             var lastPageli = $("<li></li>").append($("<a></a>").append("尾页").attr("href", "#"));
@@ -128,8 +124,6 @@
             lastPageli.click(function () {
                 to_page(result.extend.pageInfo.pages);
             });
-
-
             //ul添加首页和前一页
             ul.append(fistPageli).append(prePageli);
             //遍历页码号
@@ -175,14 +169,10 @@
                         <a href="javascript:;">
                             <img src="<%=path%>/${User.userPicture}" class="layui-nav-img">${User.userName}
                         </a>
-                        <%--<dl class="layui-nav-child">--%>
-                        <%--<dd><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></dd>--%>
-                        <%--<dd><a href="<%=path%>/page/toCart?userId=${User.userId}">购物车</a></dd>--%>
-                        <%--<dd><a href="<%=path%>/servlet/Logout">退出登录</a></dd>--%>
-                        <%--</dl>--%>
                     </li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
                     <li class="layui-nav-item"><a href="<%=path%>/page/toCart?userId=${User.userId}">购物车</a></li>
+                    <li class="layui-nav-item"><a href="<%=path%>/order/orderCenter?userId=${User.userId}">订单中心</a></li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/Logout">退出登录</a></li>
                 </ul>
             </div>
