@@ -53,7 +53,6 @@
             }
             // 页码数据回传解析
             to_page(${PageInfo.pageNum});
-
         })
 
         function to_page(pn) {

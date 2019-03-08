@@ -146,7 +146,7 @@
 <div class="new-collections">
     <div class="container">
         <h4 class="success">${message}   三秒后跳转主页。。。</h4>
-        <% response.setHeader("refresh", "3;toIndex"); %>
+        <% response.setHeader("refresh", "3;/ChatRobot/page/toIndex"); %>
     </div>
 </div>
 
