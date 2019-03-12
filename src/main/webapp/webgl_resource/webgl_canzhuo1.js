@@ -56,14 +56,14 @@ function initObject() {
     var manager = new THREE.LoadingManager();
     var texture = new THREE.Texture();
     var loader = new THREE.ImageLoader(manager);
-    loader.load('webgl_resource/models/texture/110.jpg', function (image) {
+    loader.load('/ChatRobot/webgl_resource/models/texture/110.jpg', function (image) {
         texture.image = image;
         texture.needsUpdate = true;
     });
 
     var material = new THREE.MeshBasicMaterial({map: texture});
     var loader = new THREE.OBJLoader(manager);
-    loader.load('webgl_resource/models/obj/hometrain.obj', function (object) {
+    loader.load('/ChatRobot/webgl_resource/models/obj/hometrain.obj', function (object) {
         var mesh = new THREE.Mesh(object, material);
         object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {

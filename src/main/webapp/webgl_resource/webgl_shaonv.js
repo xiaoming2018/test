@@ -57,7 +57,7 @@ function plan_fun() {
 function initObject() {
     var manager = new THREE.LoadingManager();
     var loader = new THREE.FBXLoader(manager);
-    loader.load('webgl_resource/models/fbx/030.fbx', function (object) {
+    loader.load('/ChatRobot/webgl_resource/models/fbx/030.fbx', function (object) {
         object.traverse(function (child) {
             if (child instanceof THREE.Mesh) {
                 child.position.set(0, 0, 0);

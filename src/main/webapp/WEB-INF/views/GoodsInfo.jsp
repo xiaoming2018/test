@@ -309,7 +309,6 @@
                                     addToshopCart(result.extend.user.userId);
                                 }else{
                                     layer.msg("未登陆！请先登录");
-
                                 }
                             }
                         })
@@ -331,6 +330,25 @@
                             }
                         });
                     }
+                    $("#item_buy").click(function(){
+                        // 检测用户是否登陆
+                        var goodsId = ${Goods.goodsId};
+                        $.ajax({
+                            url:"<%=path %>/servlet/CheckUserOnline",
+                            type:"POST",
+                            success:function(result){
+                                debugger;
+                                if(result.code == 100){
+                                    //layer.msg("已经登陆！");
+                                    location.href = "<%=path%>/page/toCheckOut?userId=" + result.extend.user.userId +
+                                        "&goodsId=" + goodsId;
+                                }else{
+                                    layer.msg("未登陆！请先登录");
+                                }
+                            }
+                        })
+                    })
+
                 </script>
                 <div class="clearfix"></div>
                 <div class="bootstrap-tab animated wow slideInUp" data-wow-delay=".5s">
