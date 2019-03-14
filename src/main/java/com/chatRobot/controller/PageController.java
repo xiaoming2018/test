@@ -140,4 +140,17 @@ public class PageController {
         model.addAttribute("message",message);
         return "warn";
     }
+
+    @RequestMapping("/Admin")
+    public String PageToAdmin(){
+        // 跳转到登陆界面
+        return "adminLogin";
+    }
+
+    @RequestMapping("/AdminIndex")
+    public String PageToAdminIndex(){
+        // 跳转到后台管理主界面
+        return "adminIndex";
+    }
+
 }

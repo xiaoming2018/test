@@ -62,7 +62,7 @@
         </javaClientGenerator>
 
 
-        <table tableName="orderinfo" domainObjectName="Order"
+        <table tableName="managerinfo" domainObjectName="Manager"
                enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                selectByExampleQueryId="true"><!--在这里，设置从数据库到实体类的对应关系名。且还可以设置是否生成增删查改方法-->

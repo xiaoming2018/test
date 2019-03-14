@@ -2,9 +2,11 @@ package com.chatRobot.controller;
 
 
 import com.chatRobot.model.Goods;
+import com.chatRobot.model.Manager;
 import com.chatRobot.model.Msg;
 import com.chatRobot.model.User;
 import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.chatRobot.service.impl.ManagerServiceImpl;
 import com.chatRobot.service.impl.UserServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -24,9 +26,12 @@ import java.util.List;
 public class UserLoginController {
 
     @Autowired
-    UserServiceImpl UserService;
+    private UserServiceImpl UserService;
     @Autowired
     private GoodsServiceImpl goodsServiceImpl;
+    @Autowired
+    private ManagerServiceImpl managerService;
+
 
     //ajax的后台登陆控制
     @RequestMapping("/login")
@@ -144,5 +149,26 @@ public class UserLoginController {
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         model.addAttribute("PageInfo", pageInfo);
         return "index";
+    }
+
+    @RequestMapping("AdminIndex")
+    @ResponseBody
+    public Msg managerLogin(String account, String password, HttpSession session) {
+        /**
+        * @Author: sun xiaoming
+        * @Description: 后台管理账户验证
+        * @Date: 2019/3/14 20:49
+        */
+        List<Manager> managerList = managerService.selectByExample(account);
+        if (!managerList.isEmpty()) {
+            if (password.equals(managerList.get(0).getManagerPassword())) {
+                session.setAttribute("admin",managerList.get(0));
+                return Msg.success().add("message","登陆成功");
+            }else{
+                return Msg.fail().add("message","密码错误").add("flag","wrong");
+            }
+        } else {
+            return Msg.fail().add("message", "用户不存在").add("flag","null");
+        }
     }
 }
