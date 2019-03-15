@@ -186,7 +186,7 @@
 <div class="login">
     <h1>Manager Login</h1>
     <form method="post" action="">
-        <input type="text" name="u" placeholder="Account" required="required" id="account"/>
+        <input type="text" name="u" placeholder="Account" required="required" id="account" autocomplete="off"/>
         <input type="password" name="p" placeholder="Password" required="required" />
         <button id="login" class="btn btn-primary btn-block btn-large">Let me in</button>
     </form>
@@ -197,8 +197,6 @@
         var layer = layui.layer;
     })
     $("#login").click(function(){
-        layer.msg("11111");
-        debugger;
         var account = $("#account").val();
         var password = $(":password").val();
         if(account == ""  || password == "") return;
@@ -225,6 +223,7 @@
                 }
             }
         })
+        // 取消from 自动提交
         return false;
     })
 </script>

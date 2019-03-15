@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class PageController {
 
 
     @RequestMapping("/toIndex")
-    public String PageToIndex(@RequestParam(value = "pn", defaultValue = "1") Integer pn,Model model) {
+    public String PageToIndex(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
         /**
          * @Author: sun xiaoming
          * @Description: 跳转到主页
@@ -54,15 +55,15 @@ public class PageController {
     // 导航条 点击事件控制：
     @RequestMapping("/pageInfo")
     @ResponseBody
-    public Msg updateIndexWithPageNumber(Integer pn, Model model){
+    public Msg updateIndexWithPageNumber(Integer pn, Model model) {
         System.out.println(pn);
-        PageHelper.startPage(pn,6);
+        PageHelper.startPage(pn, 6);
         List<Goods> goodsList = goodsService.selectAllGoods();
         //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList,6);
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
         // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
         //model.addAttribute("PageInfo", pageInfo);
-        return Msg.success().add("pageInfo",pageInfo);
+        return Msg.success().add("pageInfo", pageInfo);
     }
 
     @RequestMapping("/toGoods")
@@ -118,39 +119,52 @@ public class PageController {
 
     // Good 商品页
     @RequestMapping("/Good")
-    public String PageToGood(Model model){
-        model.addAttribute("message","页面正在开发中。。");
-        return "warn";
-    }
-    // Furniture 家具页面
-    @RequestMapping("/Furniture")
-    public String PageToFurniture(Model model){
-        model.addAttribute("message","页面正在开发中。。");
-        return "warn";
-    }
-    // Mail 邮箱
-    @RequestMapping("/Mail")
-    public String PageToMail(Model model){
-        model.addAttribute("message","页面正在开发中。。");
+    public String PageToGood(Model model) {
+        model.addAttribute("message", "页面正在开发中。。");
         return "warn";
     }
 
+    // Furniture 家具页面
+    @RequestMapping("/Furniture")
+    public String PageToFurniture(Model model) {
+        model.addAttribute("message", "页面正在开发中。。");
+        return "warn";
+    }
+
+    // Mail 邮箱
+    @RequestMapping("/Mail")
+    public String PageToMail(Model model) {
+        model.addAttribute("message", "页面正在开发中。。");
+        return "warn";
+    }
+
+    // admin 未开发页面提示
+    @RequestMapping("/AdminWarn")
+    public String PageToAdminWarn(Model model){
+        model.addAttribute("message","页面正在开发中。。");
+        return "AdminWarn";
+    }
+
     @RequestMapping("/warn")
-    public String PageToWarn(String message, Model model){
-        model.addAttribute("message",message);
+    public String PageToWarn(String message, Model model) {
+        model.addAttribute("message", message);
         return "warn";
     }
 
     @RequestMapping("/Admin")
-    public String PageToAdmin(){
+    public String PageToAdmin() {
         // 跳转到登陆界面
         return "adminLogin";
     }
 
     @RequestMapping("/AdminIndex")
-    public String PageToAdminIndex(){
+    public String PageToAdminIndex(HttpSession session) {
         // 跳转到后台管理主界面
-        return "adminIndex";
+        if (session.getAttribute("admin") == null) {
+            //若管理员未登陆
+            return "adminLogin";
+        } else {
+            return "adminIndex";
+        }
     }
-
 }

@@ -116,7 +116,7 @@ public class UserLoginController {
 
 
     //配置个人资料标记跳转页面
-    @RequestMapping("editPage")
+    @RequestMapping("/editPage")
     public String userEditPage(int userId, Model model) {
         User user = UserService.selectByPrimaryKey(userId);
         model.addAttribute("User", user); //将user放入页面参数
@@ -151,7 +151,7 @@ public class UserLoginController {
         return "index";
     }
 
-    @RequestMapping("AdminIndex")
+    @RequestMapping("/AdminIndex")
     @ResponseBody
     public Msg managerLogin(String account, String password, HttpSession session) {
         /**
@@ -171,4 +171,11 @@ public class UserLoginController {
             return Msg.fail().add("message", "用户不存在").add("flag","null");
         }
     }
+
+    @RequestMapping("/AdminLogout")
+    public String AdminLogout(HttpSession session){
+        session.removeAttribute("admin");
+        return "adminLogin";
+    }
+
 }

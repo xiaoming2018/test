@@ -40,19 +40,20 @@
             <li class="layui-nav-item"><a href="">控制台</a></li>
             <li class="layui-nav-item"><a href="">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户管理</a></li>
+            <li class="layui-nav-item"><a href="">订单管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:;">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="">邮件管理</a></dd>
-                    <dd><a href="">消息管理</a></dd>
-                    <dd><a href="">授权管理</a></dd>
+                    <dd><a href="<%=path%>/page/AdminWarn">邮件管理</a></dd>
+                    <dd><a href="<%=path%>/page/AdminWarn">消息管理</a></dd>
+                    <dd><a href="<%=path%>/page/AdminWarn">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
                 <a href="javascript:;">
-                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                    <img src="<%=path%>/${admin.managerPicture}" class="layui-nav-img">
                     ${admin.managerName}
                 </a>
                 <dl class="layui-nav-child">
@@ -60,7 +61,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退了</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/servlet/AdminLogout">退了</a></li>
         </ul>
     </div>
 
@@ -94,14 +95,11 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">内容主体区域</div>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University
     </div>
 </div>
-
-<script src="layui.js"></script>
 <script type="text/javascript">
     layui.use('element', function(){
         var element = layui.element;
