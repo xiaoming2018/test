@@ -5,6 +5,8 @@ import com.chatRobot.model.GoodsCart;
 import com.chatRobot.model.Msg;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -146,4 +148,19 @@ public class GoodsController {
             return Msg.fail();
         }
     }
+
+    // 数据表格
+    @ResponseBody
+    @RequestMapping("/GoodsData")
+    public String getGoodsDataJson(Integer page, Integer limit,Model model){
+        System.out.println(page + limit);
+        String data;
+        // return json 数据格式
+        PageHelper.startPage(page,limit);
+        List<Goods> goodsLists = goodsService.selectAllGoods();
+        PageInfo pageInfo = new PageInfo(goodsLists,limit);
+        model.addAttribute("pageInfo",pageInfo);
+        return pageInfo.toString();
+    }
+
 }

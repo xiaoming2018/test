@@ -41,7 +41,6 @@ public class PageController {
          */
         //获取商品信息，回显在主页上
         //设置页码 和 页面大小
-        System.out.println(pn);
         PageHelper.startPage(pn, 6);
         List<Goods> goodsList = goodsService.selectAllGoods();
         //navigatePages : 连续显示的页数
@@ -166,5 +165,22 @@ public class PageController {
         } else {
             return "adminIndex";
         }
+    }
+
+    @RequestMapping("/AdminProduct")
+    public String adminProductwith(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model){
+        /**
+        * @Author: sun xiaoming 
+        * @Description: adminIndex 跳转到adminProduct 页面
+        * @Date: 2019/3/17 15:15
+        */
+        PageHelper.startPage(pn, 6);
+        List<Goods> goodsList = goodsService.selectAllGoods();
+        //navigatePages : 连续显示的页数
+        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
+        model.addAttribute("goodList", goodsList);
+        // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
+        model.addAttribute("PageInfo", pageInfo);
+        return "adminProduct";
     }
 }

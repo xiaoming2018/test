@@ -70,22 +70,17 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item">
-                    <a class="" href="javascript:;">订单统计</a>
-                    <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">每日订单</a></dd>
-                        <dd><a href="javascript:;">每月订单</a></dd>
-                        <dd><a href="javascript:;">销量统计</a></dd>
-                    </dl>
-                </li>
-                <li class="layui-nav-item"><a href="">热销产品</a></li>
-                <li class="layui-nav-item"><a href="">满意度统计</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">基础信息管理</a></li>
+                <li class="layui-nav-item"><a href="javascript:;">商品类型管理</a></li>
+                <li class="layui-nav-item"><a href="">商品库存管理</a></li>
             </ul>
         </div>
     </div>
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">控制台可视化数据解析</div>
+        <div style="padding: 15px;" id="body">
+            <table id="demo" lay-filter="test"></table>
+        </div>
     </div>
     <div class="layui-footer">
         <!-- 底部固定区域 -->
@@ -96,6 +91,28 @@
     layui.use('element', function(){
         var element = layui.element;
     });
+    layui.use('table',function(){
+        var table = layui.table;
+        //table 渲染
+        table.render({
+            elem:'#demo',
+            height:312,
+            url:'<%=path%>/Goods/GoodsData?page=1&limit=30',
+            page:true,
+            cols:[[
+                {type: 'checkbox', fixed: 'left'},
+                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
+                {field: 'username', title: '用户名', width:80},
+                {field: 'sex', title: '性别', width:80, sort: true},
+                {field: 'city', title: '城市', width:80},
+                {field: 'sign', title: '签名', width: 177},
+                {field: 'experience', title: '积分', width: 80, sort: true},
+                {field: 'score', title: '评分', width: 80, sort: true},
+                {field: 'classify', title: '职业', width: 80},
+                {field: 'wealth', title: '财富', width: 135, sort: true}
+            ]]
+        });
+    })
 </script>
 </body>
 </html>
