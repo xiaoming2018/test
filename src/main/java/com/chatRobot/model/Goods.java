@@ -1,5 +1,7 @@
 package com.chatRobot.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -32,8 +34,10 @@ public class Goods {
 
     private Integer goodsSellAmount;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date goodsCreateTime;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date goodsUpdateTime;
 
     public Goods(Integer goodsId, String goodsName, BigDecimal goodsPrice, Integer goodsTypeId, Integer goodsModelId, String goodsDesc, Float goodsDiscount, String goodsPicture, Boolean goodsIsnew, Boolean goodsIsrecommend, String goodsStatus, String goodsRemark, Integer goodsAmount, Integer goodsSellAmount, Date goodsCreateTime, Date goodsUpdateTime) {

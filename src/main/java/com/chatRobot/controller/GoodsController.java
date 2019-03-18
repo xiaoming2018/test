@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -152,15 +153,14 @@ public class GoodsController {
     // 数据表格
     @ResponseBody
     @RequestMapping("/GoodsData")
-    public String getGoodsDataJson(Integer page, Integer limit,Model model){
+    public Msg getGoodsDataJson(@RequestParam(value = "page", defaultValue = "1")Integer page, @RequestParam(value = "limit", defaultValue = "30")Integer limit){
         System.out.println(page + limit);
-        String data;
-        // return json 数据格式
         PageHelper.startPage(page,limit);
         List<Goods> goodsLists = goodsService.selectAllGoods();
         PageInfo pageInfo = new PageInfo(goodsLists,limit);
-        model.addAttribute("pageInfo",pageInfo);
-        return pageInfo.toString();
+        return Msg.success().add("PageInfo",pageInfo);
     }
+
+
 
 }

@@ -23,14 +23,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-    <link href="<%=path%>/resource/css/bootstrap.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="<%=path%>/resource/css/style.css" rel="stylesheet" type="text/css" media="all"/>
     <link href="<%=path%>/resource/layui/css/layui.css" rel="stylesheet" type="text/css">
 
-    <script src="<%=path%>/resource/js/jquery.min.js"></script>
-    <script src="<%=path%>/resource/js/bootstrap-3.1.1.min.js"></script>
     <script src="<%=path%>/resource/layui/layui.js"></script>
-
+    <script src="<%=path%>/resource/js/jquery3.3.1.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -79,7 +76,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 15px;" id="body">
-            <table id="demo" lay-filter="test"></table>
+            <table class="layui-hide" id="demo" lay-filter="test"></table>
         </div>
     </div>
     <div class="layui-footer">
@@ -88,31 +85,100 @@
     </div>
 </div>
 <script type="text/javascript">
-    layui.use('element', function(){
+    layui.use(['element','laytpl'], function(){
         var element = layui.element;
+        var laytpl = layui.laytpl;
     });
     layui.use('table',function(){
         var table = layui.table;
         //table 渲染
         table.render({
             elem:'#demo',
-            height:312,
-            url:'<%=path%>/Goods/GoodsData?page=1&limit=30',
+            height:'full-160',
+            cellMinWidth:'80',
+            url:'<%=path%>/Goods/GoodsData',
             page:true,
+            toolbar:'default',
+            limit:30,
+            response: {
+                statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
+            },
+            parseData:function(res){
+                return{
+                    "code": res.code, //解析接口状态
+                    "msg": res.msg, //解析提示文本
+                    "count": res.extend.PageInfo.total, //解析数据长度
+                    "data": res.extend.PageInfo.list //解析数据列表
+                }
+            },
             cols:[[
-                {type: 'checkbox', fixed: 'left'},
-                {field: 'id', title: 'ID', width:80, sort: true, fixed: 'left'},
-                {field: 'username', title: '用户名', width:80},
-                {field: 'sex', title: '性别', width:80, sort: true},
-                {field: 'city', title: '城市', width:80},
-                {field: 'sign', title: '签名', width: 177},
-                {field: 'experience', title: '积分', width: 80, sort: true},
-                {field: 'score', title: '评分', width: 80, sort: true},
-                {field: 'classify', title: '职业', width: 80},
-                {field: 'wealth', title: '财富', width: 135, sort: true}
+                {type:  'checkbox', fixed: 'left',style:'height:28px;'},
+                {field: 'goodsId', title: 'ID', width:100, sort: true, fixed: 'left'},
+                {field: 'goodsName', title: '商品名称', width:200},
+                {field: 'goodsPrice', title: '价格', width:150, sort: true},
+                {field: 'goodsDiscount', title: '折扣', width:150, sort: true},
+                {field: 'goodsIsnew', title: '是否新品', width: 150, templet: '#IsNew'},
+                {field: 'goodsStatus', title: '状态', width: 150, templet: '#status'},
+                {field: 'goodsAmount', title: '库存', width: 150, sort: true},
+                {field: 'goodsSellAmount', title: '已售', width: 150,sort:true},
+                {field: 'goodsCreateTime', title: '创建时间', width: 180, sort: true},
+                {field: 'goodsUpdateTime', title: '更新时间', width: 180, sort: true},
+                {fixed: 'right',title:'操作',toolbar:'#barDemo',width:196}
             ]]
         });
+
+        // toolbar 添加 删除 编辑处理函数
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'add':
+                    layer.msg('添加');
+                    break;
+                case 'delete':
+                    layer.msg('删除');
+                    break;
+                case 'update':
+                    layer.msg('编辑');
+                    break;
+            };
+        });
+
+        // 表格操作 详情 删除 编辑处理函数
+        table.on('tool(test)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'detail'){
+                layer.msg('ID：'+ data.id + ' 的查看操作');
+            } else if(obj.event === 'del'){
+                layer.confirm('真的删除行么', function(index){
+                    obj.del();
+                    layer.close(index);
+                });
+            } else if(obj.event === 'edit'){
+                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            }
+        });
+
     })
+
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script type="text/html" id="status">
+    {{#  if(d.goodsStatus == 0){ }}
+         上市
+    {{#  } else { }}
+         下架
+    {{#  } }}
+</script>
+<script type="text/html" id="IsNew">
+    {{#  if(d.goodsIsnew == true){}}
+    是
+    {{#  } else { }}
+    否
+    {{#  } }}
 </script>
 </body>
 </html>
