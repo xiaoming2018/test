@@ -100,7 +100,7 @@
 						ev.preventDefault();
 						self.close();
 					}
-				}
+				};
 
 			this.el.addEventListener( 'click', initSearchFn );
 			this.el.addEventListener( 'touchstart', initSearchFn );
@@ -127,7 +127,7 @@
 			this.inputEl.blur();
 			classie.remove( this.el, 'sb-search-open' );
 		}
-	}
+	};
 
 	// add to global namespace
 	window.UISearch = UISearch;

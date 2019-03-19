@@ -45,7 +45,7 @@
                 },
                 dataType: "json",
                 async: true
-            })
+            });
             return false; // 取消默认请求发送
         });
     })

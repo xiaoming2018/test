@@ -34,7 +34,7 @@
         layui.use(['element','layer'],function(){
             var element = layui.element;
             var layer = layui.layer;
-        })
+        });
         $(function () {
             var flag = "${loginFlag}";
             debugger;
@@ -67,7 +67,7 @@
             <div id="second" class="header-grid-left animated wow slideInLeft">
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
-                        <a href="javascript:;">
+                        <a href="javascript:">
                             <img src="<%=path %>/${User.userPicture}" class="layui-nav-img">${User.userName}
                         </a>
                     </li>
@@ -245,7 +245,7 @@
                                 }
                             }
                         });
-                    })
+                    });
                     $("#continue").click(function(){
                         location.href="<%=path%>/page/toIndex";
                     })

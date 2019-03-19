@@ -71,7 +71,7 @@ self.onmessage = function( e ) {
 
 	}
 
-}
+};
 
 /**
  * DOM-less version of Raytracing Renderer
@@ -493,7 +493,7 @@ THREE.RaytracingRendererWorker = function () {
 
 	this.render = function ( scene, camera ) {
 
-		reallyThen = Date.now()
+		reallyThen = Date.now();
 
 		// update scene graph
 

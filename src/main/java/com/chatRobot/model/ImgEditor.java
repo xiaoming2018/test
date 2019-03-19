@@ -18,15 +18,16 @@ public class ImgEditor {
 
     /**
      * 改变图片尺寸
+     *
      * @param srcFileName 源图片路径
      * @param tagFileName 目的图片路径
-     * @param width 修改后的宽度
-     * @param height 修改后的高度
+     * @param width       修改后的宽度
+     * @param height      修改后的高度
      */
-    public void zoomImage(String srcFileName,String tagFileName,int width,int height){
+    public void zoomImage(String srcFileName, String tagFileName, int width, int height) {
         try {
             BufferedImage bi = ImageIO.read(new File(srcFileName));
-            BufferedImage tag=new BufferedImage(width,height, BufferedImage.TYPE_INT_RGB);
+            BufferedImage tag = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
             tag.getGraphics().drawImage(bi, 0, 0, width, height, null);
             ImageIO.write(tag, "jpg", new File(tagFileName));//画图
         } catch (IOException e) {
@@ -36,18 +37,19 @@ public class ImgEditor {
 
     /**
      * 缩放图像（按高度和宽度缩放）
+     *
      * @param srcImageFile 源图像文件地址
-     * @param result 缩放后的图像地址
-     * @param height 缩放后的高度
-     * @param width 缩放后的宽度
-     * @param bb 比例不对时是否需要补白：true为补白; false为不补白;
+     * @param result       缩放后的图像地址
+     * @param height       缩放后的高度
+     * @param width        缩放后的宽度
+     * @param bb           比例不对时是否需要补白：true为补白; false为不补白;
      */
     public void scale(String srcImageFile, String result, int height, int width, boolean bb) {
         try {
             double ratio = 0.0; // 缩放比例
             File f = new File(srcImageFile);
             BufferedImage bi = ImageIO.read(f);
-            Image itemp = bi.getScaledInstance(width, height, bi.SCALE_SMOOTH);
+            Image itemp = bi.getScaledInstance(width, height, Image.SCALE_SMOOTH);
             // 计算比例
             if ((bi.getHeight() > height) || (bi.getWidth() > width)) {
                 if (bi.getHeight() > bi.getWidth()) {
@@ -86,12 +88,13 @@ public class ImgEditor {
 
     /**
      * 图像切割(按指定起点坐标和宽高切割)
+     *
      * @param srcImageFile 源图像地址
-     * @param result 切片后的图像地址
-     * @param x 目标切片起点坐标X
-     * @param y 目标切片起点坐标Y
-     * @param width 目标切片宽度
-     * @param height 目标切片高度
+     * @param result       切片后的图像地址
+     * @param x            目标切片起点坐标X
+     * @param y            目标切片起点坐标Y
+     * @param width        目标切片宽度
+     * @param height       目标切片高度
      */
     public void cut(String srcImageFile, String result,
                     int x, int y, int width, int height) {
@@ -120,20 +123,22 @@ public class ImgEditor {
             e.printStackTrace();
         }
     }
+
     //获得文件名字
-    public String getFileName(MultipartFile file, HttpServletRequest request,HttpSession session){
+    public String getFileName(MultipartFile file, HttpServletRequest request, HttpSession session) {
         //String FILE_PATH = session.getServletContext().getRealPath("/") + "upload";
         String fileName = file.getOriginalFilename();
         String[] suffixNameArr = fileName.split("\\.");
-        String suffixName = suffixNameArr[suffixNameArr.length-1];
+        String suffixName = suffixNameArr[suffixNameArr.length - 1];
         //String userName = SecurityContextHolder.getContext().getAuthentication().getName();
         String userName = "xiaoming";
-        return getTime() + userName+"."+suffixName;
+        return getTime() + userName + "." + suffixName;
     }
+
     //文件上传,返回文件路径
     public String uploadFile(MultipartFile file, HttpServletRequest request, HttpSession session) throws IOException {
-        String FILE_PATH = session.getServletContext().getRealPath("/") + "upload";
-        String fileName = getFileName(file,request,session);
+        String FILE_PATH = session.getServletContext().getRealPath("/") + "resource\\upload";
+        String fileName = getFileName(file, request, session);
         File tempFile = new File(FILE_PATH, fileName);
 
         if (!tempFile.getParentFile().exists()) {
@@ -144,17 +149,32 @@ public class ImgEditor {
         }
         file.transferTo(tempFile);  //将上传文件写到服务器上指定的文件。
 
-        return FILE_PATH + "\\" + tempFile.getName();
+        return "resource\\upload\\" + tempFile.getName();
     }
 
-   /* public static File getFile(String fileName) {
-        return new File(FILE_PATH, fileName);
-    } */
+    // 商品模型文件上传
+    public String uploadFileWithFlag(MultipartFile file, HttpServletRequest request, HttpSession session) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String[] suffixNameArr = fileName.split("\\.");
+        String suffixName = suffixNameArr[suffixNameArr.length - 1];
+        fileName = getTime() + "xiaoming." + suffixName;
+        String FILE_PATH = session.getServletContext().getRealPath("/") + "resource\\modelfile\\" + suffixName;
+        File tempFile = new File(FILE_PATH, fileName);
 
-    public String getTime(){
+        if (!tempFile.getParentFile().exists()) {
+            tempFile.getParentFile().mkdir();
+        }
+        if (!tempFile.exists()) {
+            tempFile.createNewFile();
+        }
+        file.transferTo(tempFile);  //将上传文件写到服务器上指定的文件。
+        return "resource\\modelfile\\" + suffixName + "\\" + tempFile.getName();
+    }
+
+    public String getTime() {
         Date date = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmss");//设置日期格式
-        String nowTime = df.format(date).toString();
+        String nowTime = df.format(date);
         return nowTime;
     }
 }

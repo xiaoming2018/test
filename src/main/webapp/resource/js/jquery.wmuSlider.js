@@ -154,7 +154,7 @@
                         loadSlide(0, true);
                     }
                     slideshowTimeout = setTimeout(slideshow, options.slideshowSpeed);
-                }
+                };
                 slideshowTimeout = setTimeout(slideshow, options.slideshowSpeed);
             }
             
@@ -262,7 +262,7 @@
                 $this.trigger('hasLoaded');
                 
                 loadSlide(currentIndex);
-            }
+            };
             init();
             
                                                 

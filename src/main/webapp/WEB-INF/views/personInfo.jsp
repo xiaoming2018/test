@@ -29,7 +29,7 @@
     <script type="text/javascript">
         layui.use('element', function () {
             var element = layui.element;
-        })
+        });
         layui.use('upload', function () {
             var $ = layui.jquery,
                 upload = layui.upload;

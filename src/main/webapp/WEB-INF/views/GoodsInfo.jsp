@@ -49,7 +49,7 @@
         layui.use(['element','layer'],function(){
             var element = layui.element;
             var layer = layui.layer;
-        })
+        });
         $(function () {
             var flag = "${loginFlag}";
             if (flag.toString() == "success") {
@@ -88,7 +88,7 @@
                 <div id="second" class="header-grid-left animated wow slideInLeft">
                     <ul class="layui-nav">
                         <li class="layui-nav-item" lay-unselect="">
-                            <a href="javascript:;">
+                            <a href="javascript:">
                                 <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}
                             </a>
                         </li>
@@ -296,7 +296,7 @@
                             keyboard: false
                         });
                         start();  //调用渲染函数
-                    })
+                    });
                     $("#item_add").click(function(){
                         // 后台检测是否登陆
                         $.ajax({
@@ -312,7 +312,7 @@
                                 }
                             }
                         })
-                    })
+                    });
                     function addToshopCart(userId) {
                         var goodsId,goodsamount=1;
                         goodsId = ${Goods.goodsId};

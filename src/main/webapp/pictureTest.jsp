@@ -107,7 +107,7 @@
                         $("#x").val(c.x);
                         $("#y").val(c.y);
                     }
-                };
+                }
             }
         });
 
@@ -155,7 +155,7 @@
         <dl class="bisinessInfo">
             <dt class="btnBox02">
                 <form id="fileUp" action="/file/img/upload" method="post" enctype="multipart/form-data" target="ifm">
-                    <a class="btnGray" href="javascript:;">
+                    <a class="btnGray" href="javascript:">
                         <span class="text" id="format">选择图片</span>
                         <b class="bgR"></b>
                         <input type="file" id="file_upload" class="inputFile" name="userphoto"/>
@@ -177,9 +177,9 @@
     <input type="hidden" id="filePathInput" value=""/>
 
     <dd class="dialogBottom">
-        <a class="btnBlue btn_confirm" href="javascript:;" onclick="photoSummit();"><span class="text">确定</span><b
+        <a class="btnBlue btn_confirm" href="javascript:" onclick="photoSummit();"><span class="text">确定</span><b
                 class="bgR"></b></a>
-        <a class="btnGray btn_cancel" href="javascript:;" onclick="hideDialog();"><span class="text">取消</span><b
+        <a class="btnGray btn_cancel" href="javascript:" onclick="hideDialog();"><span class="text">取消</span><b
                 class="bgR"></b></a>
     </dd>
 </dl>

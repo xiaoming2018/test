@@ -196,7 +196,7 @@ THREE.MD2Character = function () {
 
 		}
 
-	}
+	};
 
 	this.update = function ( delta ) {
 

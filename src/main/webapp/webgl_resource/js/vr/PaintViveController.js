@@ -148,7 +148,7 @@ THREE.PaintViveController = function ( id ) {
 			mode = MODES.COLOR;
 			colorUI.visible = true;
 			sizeUI.visible = false;
-			return;
+			
 		}
 
 	}

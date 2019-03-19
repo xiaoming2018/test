@@ -24,7 +24,7 @@ THREE.MorphBlendMesh = function ( geometry, material ) {
 	this.createAnimation( name, startFrame, endFrame, fps );
 	this.setAnimationWeight( name, 1 );
 
-}
+};
 
 THREE.MorphBlendMesh.prototype = Object.assign( Object.create( THREE.Mesh.prototype ), {
 

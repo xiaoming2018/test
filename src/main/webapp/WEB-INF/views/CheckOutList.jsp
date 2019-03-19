@@ -42,7 +42,7 @@
         layui.use(['element', 'layer'], function () {
             var element = layui.element;
             var layer = layui.layer;
-        })
+        });
         $(function () {
             //页面加载完毕
             //标题栏的设置
@@ -57,7 +57,7 @@
             // 页面加载完毕，实现结算中心的数据解析
             debugger;
             check();
-        })
+        });
 
         function check() {
             // 对结算中心进行更新 重新请求
@@ -100,7 +100,7 @@
                     .append("件")
                     .append($("<span></span>").append("￥" + item.goodsAmount * item.goodsPrice));
                 $("#checkBox").append(li);
-            })
+            });
             var FreeLi = $("<li></li>").append("总服务费:").append($("<i></i>"))
                 .append($("<span></span>").append("￥" + 5 * goodslist.length));
             var TotalLi = $("<li></li>").append("共消费：").append($("<i></i>"))
@@ -135,7 +135,7 @@
             <div id="second" class="header-grid-left animated wow slideInLeft">
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
-                        <a href="javascript:;">
+                        <a href="javascript:">
                             <img src="${pageContext.request.contextPath}/${User.userPicture}"
                                  class="layui-nav-img">${User.userName}
                         </a>

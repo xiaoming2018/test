@@ -42,19 +42,19 @@
         "yArray"  : [0,0,0,0,0],
         "xMotion" : 0,
         "yMotion" : 0
-      }
+      };
 
   // Public Methods
   $.fn.plaxify = function (params){
 
     return this.each(function () {
-      var layerExistsAt = -1
+      var layerExistsAt = -1;
       var layer         = {
         "xRange": $(this).data('xrange') || 0,
         "yRange": $(this).data('yrange') || 0,
         "invert": $(this).data('invert') || false,
         "background": $(this).data('background') || false
-      }
+      };
 
       for (var i=0;i<layers.length;i++){
         if (this === layers[i].obj.get(0)){
@@ -68,40 +68,40 @@
         }
       }
 
-      layer.inversionFactor = (layer.invert ? -1 : 1) // inversion factor for calculations
+      layer.inversionFactor = (layer.invert ? -1 : 1); // inversion factor for calculations
 
       // Add an object to the list of things to parallax
-      layer.obj    = $(this)
+      layer.obj    = $(this);
       if(layer.background) {
         // animate using the element's background
-        pos = (layer.obj.css('background-position') || "0px 0px").split(/ /)
+        pos = (layer.obj.css('background-position') || "0px 0px").split(/ /);
         if(pos.length != 2) {
           return
         }
-        x = pos[0].match(/^((-?\d+)\s*px|0+\s*%|left)$/)
-        y = pos[1].match(/^((-?\d+)\s*px|0+\s*%|top)$/)
+        x = pos[0].match(/^((-?\d+)\s*px|0+\s*%|left)$/);
+        y = pos[1].match(/^((-?\d+)\s*px|0+\s*%|top)$/);
         if(!x || !y) {
           // no can-doesville, babydoll, we need pixels or top/left as initial values (it mightbe possible to construct a temporary image from the background-image property and get the dimensions and run some numbers, but that'll almost definitely be slow)
           return
         }
-        layer.startX = x[2] || 0
+        layer.startX = x[2] || 0;
         layer.startY = y[2] || 0
       } else {
 
         // Figure out where the element is positioned, then reposition it from the top/left
-        var position = layer.obj.position()
+        var position = layer.obj.position();
         layer.obj.css({
           'top'   : position.top,
           'left'  : position.left,
           'right' :'',
           'bottom':''
-        })
-        layer.startX = this.offsetLeft
+        });
+        layer.startX = this.offsetLeft;
         layer.startY = this.offsetTop
       }
 
-      layer.startX -= layer.inversionFactor * Math.floor(layer.xRange/2)
-      layer.startY -= layer.inversionFactor * Math.floor(layer.yRange/2)
+      layer.startX -= layer.inversionFactor * Math.floor(layer.xRange/2);
+      layer.startY -= layer.inversionFactor * Math.floor(layer.yRange/2);
       if(layerExistsAt >= 0){
         layers.splice(layerExistsAt,1,layer)
       } else {
@@ -109,7 +109,7 @@
       }
       
     })
-  }
+  };
 
 
   // Get minimum value of an array
@@ -153,12 +153,12 @@
   // returns nothing
 
   function detectMotion(e){
-    if (new Date().getTime() < lastRender + delay) return
+    if (new Date().getTime() < lastRender + delay) return;
 
     if(moveable()){
       var accel= e.accelerationIncludingGravity,
           x = accel.x,
-          y = accel.y
+          y = accel.y;
 
       x = (x * motionLowPassFilter) + (motionLastX * (1.0 - motionLowPassFilter));
       y = (y * motionLowPassFilter) + (motionLastY * (1.0 - motionLowPassFilter));
@@ -172,11 +172,11 @@
       if(motionData.yArray.length >= 5){
         motionData.yArray.shift()
       }
-      motionData.xArray.push(x)
-      motionData.yArray.push(y)
+      motionData.xArray.push(x);
+      motionData.yArray.push(y);
 
-      motionData.xMotion = Math.round((getMax(motionData.xArray) - getMin(motionData.xArray))*1000)/1000
-      motionData.yMotion = Math.round((getMax(motionData.yArray) - getMin(motionData.yArray))*1000)/1000
+      motionData.xMotion = Math.round((getMax(motionData.xArray) - getMin(motionData.xArray))*1000)/1000;
+      motionData.yMotion = Math.round((getMax(motionData.yArray) - getMin(motionData.yArray))*1000)/1000;
 
       if((motionData.xMotion > 1.5 || motionData.yMotion > 1.5)) {
         if(motionMax!=10){
@@ -192,14 +192,14 @@
       }
 
       if(movementCycles >= 5){
-        motionEnabled = true
-        $(document).unbind('mousemove.plax')
+        motionEnabled = true;
+        $(document).unbind('mousemove.plax');
         //window.ondevicemotion = function(e){plaxifier(e)}
 
         $(window).bind('devicemotion', plaxifier(e))
       } else {
-        motionEnabled = false
-        $(window).unbind('devicemotion')
+        motionEnabled = false;
+        $(window).unbind('devicemotion');
         $(document).bind('mousemove.plax', function (e) {
           plaxifier(e)
         })
@@ -218,16 +218,16 @@
   // returns nothing
 
   function plaxifier(e) {
-    if (new Date().getTime() < lastRender + delay) return
-      lastRender = new Date().getTime()
+    if (new Date().getTime() < lastRender + delay) return;
+      lastRender = new Date().getTime();
     var leftOffset = (plaxActivityTarget.offset() != null) ? plaxActivityTarget.offset().left : 0,
         topOffset  = (plaxActivityTarget.offset()  != null) ? plaxActivityTarget.offset().top : 0,
         x          = e.pageX-leftOffset,
-        y          = e.pageY-topOffset
+        y          = e.pageY-topOffset;
     if (
       x < 0 || x > plaxActivityTarget.width() ||
       y < 0 || y > plaxActivityTarget.height()
-    ) return
+    ) return;
 
 
     if(motionEnabled == true){
@@ -235,14 +235,14 @@
       var i = window.orientation ? (window.orientation + 180) % 360 / 90 : 2,
           accel= e.accelerationIncludingGravity,
           tmp_x = i%2==0 ? -accel.x : accel.y,
-          tmp_y = i%2==0 ? accel.y : accel.x
+          tmp_y = i%2==0 ? accel.y : accel.x;
       // facing up(>=2) or down
-      x = i>=2 ? tmp_x : -tmp_x
-      y = i>=2 ? tmp_y : -tmp_y
+      x = i>=2 ? tmp_x : -tmp_x;
+      y = i>=2 ? tmp_y : -tmp_y;
 
       // change value from a range of -x to x => 0 to 1
-      x = (x+motionMax)/2
-      y = (y+motionMax)/2
+      x = (x+motionMax)/2;
+      y = (y+motionMax)/2;
       
       // keep values within range
       if(x < 0 ){
@@ -260,12 +260,12 @@
 
     var hRatio = x/((motionEnabled == true) ? motionMax : plaxActivityTarget.width()),
         vRatio = y/((motionEnabled == true) ? motionMax : plaxActivityTarget.height()),
-        layer, i
+        layer, i;
 
     for (i = layers.length; i--;) {
-      layer = layers[i]
-      newX = layer.startX + layer.inversionFactor*(layer.xRange*hRatio)
-      newY = layer.startY + layer.inversionFactor*(layer.yRange*vRatio)
+      layer = layers[i];
+      newX = layer.startX + layer.inversionFactor*(layer.xRange*hRatio);
+      newY = layer.startY + layer.inversionFactor*(layer.yRange*vRatio);
       if(layer.background) {
         layer.obj.css('background-position', newX+'px '+newY+'px')
       } else {
@@ -297,7 +297,7 @@
           plaxActivityTarget = opts.activityTarget || $(window)
         }
         plaxifier(e)
-      })
+      });
 
       if(moveable()){
         window.ondevicemotion = function(e){detectMotion(e)}
@@ -314,10 +314,10 @@
     //
     // returns nothing
     disable: function(){
-      $(document).unbind('mousemove.plax')
+      $(document).unbind('mousemove.plax');
       window.ondevicemotion = undefined
     }
-  }
+  };
 
   if (typeof ender !== 'undefined') {
     $.ender($.fn, true)
@@ -325,4 +325,4 @@
 
 })(function () {
   return typeof jQuery !== 'undefined' ? jQuery : ender
-}())
+}());

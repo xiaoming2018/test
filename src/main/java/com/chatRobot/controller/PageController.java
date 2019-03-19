@@ -183,4 +183,13 @@ public class PageController {
         model.addAttribute("PageInfo", pageInfo);
         return "adminProduct";
     }
+
+    @RequestMapping("/getProductAdd")
+    public String getProductAddJsp(){
+        /**
+        * @Author: sun xiaoming 
+        * @Description: return product add jsp页面
+        */
+        return "AddProduct";
+    }
 }

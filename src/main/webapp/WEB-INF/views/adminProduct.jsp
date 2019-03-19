@@ -40,7 +40,7 @@
             <li class="layui-nav-item"><a href="">用户管理</a></li>
             <li class="layui-nav-item"><a href="">订单管理</a></li>
             <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
+                <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
                     <dd><a href="<%=path%>/page/AdminWarn">邮件管理</a></dd>
                     <dd><a href="<%=path%>/page/AdminWarn">消息管理</a></dd>
@@ -50,7 +50,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+                <a href="javascript:">
                     <img src="<%=path%>/${admin.managerPicture}" class="layui-nav-img">
                     ${admin.managerName}
                 </a>
@@ -66,9 +66,9 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
-                <li class="layui-nav-item"><a href="javascript:;">基础信息管理</a></li>
-                <li class="layui-nav-item"><a href="javascript:;">商品类型管理</a></li>
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item"><a href="javascript:">基础信息管理</a></li>
+                <li class="layui-nav-item"><a href="javascript:">商品类型管理</a></li>
                 <li class="layui-nav-item"><a href="">商品库存管理</a></li>
             </ul>
         </div>
@@ -85,54 +85,61 @@
     </div>
 </div>
 <script type="text/javascript">
-    layui.use(['element','laytpl'], function(){
+    layui.use(['element', 'laytpl', 'form'], function () {
         var element = layui.element;
         var laytpl = layui.laytpl;
+        var form = layui.form;
     });
-    layui.use('table',function(){
+    layui.use('table', function () {
         var table = layui.table;
         //table 渲染
         table.render({
-            elem:'#demo',
-            height:'full-160',
-            cellMinWidth:'80',
-            url:'<%=path%>/Goods/GoodsData',
-            page:true,
-            toolbar:'default',
-            limit:30,
+            elem: '#demo',
+            height: 'full-160',
+            cellMinWidth: '80',
+            url: '<%=path%>/Goods/GoodsData',
+            page: true,
+            toolbar: 'default',
+            limit: 30,
             response: {
                 statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
             },
-            parseData:function(res){
-                return{
+            parseData: function (res) {
+                return {
                     "code": res.code, //解析接口状态
                     "msg": res.msg, //解析提示文本
                     "count": res.extend.PageInfo.total, //解析数据长度
                     "data": res.extend.PageInfo.list //解析数据列表
                 }
             },
-            cols:[[
-                {type:  'checkbox', fixed: 'left',style:'height:28px;'},
-                {field: 'goodsId', title: 'ID', width:100, sort: true, fixed: 'left'},
-                {field: 'goodsName', title: '商品名称', width:200},
-                {field: 'goodsPrice', title: '价格', width:150, sort: true},
-                {field: 'goodsDiscount', title: '折扣', width:150, sort: true},
+            cols: [[
+                {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
+                {field: 'goodsId', title: 'ID', width: 100, sort: true, fixed: 'left'},
+                {field: 'goodsName', title: '商品名称', width: 200},
+                {field: 'goodsPrice', title: '价格', width: 150, sort: true},
+                {field: 'goodsDiscount', title: '折扣', width: 150, sort: true},
                 {field: 'goodsIsnew', title: '是否新品', width: 150, templet: '#IsNew'},
                 {field: 'goodsStatus', title: '状态', width: 150, templet: '#status'},
                 {field: 'goodsAmount', title: '库存', width: 150, sort: true},
-                {field: 'goodsSellAmount', title: '已售', width: 150,sort:true},
+                {field: 'goodsSellAmount', title: '已售', width: 150, sort: true},
                 {field: 'goodsCreateTime', title: '创建时间', width: 180, sort: true},
                 {field: 'goodsUpdateTime', title: '更新时间', width: 180, sort: true},
-                {fixed: 'right',title:'操作',toolbar:'#barDemo',width:196}
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 196}
             ]]
         });
 
         // toolbar 添加 删除 编辑处理函数
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(test)', function (obj) {
             var checkStatus = table.checkStatus(obj.config.id);
-            switch(obj.event){
+            switch (obj.event) {
                 case 'add':
-                    layer.msg('添加');
+                    layer.open({
+                        type: 2,
+                        area: ['700px', '900px'],
+                        title: '商品添加',
+                        content: '<%=path%>/page/getProductAdd',
+                        maxmin: 'true'
+                    });
                     break;
                 case 'delete':
                     layer.msg('删除');
@@ -140,21 +147,21 @@
                 case 'update':
                     layer.msg('编辑');
                     break;
-            };
+            }
         });
 
         // 表格操作 详情 删除 编辑处理函数
-        table.on('tool(test)', function(obj){
+        table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if(obj.event === 'detail'){
-                layer.msg('ID：'+ data.id + ' 的查看操作');
-            } else if(obj.event === 'del'){
-                layer.confirm('真的删除行么', function(index){
+            if (obj.event === 'detail') {
+                layer.msg('ID：' + data.id + ' 的查看操作');
+            } else if (obj.event === 'del') {
+                layer.confirm('真的删除行么', function (index) {
                     obj.del();
                     layer.close(index);
                 });
-            } else if(obj.event === 'edit'){
-                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            } else if (obj.event === 'edit') {
+                layer.alert('编辑行：<br>' + JSON.stringify(data))
             }
         });
 
@@ -168,9 +175,9 @@
 </script>
 <script type="text/html" id="status">
     {{#  if(d.goodsStatus == 0){ }}
-         上市
+    上市
     {{#  } else { }}
-         下架
+    下架
     {{#  } }}
 </script>
 <script type="text/html" id="IsNew">

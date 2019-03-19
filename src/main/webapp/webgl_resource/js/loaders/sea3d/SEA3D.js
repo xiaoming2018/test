@@ -3134,7 +3134,7 @@ SEA3D.File.prototype.readComplete = function () {
 
 SEA3D.File.prototype.readState = function () {
 
-	while ( this.state() ) continue;
+	while ( this.state() ) 
 
 	if ( this.state ) {
 

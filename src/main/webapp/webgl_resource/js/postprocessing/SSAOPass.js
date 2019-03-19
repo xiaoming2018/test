@@ -83,7 +83,7 @@ THREE.SSAOPass = function ( scene, camera, width, height ) {
 		},
 
 	});
-}
+};
 
 THREE.SSAOPass.prototype = Object.create( THREE.ShaderPass.prototype );
 

@@ -1,6 +1,7 @@
 package com.chatRobot.controller;
 
 import com.chatRobot.model.ImgEditor;
+import com.chatRobot.model.Msg;
 import com.chatRobot.model.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,28 +26,60 @@ public class PictureController {
     private Logger logger = LoggerFactory.getLogger(PictureController.class);
 
     //缩放
-    @RequestMapping(value="/img/cutandscale",method= RequestMethod.POST)
+    @RequestMapping(value = "/img/cutandscale", method = RequestMethod.POST)
     @ResponseBody
-    public int cutAndscaleimg(@RequestParam("w") int w,@RequestParam("h") int h,@RequestParam("x") int x,@RequestParam("y") int y){
-        imgEditor.cut(filePathFinal,filePathFinal,x,y,w,h);
-        imgEditor.scale(filePathFinal,filePathFinal,110,110,false);
+    public int cutAndscaleimg(@RequestParam("w") int w, @RequestParam("h") int h, @RequestParam("x") int x, @RequestParam("y") int y) {
+        imgEditor.cut(filePathFinal, filePathFinal, x, y, w, h);
+        imgEditor.scale(filePathFinal, filePathFinal, 110, 110, false);
         return 1;
     }
 
-    @RequestMapping(value = "/img/upload",method = RequestMethod.POST)
+    @RequestMapping(value = "/img/upload", method = RequestMethod.POST)
     @ResponseBody
-    public Parameters addImage(@RequestParam("userphoto") MultipartFile file, HttpServletRequest request, HttpSession session){
-        String filePath= "";
-        try{
-            filePath = imgEditor.uploadFile(file,request,session);
+    public Parameters addImage(@RequestParam("userphoto") MultipartFile file, HttpServletRequest request, HttpSession session) {
+        String filePath = "";
+        try {
+            filePath = imgEditor.uploadFile(file, request, session);
             this.filePathFinal = filePath;
-            imgEditor.zoomImage(filePath,filePath,400,400);
-        }catch (IOException e){
+            imgEditor.zoomImage(filePath, filePath, 400, 400);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        logger.info("filePath:"+filePath);
+        logger.info("filePath:" + filePath);
         Parameters parameter = new Parameters();
-        parameter.setFileName(imgEditor.getFileName(file,request,session));
+        parameter.setFileName(imgEditor.getFileName(file, request, session));
         return parameter;
+    }
+
+    @RequestMapping(value = "/imageUpLoad")
+    @ResponseBody
+    public Msg uploadImage(MultipartFile file, HttpServletRequest request, HttpSession session) {
+        /**
+         * @Description: 商品图片上传处理
+         */
+        String filePath;
+        try {
+            filePath = imgEditor.uploadFile(file, request, session);
+            return Msg.success().add("filePath", filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
+
+    @ResponseBody
+    @RequestMapping("/fileUpLoad")
+    public Msg uploadFile(MultipartFile file, HttpServletRequest request, HttpSession session) {
+        /**
+         * @Description: 商品模型文件 上传处理
+         */
+        String filePath;
+        try {
+            filePath = imgEditor.uploadFileWithFlag(file, request, session);
+            return Msg.success().add("filePath", filePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
     }
 }

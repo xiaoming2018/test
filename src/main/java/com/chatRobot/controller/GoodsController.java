@@ -160,7 +160,4 @@ public class GoodsController {
         PageInfo pageInfo = new PageInfo(goodsLists,limit);
         return Msg.success().add("PageInfo",pageInfo);
     }
-
-
-
 }

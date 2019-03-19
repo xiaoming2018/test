@@ -44,4 +44,4 @@
 	Object.assign( THREE.ShaderLib.standard.uniforms, ltc );
 	Object.assign( THREE.ShaderLib.physical.uniforms, ltc );
 
-} )()
+} )();

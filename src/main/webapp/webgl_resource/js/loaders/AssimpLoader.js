@@ -255,7 +255,7 @@ THREE.AssimpLoader.prototype = {
 					this.target.matrixAutoUpdate = false;
 					this.target.matrix.copy( key0.matrix );
 					this.target.matrixWorldNeedsUpdate = true;
-					return;
+					
 
 				}
 

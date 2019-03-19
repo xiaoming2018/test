@@ -52,28 +52,22 @@ SEA3D.Deflate = function () {
 
 
 	/* constant tables (inflate) */
-	var zip_MASK_BITS = new Array(
-	0x0000,
+	var zip_MASK_BITS = [0x0000,
 	0x0001, 0x0003, 0x0007, 0x000f, 0x001f, 0x003f, 0x007f, 0x00ff,
-	0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff, 0x3fff, 0x7fff, 0xffff );
+	0x01ff, 0x03ff, 0x07ff, 0x0fff, 0x1fff, 0x3fff, 0x7fff, 0xffff];
 	// Tables for deflate from PKZIP's appnote.txt.
-	var zip_cplens = new Array( // Copy lengths for literal codes 257..285
-	3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
-	35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0 );
+	var zip_cplens = [3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+	35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0];
 	/* note: see note #13 above about the 258 in this list. */
-	var zip_cplext = new Array( // Extra bits for literal codes 257..285
-	0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
-	3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 99, 99 ); // 99==invalid
-	var zip_cpdist = new Array( // Copy offsets for distance codes 0..29
-	1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+	var zip_cplext = [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2,
+	3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 0, 99, 99]; // 99==invalid
+	var zip_cpdist = [1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
 	257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
-	8193, 12289, 16385, 24577 );
-	var zip_cpdext = new Array( // Extra bits for distance codes
-	0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
+	8193, 12289, 16385, 24577];
+	var zip_cpdext = [0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6,
 	7, 7, 8, 8, 9, 9, 10, 10, 11, 11,
-	12, 12, 13, 13 );
-	var zip_border = new Array( // Order of the bit length code lengths
-	16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15 );
+	12, 12, 13, 13];
+	var zip_border = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15];
 	/* objects (inflate) */
 
 	var zip_HuftList = function () {
@@ -81,7 +75,7 @@ SEA3D.Deflate = function () {
 		this.next = null;
 		this.list = null;
 
-	}
+	};
 
 	var zip_HuftNode = function () {
 
@@ -92,7 +86,7 @@ SEA3D.Deflate = function () {
 		this.n = 0; // literal, length base, or distance base
 		this.t = null; // (zip_HuftNode) pointer to next level of table
 
-	}
+	};
 
 	var zip_HuftBuild = function ( b,	// code lengths in bits (all assumed <= BMAX)
 			n,	// number of codes (assumed <= N_MAX)
@@ -354,7 +348,7 @@ SEA3D.Deflate = function () {
 
 		} /* end of constructor */
 
-	}
+	};
 
 
 	/* routines (inflate) */
@@ -365,7 +359,7 @@ SEA3D.Deflate = function () {
 			return - 1;
 		return zip_inflate_data[ zip_inflate_pos ++ ];
 
-	}
+	};
 
 	var zip_NEEDBITS = function ( n ) {
 
@@ -376,20 +370,20 @@ SEA3D.Deflate = function () {
 
 		}
 
-	}
+	};
 
 	var zip_GETBITS = function ( n ) {
 
 		return zip_bit_buf & zip_MASK_BITS[ n ];
 
-	}
+	};
 
 	var zip_DUMPBITS = function ( n ) {
 
 		zip_bit_buf >>= n;
 		zip_bit_len -= n;
 
-	}
+	};
 
 	var zip_inflate_codes = function ( buff, off, size ) {
 
@@ -485,7 +479,7 @@ SEA3D.Deflate = function () {
 		zip_method = - 1; // done
 		return n;
 
-	}
+	};
 
 	var zip_inflate_stored = function ( buff, off, size ) {
 
@@ -524,7 +518,7 @@ SEA3D.Deflate = function () {
 		zip_method = - 1; // done
 		return n;
 
-	}
+	};
 
 	var zip_inflate_fixed = function ( buff, off, size ) {
 
@@ -585,7 +579,7 @@ SEA3D.Deflate = function () {
 		zip_bd = zip_fixed_bd;
 		return zip_inflate_codes( buff, off, size );
 
-	}
+	};
 
 	var zip_inflate_dynamic = function ( buff, off, size ) {
 
@@ -728,7 +722,7 @@ SEA3D.Deflate = function () {
 		// decompress until an end-of-block code
 		return zip_inflate_codes( buff, off, size );
 
-	}
+	};
 
 	var zip_inflate_start = function () {
 
@@ -744,7 +738,7 @@ SEA3D.Deflate = function () {
 		zip_copy_leng = zip_copy_dist = 0;
 		zip_tl = null;
 
-	}
+	};
 
 	var zip_inflate_internal = function ( buff, off, size ) {
 
@@ -847,7 +841,7 @@ SEA3D.Deflate = function () {
 		}
 		return n;
 
-	}
+	};
 
 	var zip_inflate = function ( data ) {
 
@@ -867,7 +861,7 @@ SEA3D.Deflate = function () {
 		zip_inflate_data = null; // G.C.
 		return new Uint8Array( out ).buffer;
 
-	}
+	};
 
 	return { inflate: zip_inflate };
 

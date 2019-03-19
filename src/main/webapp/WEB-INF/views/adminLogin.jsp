@@ -195,7 +195,7 @@
     layui.use(['element', 'layer'], function () {
         var element = layui.element;
         var layer = layui.layer;
-    })
+    });
     $("#login").click(function(){
         var account = $("#account").val();
         var password = $(":password").val();
@@ -205,7 +205,7 @@
             data:"account="+account+"&password="+password,
             async:false, // 使用同步
             success:function (result) {
-                debugger
+                debugger;
                 console.log(result);
                 if(result.code == 100){
                     layer.msg("登陆成功");
@@ -222,7 +222,7 @@
                     }
                 }
             }
-        })
+        });
         // 取消from 自动提交
         return false;
     })

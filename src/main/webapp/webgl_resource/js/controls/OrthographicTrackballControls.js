@@ -385,7 +385,7 @@ THREE.OrthographicTrackballControls = function ( object, domElement ) {
 
 		if ( _state !== STATE.NONE ) {
 
-			return;
+			
 
 		} else if ( event.keyCode === _this.keys[ STATE.ROTATE ] && ! _this.noRotate ) {
 

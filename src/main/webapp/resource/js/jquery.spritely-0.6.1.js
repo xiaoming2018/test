@@ -78,7 +78,7 @@
                     var w = options.width, h = options.height;
                     if (!frames) {
                         frames = [];
-                        total = 0
+                        total = 0;
                         for (var i = 0; i < options.no_of_frames; i ++) {
                             frames[frames.length] = (0 - total);
                             total += w;
@@ -101,7 +101,7 @@
                             $._spritely.instances[el_id]['current_frame'] = frames.length - 1;
                         } else {
                             $._spritely.instances[el_id]['current_frame'] = $._spritely.instances[el_id]['current_frame'] - 1;
-                        };
+                        }
                     } else {
                         if ($._spritely.instances[el_id]['current_frame'] >= frames.length - 1) {
                             $._spritely.instances[el_id]['current_frame'] = 0;
@@ -120,7 +120,7 @@
                             .animate({top: '+=' + ud + 'px', left: '-=' + lr + 'px'}, ms)
                             .animate({top: '-=' + ud + 'px', left: '+=' + lr + 'px'}, ms);
                     }
-                }
+                };
                 if ($._spritely.instances[el_id]['remaining_frames'] && $._spritely.instances[el_id]['remaining_frames'] > 0) {
                     $._spritely.instances[el_id]['remaining_frames'] --;
                     if ($._spritely.instances[el_id]['remaining_frames'] == 0) {
@@ -239,7 +239,7 @@
             options.height = options.height || $(this).height() || 100;
             var get_rate = function() {
                 return parseInt(1000 / options.fps);
-            }
+            };
             if (!options.do_once) {
                 window.setTimeout(function() {
                     $._spritely.animate(options);
@@ -384,7 +384,7 @@
             }
             window.setTimeout(function() {
                 $('#' + el_id).spRandom(options);
-            }, options.speed + options.pause)
+            }, options.speed + options.pause);
             return this;
         },
         makeAbsolute: function() {
@@ -531,7 +531,7 @@
             if ($._spritely.instances[el_id] && $._spritely.instances[el_id]['interval']) {
                 window.clearInterval($._spritely.instances[el_id]['interval']);
             }
-            delete $._spritely.instances[el_id]
+            delete $._spritely.instances[el_id];
             return this;
         }
     })

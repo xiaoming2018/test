@@ -43,7 +43,7 @@
             <li class="layui-nav-item"><a href="">用户管理</a></li>
             <li class="layui-nav-item"><a href="">订单管理</a></li>
             <li class="layui-nav-item">
-                <a href="javascript:;">其它系统</a>
+                <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
                     <dd><a href="<%=path%>/page/AdminWarn">邮件管理</a></dd>
                     <dd><a href="<%=path%>/page/AdminWarn">消息管理</a></dd>
@@ -53,7 +53,7 @@
         </ul>
         <ul class="layui-nav layui-layout-right">
             <li class="layui-nav-item">
-                <a href="javascript:;">
+                <a href="javascript:">
                     <img src="<%=path%>/${admin.managerPicture}" class="layui-nav-img">
                     ${admin.managerName}
                 </a>
@@ -71,11 +71,11 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;">订单统计</a>
+                    <a class="" href="javascript:">订单统计</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">每日订单</a></dd>
-                        <dd><a href="javascript:;">每月订单</a></dd>
-                        <dd><a href="javascript:;">销量统计</a></dd>
+                        <dd><a href="javascript:">每日订单</a></dd>
+                        <dd><a href="javascript:">每月订单</a></dd>
+                        <dd><a href="javascript:">销量统计</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item"><a href="">热销产品</a></li>

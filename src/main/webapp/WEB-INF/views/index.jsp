@@ -39,7 +39,7 @@
         layui.use(['element', 'layer'], function () {
             var element = layui.element;
             var layer = layui.layer;
-        })
+        });
         $(function () {
             var flag = "${loginFlag}";
             console.log("${PageInfo.hasNextPage}");
@@ -53,7 +53,7 @@
             }
             // 页码数据回传解析
             to_page(${PageInfo.pageNum});
-        })
+        });
 
         function to_page(pn) {
             $.ajax({
@@ -165,7 +165,7 @@
             <div id="second" class="header-grid-left animated wow slideInLeft">
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
-                        <a href="javascript:;">
+                        <a href="javascript:">
                             <img src="<%=path%>/${User.userPicture}" class="layui-nav-img">${User.userName}
                         </a>
                     </li>
@@ -304,7 +304,7 @@
                                             }
                                         }
                                     })
-                                })
+                                });
 
                                 $("#item_buy_${i}").on('click', function (c) {
                                     // 立即购买按钮 点击事件的绑定
@@ -457,7 +457,7 @@
                                             }
                                         }
                                     })
-                                })
+                                });
 
                                 $("#item_buy_${j}").on('click', function (c) {
                                     // 立即购买按钮 点击事件的绑定
