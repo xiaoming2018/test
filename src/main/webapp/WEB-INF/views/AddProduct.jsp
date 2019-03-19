@@ -140,6 +140,7 @@
                     $('#demo1').attr('src', result); //图片链接（base64）
                 });
             },
+
             done: function (res) {
                 //如果上传失败
                 if (res.code == 200) {
