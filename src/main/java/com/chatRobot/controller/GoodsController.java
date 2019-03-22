@@ -160,4 +160,12 @@ public class GoodsController {
         PageInfo pageInfo = new PageInfo(goodsLists,limit);
         return Msg.success().add("PageInfo",pageInfo);
     }
+
+    // Goodsinfo 添加商品
+    @ResponseBody
+    @RequestMapping("/GoodsAdd")
+    public Msg addProduct(Goods goods,String filepath){
+        System.out.println(goods.toString() + filepath);
+        return Msg.success();
+    }
 }

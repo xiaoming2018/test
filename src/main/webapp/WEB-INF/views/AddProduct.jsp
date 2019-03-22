@@ -19,7 +19,7 @@
 </head>
 <body>
 <br>
-<form class="layui-form" action="">
+<form class="layui-form" action="<%=path%>/Goods/GoodsAdd" id="form_test">
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称：</label>
         <div class="layui-input-block">
@@ -85,6 +85,7 @@
             <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px" >
             <p id="demoText"></p>
         </div>
+        <div style="overflow: hidden" id="pic" name="goodsPicture" ></div>
         <br>
         <button type="button" class="layui-input-block layui-btn" id="test1"><i class="layui-icon">&#xe67c;</i>图片上传
         </button>
@@ -114,21 +115,36 @@
         //监听提交
         form.on('submit(formDemo)', function (data) {
             layer.msg(JSON.stringify(data.field));
-            console.log(JSON.stringify(data.field));
+            //console.log(JSON.stringify(data.field));
+            // 提交
+            debugger;
+            var dataTemp = data.field;
+            console.log(dataTemp);
+            console.log("tostring : " + dataTemp.toString());
+            alert(dataTemp.toString());
+            alert(filepath);
+
+            $.ajax({
+                url:"<%=path%>/Goods/GoodsAdd",
+                data:data.field+"&filepath=" + filepath,
+                success:function (data) {
+                    console.log(data);
+                    alert("11221");
+                },
+                error:function () {
+                    debugger;
+                    alert("bug");
+                }
+            });
+            // 取消自动提交；
             return false;
         });
-
         form.verify({
             pass: [
                 /^[\S]{6,12}$/,
                 '密码必须6到12位，且不能出现空格'
             ]
         })
-    });
-
-    // 监听提交按钮
-    $("#submit").click(function(){
-       // 数据采集
     });
 
     layui.use('upload', function () {
@@ -143,8 +159,8 @@
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
                     debugger;
-                    console.log(index);
-                    console.log(file);
+                    //console.log(index);
+                    //console.log(file);
                     $('#demo1').attr('src', result); //图片链接（base64）
                 });
             },
@@ -155,13 +171,12 @@
                     return layer.msg('上传失败');
                 } else {
                     debugger;
-                    console.log(res);
                     filepath = res.extend.filePath;
+                    $("#pic").val(filepath); // 设置filepath
                     var span = $("<span style='color: #FF5722;'></span>").append("商品图片上传成功!");
                     $("#demoText").empty().append(span);
                     return layer.msg('图片上传成功');
                 }
-                //上传成功
             },
             error: function () {
                 //演示失败状态，并实现重传
@@ -188,6 +203,7 @@
                     layer.msg("模型文件 上传成功");
                     $("#test10").empty();
                     $("#test10").append("<div></div>").addClass("layui-form-mid layui-word-aux")
+                        .attr("name","goodsModelId").attr("value",res.extend.goodsfileid)
                         .append("文件上传成功");
                 }else{
                     layer.msg("模型文件，上传失败");
