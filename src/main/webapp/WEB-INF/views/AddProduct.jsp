@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page isELIgnored="false" %>
 <html>
 <head>
     <title>Product Add jsp</title>
@@ -30,12 +32,11 @@
         <label class="layui-form-label">商品类型：</label>
         <div class="layui-input-block" style="width: 400px">
             <select name="goodsTypeId" lay-verify="required">
+                <%-- 商品类型数据解析 value and name --%>
                 <option value=""></option>
-                <option value="0">北京</option>
-                <option value="1">上海</option>
-                <option value="2">广州</option>
-                <option value="3">深圳</option>
-                <option value="4">杭州</option>
+                <c:forEach var="type" items="${goodsTypeList}">
+                    <option value="${type.goodstypeId}">${type.goodstypeName}</option>
+                </c:forEach>
             </select>
         </div>
     </div>
@@ -67,21 +68,21 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否新品：</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="goodsIsnew" lay-skin="switch">
+            <input type="checkbox" name="goodsIsnew" lay-text="是|否" value="1" lay-skin="switch">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">产品描述：</label>
         <div class="layui-input-block">
-            <textarea name="goodsDesc" placeholder="请输入内容" class="layui-textarea"></textarea>
+            <textarea name="goodsDesc" placeholder="请输入产品描述" class="layui-textarea" style="height: 100px;width: 400px"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品图片：</label>
         <div class="layui-input-block">
-            <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px">
+            <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px" >
             <p id="demoText"></p>
         </div>
         <br>
@@ -92,7 +93,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">模型文件：</label>
         <div class="layui-upload-drag" id="test10">
-            <i class="layui-icon "></i>
+            <i class="layui-icon"></i>
             <p>点击上传，或将文件拖拽到此处</p>
         </div>
     </div>
@@ -113,6 +114,7 @@
         //监听提交
         form.on('submit(formDemo)', function (data) {
             layer.msg(JSON.stringify(data.field));
+            console.log(JSON.stringify(data.field));
             return false;
         });
 
@@ -123,14 +125,20 @@
             ]
         })
     });
+
+    // 监听提交按钮
+    $("#submit").click(function(){
+       // 数据采集
+    });
+
     layui.use('upload', function () {
         var upload = layui.upload;
         var uploadInst = upload.render({
             elem: '#test1',
             url: '<%=path%>/file/imageUpLoad',
             acceptMime: 'image/*',
-            auto:false,
-            bindAction:'#submit',
+            //auto:false,
+            //bindAction:'#submit',
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {
@@ -152,7 +160,6 @@
                     var span = $("<span style='color: #FF5722;'></span>").append("商品图片上传成功!");
                     $("#demoText").empty().append(span);
                     return layer.msg('图片上传成功');
-
                 }
                 //上传成功
             },
@@ -176,7 +183,7 @@
             bindAction:'#submit',
             done: function (res) {
                 debugger;
-                console.log(res)
+                console.log(res);
                 if(res.code == 100){
                     layer.msg("模型文件 上传成功");
                     $("#test10").empty();

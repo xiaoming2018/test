@@ -153,7 +153,7 @@ public class ImgEditor {
     }
 
     // 商品模型文件上传
-    public String uploadFileWithFlag(MultipartFile file, HttpServletRequest request, HttpSession session) throws IOException {
+    public String uploadFileWithFlag(MultipartFile file, HttpSession session) throws IOException {
         String fileName = file.getOriginalFilename();
         String[] suffixNameArr = fileName.split("\\.");
         String suffixName = suffixNameArr[suffixNameArr.length - 1];

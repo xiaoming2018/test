@@ -3,6 +3,7 @@ package com.chatRobot.controller;
 import com.chatRobot.model.*;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.chatRobot.service.impl.GoodsTypeServiceImpl;
 import com.chatRobot.service.impl.UserServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -30,6 +31,8 @@ public class PageController {
     private GoodsCartServiceImpl goodsCartService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private GoodsTypeServiceImpl goodsTypeService;
 
 
     @RequestMapping("/toIndex")
@@ -185,11 +188,14 @@ public class PageController {
     }
 
     @RequestMapping("/getProductAdd")
-    public String getProductAddJsp(){
+    public String getProductAddJsp(Model model){
         /**
         * @Author: sun xiaoming 
         * @Description: return product add jsp页面
         */
+        // 数据准备 查询到所有的产品类型
+        List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
+        model.addAttribute("goodsTypeList",goodsTypeList);
         return "AddProduct";
     }
 }

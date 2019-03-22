@@ -69,13 +69,13 @@ public class PictureController {
 
     @ResponseBody
     @RequestMapping("/fileUpLoad")
-    public Msg uploadFile(MultipartFile file, HttpServletRequest request, HttpSession session) {
+    public Msg uploadFile(MultipartFile file, HttpSession session) {
         /**
          * @Description: 商品模型文件 上传处理
          */
         String filePath;
         try {
-            filePath = imgEditor.uploadFileWithFlag(file, request, session);
+            filePath = imgEditor.uploadFileWithFlag(file, session);
             return Msg.success().add("filePath", filePath);
         } catch (Exception e) {
             e.printStackTrace();

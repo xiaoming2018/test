@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chatRobot.dao.GoodsTypeMapper">
+  <resultMap id="BaseResultMap" type="com.chatRobot.model.GoodsType">
+    <constructor>
+      <idArg column="goodsType_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goodsType_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="goodsType_createTime" javaType="java.util.Date" jdbcType="DATE" />
+      <arg column="goodsType_updataTime" javaType="java.util.Date" jdbcType="DATE" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    goodsType_id, goodsType_name, goodsType_createTime, goodsType_updataTime
+  </sql>
+  <select id="selectByExample" parameterType="com.chatRobot.model.GoodsTypeExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from goodstype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from goodstype
+    where goodsType_id = #{goodstypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from goodstype
+    where goodsType_id = #{goodstypeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.chatRobot.model.GoodsTypeExample">
+    delete from goodstype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.chatRobot.model.GoodsType">
+    insert into goodstype (goodsType_id, goodsType_name, goodsType_createTime, 
+      goodsType_updataTime)
+    values (#{goodstypeId,jdbcType=INTEGER}, #{goodstypeName,jdbcType=VARCHAR}, #{goodstypeCreatetime,jdbcType=DATE}, 
+      #{goodstypeUpdatatime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.chatRobot.model.GoodsType">
+    insert into goodstype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="goodstypeId != null">
+        goodsType_id,
+      </if>
+      <if test="goodstypeName != null">
+        goodsType_name,
+      </if>
+      <if test="goodstypeCreatetime != null">
+        goodsType_createTime,
+      </if>
+      <if test="goodstypeUpdatatime != null">
+        goodsType_updataTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="goodstypeId != null">
+        #{goodstypeId,jdbcType=INTEGER},
+      </if>
+      <if test="goodstypeName != null">
+        #{goodstypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodstypeCreatetime != null">
+        #{goodstypeCreatetime,jdbcType=DATE},
+      </if>
+      <if test="goodstypeUpdatatime != null">
+        #{goodstypeUpdatatime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.chatRobot.model.GoodsTypeExample" resultType="java.lang.Long">
+    select count(*) from goodstype
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update goodstype
+    <set>
+      <if test="record.goodstypeId != null">
+        goodsType_id = #{record.goodstypeId,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodstypeName != null">
+        goodsType_name = #{record.goodstypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodstypeCreatetime != null">
+        goodsType_createTime = #{record.goodstypeCreatetime,jdbcType=DATE},
+      </if>
+      <if test="record.goodstypeUpdatatime != null">
+        goodsType_updataTime = #{record.goodstypeUpdatatime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update goodstype
+    set goodsType_id = #{record.goodstypeId,jdbcType=INTEGER},
+      goodsType_name = #{record.goodstypeName,jdbcType=VARCHAR},
+      goodsType_createTime = #{record.goodstypeCreatetime,jdbcType=DATE},
+      goodsType_updataTime = #{record.goodstypeUpdatatime,jdbcType=DATE}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chatRobot.model.GoodsType">
+    update goodstype
+    <set>
+      <if test="goodstypeName != null">
+        goodsType_name = #{goodstypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodstypeCreatetime != null">
+        goodsType_createTime = #{goodstypeCreatetime,jdbcType=DATE},
+      </if>
+      <if test="goodstypeUpdatatime != null">
+        goodsType_updataTime = #{goodstypeUpdatatime,jdbcType=DATE},
+      </if>
+    </set>
+    where goodsType_id = #{goodstypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chatRobot.model.GoodsType">
+    update goodstype
+    set goodsType_name = #{goodstypeName,jdbcType=VARCHAR},
+      goodsType_createTime = #{goodstypeCreatetime,jdbcType=DATE},
+      goodsType_updataTime = #{goodstypeUpdatatime,jdbcType=DATE}
+    where goodsType_id = #{goodstypeId,jdbcType=INTEGER}
+  </update>
+</mapper>
