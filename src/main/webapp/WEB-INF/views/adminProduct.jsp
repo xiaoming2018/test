@@ -120,11 +120,11 @@
                 {field: 'goodsDiscount', title: '折扣', width: 150, sort: true},
                 {field: 'goodsIsnew', title: '是否新品', width: 150, templet: '#IsNew'},
                 {field: 'goodsStatus', title: '状态', width: 150, templet: '#status'},
-                {field: 'goodsAmount', title: '库存', width: 150, sort: true},
-                {field: 'goodsSellAmount', title: '已售', width: 150, sort: true},
+                {field: 'goodsAmount', title: '库存', width: 140, sort: true},
+                {field: 'goodsSellAmount', title: '已售', width: 140, sort: true},
                 {field: 'goodsCreateTime', title: '创建时间', width: 180, sort: true},
                 {field: 'goodsUpdateTime', title: '更新时间', width: 180, sort: true},
-                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 196}
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
             ]]
         });
 
@@ -135,17 +135,37 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['700px', '900px'],
+                        area: ['700px', '800px'],
                         title: '商品添加',
                         content: '<%=path%>/page/getProductAdd',
-                        maxmin: 'true'
+                        maxmin: 'true',
+                        end: function () {
+                            location.reload();
+                        }
                     });
                     break;
                 case 'delete':
-                    layer.msg('删除');
+                    data = checkStatus.data;
+                    console.log(data);
+                    layer.msg('选中了' + data.length + '个数据！');
+                    //layer.msg('删除');
                     break;
                 case 'update':
-                    layer.msg('编辑');
+                    data = checkStatus.data;
+                    if(data.length != 1){
+                        layer.msg("请只选择一条数据进行编辑！");
+                    }else{
+                        layer.open({
+                            type: 2,
+                            area: ['700px', '800px'],
+                            title: '商品添加',
+                            content: '<%=path%>/page/getProductEdit?&goodsId='+data[0].goodsId,
+                            maxmin: 'true',
+                            end: function () {
+                                location.reload();
+                            }
+                        });
+                    }
                     break;
             }
         });
@@ -169,6 +189,7 @@
 
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modelfile">模型</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>

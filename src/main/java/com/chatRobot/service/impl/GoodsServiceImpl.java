@@ -43,4 +43,8 @@ public class GoodsServiceImpl {
         GoodsModel goodsModel = goodsModelMapper.selectByPrimaryKey(modelFileId);
         return goodsModel;
     }
+
+    public int insertSelective(Goods goods){
+        return goodsMapper.insertSelective(goods);
+    }
 }

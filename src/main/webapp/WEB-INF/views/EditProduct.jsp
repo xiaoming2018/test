@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: sun xiaoming
-  Date: 2019/3/19
-  Time: 10:53
+  Date: 2019/3/25
+  Time: 21:14
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -24,7 +24,7 @@
         <label class="layui-form-label">商品名称：</label>
         <div class="layui-input-block">
             <input type="text" name="goodsName" required lay-verify="required"
-                   placeholder="请输入商品名称" autocomplete="off" class="layui-input" style="width: 400px">
+                   placeholder="请输入商品名称" autocomplete="off" class="layui-input" style="width: 400px" value="${Goods.goodsName}">
         </div>
     </div>
 

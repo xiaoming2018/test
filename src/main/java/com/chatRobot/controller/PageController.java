@@ -198,4 +198,13 @@ public class PageController {
         model.addAttribute("goodsTypeList",goodsTypeList);
         return "AddProduct";
     }
+
+    @RequestMapping("getProductEdit")
+    public String getProductEdit(Integer goodsId,Model model){
+        Goods goods = goodsService.selectGoodsWithId(goodsId);
+        List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
+        model.addAttribute("goodsTypeList",goodsTypeList);
+        model.addAttribute("Goods",goods);
+        return "EditProduct";
+    }
 }

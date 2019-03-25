@@ -164,8 +164,28 @@ public class GoodsController {
     // Goodsinfo 添加商品
     @ResponseBody
     @RequestMapping("/GoodsAdd")
-    public Msg addProduct(Goods goods,String filepath){
-        System.out.println(goods.toString() + filepath);
-        return Msg.success();
+    public Msg addProduct(Goods goods){
+        System.out.println(goods.toString());
+        // 商品信息参数初始化
+        Date date = new Date();
+        goods.setGoodsStatus("0"); // 设置商品状态
+        goods.setGoodsCreateTime(date);
+        goods.setGoodsUpdateTime(date);
+        goods.setGoodsSellAmount(0);
+        goods.setGoodsRemark("1");
+        if(goods.getGoodsIsnew()==null){
+            goods.setGoodsIsnew(false);
+        }
+        try{
+            int flag = goodsService.insertSelective(goods);
+            if(flag == 1){
+                return Msg.success();
+            }else{
+                return Msg.fail();
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return Msg.fail();
+        }
     }
 }

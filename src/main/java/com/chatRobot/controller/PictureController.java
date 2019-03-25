@@ -53,13 +53,13 @@ public class PictureController {
 
     @RequestMapping(value = "/imageUpLoad")
     @ResponseBody
-    public Msg uploadImage(MultipartFile file, HttpServletRequest request, HttpSession session) {
+    public Msg uploadImage(MultipartFile goodspic, HttpServletRequest request, HttpSession session) {
         /**
          * @Description: 商品图片上传处理
          */
         String filePath;
         try {
-            filePath = imgEditor.uploadFile(file, request, session);
+            filePath = imgEditor.uploadFile(goodspic, request, session);
             return Msg.success().add("filePath", filePath);
         } catch (IOException e) {
             e.printStackTrace();
