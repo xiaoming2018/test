@@ -19,7 +19,7 @@
 </head>
 <body>
 <br>
-<form class="layui-form" action="<%=path%>/Goods/GoodsAdd" id="form_test">
+<form class="layui-form" id="form_test">
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称：</label>
         <div class="layui-input-block">
@@ -76,16 +76,17 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">产品描述：</label>
         <div class="layui-input-block">
-            <textarea name="goodsDesc" placeholder="请输入产品描述" class="layui-textarea" style="height: 100px;width: 400px"></textarea>
+            <textarea name="goodsDesc" placeholder="请输入产品描述" class="layui-textarea"
+                      style="height: 100px;width: 400px"></textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品图片：</label>
         <div class="layui-input-block">
-            <input type="hidden" id="pic" name="goodsPicture" value="" lay-verify="required" />
+            <input type="hidden" id="pic" name="goodsPicture" value="" lay-verify="required"/>
             <div class="layui-input-list">
-                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px" >
+                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px">
                 <p id="demoText"></p>
                 <br>
                 <button type="button" class="layui-btn" id="test1"><i class="layui-icon">&#xe67c;</i>图片上传</button>
@@ -109,24 +110,21 @@
         var form = layui.form;
         //监听提交
         form.on('submit(formDemo)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            var pic = $("#pic").val();
+            //layer.msg(JSON.stringify(data.field));
             $.ajax({
-                url:"<%=path%>/Goods/GoodsAdd",
-                dataType:'json',
-                data:data.field,
-                success:function (data) {
-                    if(data.code == 100){
-                        console.log(data);
-                        alert("添加成功");
+                url: "<%=path%>/Goods/GoodsAdd",
+                dataType: 'json',
+                data: data.field,
+                success: function (data) {
+                    if (data.code == 100) {
+                        layer.msg("添加成功");
                         parent.layer.close(index);
-                    }else{
-                        alert("添加失败，请重新操作！");
+                    } else {
+                        layer.msg("添加失败，请重新操作！");
                     }
                 },
-                error:function () {
-                    debugger;
-                    alert("bug");
+                error: function () {
+                    layer.msg("返回数据错误");
                 }
             });
             // 取消自动提交；
@@ -148,7 +146,7 @@
             acceptMime: 'image/*',
             //auto:false,
             //bindAction:'#submit',
-            field:'goodspic',  // 图片字段名 与 后台接受参数名对应一致
+            field: 'goodspic',  // 图片字段名 与 后台接受参数名对应一致
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {

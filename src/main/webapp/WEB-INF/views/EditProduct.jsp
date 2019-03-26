@@ -19,19 +19,27 @@
 </head>
 <body>
 <br>
-<form class="layui-form" action="<%=path%>/Goods/GoodsAdd" id="form_test">
+<form class="layui-form" id="form_test">
+
+    <div class="layui-form-item" style="display: none">
+        <div class="layui-input-block" style="display: none">
+            <input type="text" name="goodsId" class="layui-input" type="hidden" value="${Goods.goodsId}">
+        </div>
+    </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">商品名称：</label>
         <div class="layui-input-block">
             <input type="text" name="goodsName" required lay-verify="required"
-                   placeholder="请输入商品名称" autocomplete="off" class="layui-input" style="width: 400px" value="${Goods.goodsName}">
+                   placeholder="请输入商品名称" autocomplete="off" class="layui-input" style="width: 400px"
+                   value="${Goods.goodsName}">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品类型：</label>
         <div class="layui-input-block" style="width: 400px">
-            <select name="goodsTypeId" lay-verify="required">
+            <select id="selectTypeId" name="goodsTypeId" lay-verify="required">
                 <%-- 商品类型数据解析 value and name --%>
                 <option value=""></option>
                 <c:forEach var="type" items="${goodsTypeList}">
@@ -45,7 +53,8 @@
         <label class="layui-form-label">商品价格：</label>
         <div class="layui-input-block">
             <input type="text" name="goodsPrice" required lay-verify="number"
-                   placeholder="请输入商品价格" autocomplete="off" class="layui-input" style="width: 400px">
+                   placeholder="请输入商品价格" autocomplete="off" class="layui-input" style="width: 400px"
+            value="${Goods.goodsPrice}">
         </div>
     </div>
 
@@ -53,7 +62,8 @@
         <label class="layui-form-label">价格折扣：</label>
         <div class="layui-input-inline">
             <input type="text" name="goodsDiscount" required lay-verify="number"
-                   placeholder="请输入价格折扣" autocomplete="off" class="layui-input" style="width: 180px">
+                   placeholder="请输入价格折扣" autocomplete="off" class="layui-input" style="width: 180px"
+            value="${Goods.goodsDiscount}">
         </div>
         <div class="layui-form-mid layui-input-inline" style="color: #e51c23">%</div>
     </div>
@@ -62,30 +72,32 @@
         <label class="layui-form-label">商品数量：</label>
         <div class="layui-input-block">
             <input type="text" name="goodsAmount" required lay-verify="number"
-                   placeholder="请输入商品数量" autocomplete="off" class="layui-input" style="width: 400px">
+                   placeholder="请输入商品数量" autocomplete="off" class="layui-input" style="width: 400px"
+            value="${Goods.goodsAmount}">
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否新品：</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="goodsIsnew" lay-text="是|否" value="1" lay-skin="switch">
+            <input type="checkbox" name="goodsIsnew" lay-text="是|否" value="${Goods.goodsIsnew}" lay-skin="switch">
         </div>
     </div>
 
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">产品描述：</label>
         <div class="layui-input-block">
-            <textarea name="goodsDesc" placeholder="请输入产品描述" class="layui-textarea" style="height: 100px;width: 400px"></textarea>
+            <textarea name="goodsDesc" placeholder="请输入产品描述" class="layui-textarea"
+                      style="height: 100px;width: 400px" >${Goods.goodsDesc}</textarea>
         </div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">商品图片：</label>
         <div class="layui-input-block">
-            <input type="hidden" id="pic" name="goodsPicture" value="" lay-verify="required" />
+            <input type="hidden" id="pic" name="goodsPicture" value="${Goods.goodsPicture}" lay-verify="required"/>
             <div class="layui-input-list">
-                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px" >
+                <img class="layui-upload-img" id="demo1" style="width: 100px;height: 100px" src="<%=path%>/${Goods.goodsPicture}">
                 <p id="demoText"></p>
                 <br>
                 <button type="button" class="layui-btn" id="test1"><i class="layui-icon">&#xe67c;</i>图片上传</button>
@@ -108,25 +120,30 @@
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
+
+        debugger;
+        var temp = ${Goods.goodsTypeId};
+        $("#selectTypeId").val(temp);
+        form.render();
+
         form.on('submit(formDemo)', function (data) {
-            layer.msg(JSON.stringify(data.field));
-            var pic = $("#pic").val();
+            //layer.msg(JSON.stringify(data.field));
+            debugger
             $.ajax({
-                url:"<%=path%>/Goods/GoodsAdd",
-                dataType:'json',
-                data:data.field,
-                success:function (data) {
-                    if(data.code == 100){
+                url: "<%=path%>/Goods/GoodsUpdate",
+                dataType: 'json',
+                data: data.field,
+                success: function (data) {
+                    if (data.code == 100) {
                         console.log(data);
-                        alert("添加成功");
+                        layer.msg("更新成功！");
                         parent.layer.close(index);
-                    }else{
-                        alert("添加失败，请重新操作！");
+                    } else {
+                        layer.msg("更新失败");
                     }
                 },
-                error:function () {
-                    debugger;
-                    alert("bug");
+                error: function () {
+                    layer.msg("返回数据错误");
                 }
             });
             // 取消自动提交；
@@ -148,7 +165,7 @@
             acceptMime: 'image/*',
             //auto:false,
             //bindAction:'#submit',
-            field:'goodspic',  // 图片字段名 与 后台接受参数名对应一致
+            field: 'goodspic',  // 图片字段名 与 后台接受参数名对应一致
             before: function (obj) {
                 //预读本地文件示例，不支持ie8
                 obj.preview(function (index, file, result) {

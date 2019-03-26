@@ -145,26 +145,64 @@
                     });
                     break;
                 case 'delete':
+                    // 删除操作
                     data = checkStatus.data;
-                    console.log(data);
-                    layer.msg('选中了' + data.length + '个数据！');
-                    //layer.msg('删除');
+                    if (data.length >= 1) {
+                        var del_goodsIds = "";
+                        var del_goodsName = "";
+                        for (var i = 0; i < data.length; i++) {
+                            del_goodsName += data[i].goodsName + ',';
+                            del_goodsIds += data[i].goodsId + '-';
+                        }
+                        del_goodsName = del_goodsName.substring(0, del_goodsName.length - 1);
+                        del_goodsIds = del_goodsIds.substring(0, del_goodsIds.length - 1);
+                        layer.confirm('确认删除 ' + del_goodsName + ' 等商品吗？', {
+                            btn: ['确认', '取消'],
+                            yes: function (index) {
+                                $.ajax({
+                                    url: "<%=path%>/Goods/GoodsDelete",
+                                    data: "del_goodsIds=" + del_goodsIds,
+                                    async: false,
+                                    success: function (result) {
+                                        debugger;
+                                        if (result.code == 100) {
+                                            layer.msg("删除成功");
+                                            parent.layer.close(index);
+                                            location.reload();
+                                        } else {
+                                            layer.msg("删除失败");
+                                        }
+                                    },
+                                    error: function () {
+                                        layer.msg("删除请求失败！");
+                                    }
+                                })
+                            },
+                            btn2: function (index) {
+                                parent.layer.close(index);
+                            }
+                        })
+                    } else {
+                        layer.msg("请至少选择一条删除的数据");
+                    }
                     break;
                 case 'update':
                     data = checkStatus.data;
-                    if(data.length != 1){
+                    if (data.length > 1) {
                         layer.msg("请只选择一条数据进行编辑！");
-                    }else{
+                    } else if (data.length == 1) {
                         layer.open({
                             type: 2,
                             area: ['700px', '800px'],
-                            title: '商品添加',
-                            content: '<%=path%>/page/getProductEdit?&goodsId='+data[0].goodsId,
+                            title: '商品编辑',
+                            content: '<%=path%>/page/getProductEdit?&goodsId=' + data[0].goodsId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
                             }
                         });
+                    } else {
+                        layer.msg("请选择一条数据进行编辑！");
                     }
                     break;
             }
@@ -174,14 +212,56 @@
         table.on('tool(test)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
+                // 商品细节
                 layer.msg('ID：' + data.id + ' 的查看操作');
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除行么', function (index) {
-                    obj.del();
-                    layer.close(index);
-                });
+                layer.confirm('真的删除 ' + data.goodsName + ' 么?', {
+                    btn: ['确认', '取消'],
+                    yes: function (index) {
+                        $.ajax({
+                            url: "<%=path%>/Goods/GoodsDelete",
+                            data: "del_goodsIds=" + data.goodsId,
+                            async: false,
+                            success: function (result) {
+                                debugger;
+                                if (result.code == 100) {
+                                    layer.msg("删除成功");
+                                    parent.layer.close(index);
+                                    location.reload();
+                                } else {
+                                    layer.msg("删除失败");
+                                }
+                            },
+                            error: function () {
+                                layer.msg("删除请求失败！");
+                            }
+                        })
+                    },
+                    btn2: function (index) {
+                        parent.layer.close(index);
+                    }
+                })
             } else if (obj.event === 'edit') {
-                layer.alert('编辑行：<br>' + JSON.stringify(data))
+                layer.open({
+                    type: 2,
+                    area: ['700px', '800px'],
+                    title: '商品编辑',
+                    content: '<%=path%>/page/getProductEdit?&goodsId=' + data.goodsId,
+                    maxmin: 'true',
+                    end: function () {
+                        location.reload();
+                    }
+                });
+            } else if (obj.event === 'modelfile') {
+                layer.open({
+                    type:2,
+                    area:['800px','800px'],
+                    title:'3D模型展示',
+                    content:'<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
+                    maxmin : 'true',
+                })
+
+
             }
         });
 

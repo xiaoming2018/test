@@ -105,26 +105,27 @@ public class GoodsController {
         goodsCart.setGoodsAmount(amount);
         goodsCart.setUpdateTime(date);
         List<GoodsCart> goodsCartList = goodsCartService.selectByExample(goodsCart);
-        if(goodsCartList.isEmpty()){
+        if (goodsCartList.isEmpty()) {
             return Msg.fail();
         }
         // 获取购物车 主键
         goodsCart.setCartid(goodsCartList.get(0).getCartid());
         Date createDate = goodsCartList.get(0).getCreateTime();
         goodsCart.setCreateTime(createDate);
-        try{
+        try {
             int flag = goodsCartService.updateByPrimaryKey(goodsCart);
-            if(flag != 0){
+            if (flag != 0) {
                 // 更新数据成功
                 return Msg.success();
-            }else{
+            } else {
                 return Msg.fail();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail();
         }
     }
+
     // 结算中心的更新
     @ResponseBody
     @RequestMapping("/updateCart")
@@ -143,7 +144,7 @@ public class GoodsController {
                 totalPrice += goods.getGoodsPrice().doubleValue() * goods.getGoodsAmount();
                 goodsList.add(goods);
             }
-            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount",totalGoodsAmount);
+            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount", totalGoodsAmount);
         } else {
             // 购物车为空
             return Msg.fail();
@@ -153,19 +154,18 @@ public class GoodsController {
     // 数据表格
     @ResponseBody
     @RequestMapping("/GoodsData")
-    public Msg getGoodsDataJson(@RequestParam(value = "page", defaultValue = "1")Integer page, @RequestParam(value = "limit", defaultValue = "30")Integer limit){
+    public Msg getGoodsDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
         System.out.println(page + limit);
-        PageHelper.startPage(page,limit);
+        PageHelper.startPage(page, limit);
         List<Goods> goodsLists = goodsService.selectAllGoods();
-        PageInfo pageInfo = new PageInfo(goodsLists,limit);
-        return Msg.success().add("PageInfo",pageInfo);
+        PageInfo pageInfo = new PageInfo(goodsLists, limit);
+        return Msg.success().add("PageInfo", pageInfo);
     }
 
     // Goodsinfo 添加商品
     @ResponseBody
     @RequestMapping("/GoodsAdd")
-    public Msg addProduct(Goods goods){
-        System.out.println(goods.toString());
+    public Msg addProduct(Goods goods) {
         // 商品信息参数初始化
         Date date = new Date();
         goods.setGoodsStatus("0"); // 设置商品状态
@@ -173,19 +173,79 @@ public class GoodsController {
         goods.setGoodsUpdateTime(date);
         goods.setGoodsSellAmount(0);
         goods.setGoodsRemark("1");
-        if(goods.getGoodsIsnew()==null){
+        if (goods.getGoodsIsnew() == null) {
             goods.setGoodsIsnew(false);
         }
-        try{
+        try {
             int flag = goodsService.insertSelective(goods);
-            if(flag == 1){
+            if (flag == 1) {
                 return Msg.success();
-            }else{
+            } else {
                 return Msg.fail();
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail();
+        }
+    }
+
+    // goodsinfo 更新商品信息
+    @ResponseBody
+    @RequestMapping("/GoodsUpdate")
+    public Msg updateProduct(Goods goods) {
+        Date date = new Date();
+        goods.setGoodsUpdateTime(date);
+        if (goods.getGoodsIsnew() == null) {
+            goods.setGoodsIsnew(false);
+        }
+        try {
+            int flag = goodsService.updateByExampleSelective(goods);
+            if (flag == 1) {
+                return Msg.success();
+            } else {
+                return Msg.fail();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
+
+    // goodsinfo 删除商品
+    @ResponseBody
+    @RequestMapping("/GoodsDelete")
+    public Msg DeleteProduct(String del_goodsIds) {
+        if (del_goodsIds.contains("-")) {
+            List<Integer> del_goodsIdList = new ArrayList<>();
+            String[] goodsIds = del_goodsIds.split("-");
+            for (String string : goodsIds) {
+                del_goodsIdList.add(Integer.parseInt(string));
+            }
+            try {
+                // 批量删除
+                int flag = goodsService.deleteBygoodsIds(del_goodsIdList);
+                System.out.println(flag);
+                if(flag == goodsIds.length){
+                    return Msg.success();
+                }else{
+                    return Msg.fail();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail();
+            }
+        }else{
+            try{
+                int flag = goodsService.deleteBygoodId(Integer.parseInt(del_goodsIds));
+                if(flag == 1){
+                    return Msg.success();
+                }else{
+                    return Msg.fail();
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return Msg.fail();
+            }
         }
     }
 }

@@ -124,6 +124,5 @@ function start() {
     animate();
     initControls();
     document.getElementById('canvas-frame').appendChild(renderer.domElement);
-
 }
 

@@ -25,26 +25,46 @@ public class GoodsServiceImpl {
     @Resource
     private GoodsModelMapper goodsModelMapper;
 
-    //查询所有商品
-    public List<Goods> selectAllGoods(){
+    // select all goods
+    public List<Goods> selectAllGoods() {
         GoodsExample goodsExample = new GoodsExample();
         List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
         return goodsList;
     }
 
     // select product with goodsId
-    public Goods selectGoodsWithId(Integer id){
+    public Goods selectGoodsWithId(Integer id) {
         Goods goods = goodsMapper.selectByPrimaryKey(id);
         return goods;
     }
 
     // select product model file with goodsmodel id
-    public GoodsModel selectGoodsModelWithId(Integer modelFileId){
+    public GoodsModel selectGoodsModelWithId(Integer modelFileId) {
         GoodsModel goodsModel = goodsModelMapper.selectByPrimaryKey(modelFileId);
         return goodsModel;
     }
 
-    public int insertSelective(Goods goods){
+    // insertSelective
+    public int insertSelective(Goods goods) {
         return goodsMapper.insertSelective(goods);
     }
+
+    // updateSelective
+    public int updateByExampleSelective(Goods goods) {
+        return goodsMapper.updateByPrimaryKeySelective(goods);
+    }
+
+    // delete by goodsId list
+    public int deleteBygoodsIds(List<Integer> goodsIds) {
+        GoodsExample goodsExample = new GoodsExample();
+        GoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andGoodsIdIn(goodsIds);
+        return goodsMapper.deleteByExample(goodsExample);
+    }
+
+    // delete by goodsId one
+    public int deleteBygoodId(Integer goodsId){
+        return goodsMapper.deleteByPrimaryKey(goodsId);
+    }
+
 }

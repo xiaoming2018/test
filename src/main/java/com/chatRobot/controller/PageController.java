@@ -142,8 +142,8 @@ public class PageController {
 
     // admin 未开发页面提示
     @RequestMapping("/AdminWarn")
-    public String PageToAdminWarn(Model model){
-        model.addAttribute("message","页面正在开发中。。");
+    public String PageToAdminWarn(Model model) {
+        model.addAttribute("message", "页面正在开发中。。");
         return "AdminWarn";
     }
 
@@ -171,12 +171,12 @@ public class PageController {
     }
 
     @RequestMapping("/AdminProduct")
-    public String adminProductwith(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model){
+    public String adminProductwith(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
         /**
-        * @Author: sun xiaoming 
-        * @Description: adminIndex 跳转到adminProduct 页面
-        * @Date: 2019/3/17 15:15
-        */
+         * @Author: sun xiaoming
+         * @Description: adminIndex 跳转到adminProduct 页面
+         * @Date: 2019/3/17 15:15
+         */
         PageHelper.startPage(pn, 6);
         List<Goods> goodsList = goodsService.selectAllGoods();
         //navigatePages : 连续显示的页数
@@ -188,23 +188,35 @@ public class PageController {
     }
 
     @RequestMapping("/getProductAdd")
-    public String getProductAddJsp(Model model){
+    public String getProductAddJsp(Model model) {
         /**
-        * @Author: sun xiaoming 
-        * @Description: return product add jsp页面
-        */
+         * @Author: sun xiaoming
+         * @Description: return product add jsp页面
+         */
         // 数据准备 查询到所有的产品类型
         List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
-        model.addAttribute("goodsTypeList",goodsTypeList);
+        model.addAttribute("goodsTypeList", goodsTypeList);
         return "AddProduct";
     }
 
-    @RequestMapping("getProductEdit")
-    public String getProductEdit(Integer goodsId,Model model){
+    @RequestMapping("/getProductEdit")
+    public String getProductEdit(Integer goodsId, Model model) {
         Goods goods = goodsService.selectGoodsWithId(goodsId);
         List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
-        model.addAttribute("goodsTypeList",goodsTypeList);
-        model.addAttribute("Goods",goods);
+        model.addAttribute("goodsTypeList", goodsTypeList);
+        model.addAttribute("Goods", goods);
         return "EditProduct";
     }
+
+    @RequestMapping("/getProductFile")
+    public String getProductFile(Integer goodsId, Model model) {
+        /**
+        * @Author: sun xiaoming
+        * @Description: 对模型文件进行设置上传。参数设置。
+        */
+        Goods goods = goodsService.selectGoodsWithId(goodsId);
+        model.addAttribute("Goods",goods);
+        return "FileProduct";
+    }
+
 }
