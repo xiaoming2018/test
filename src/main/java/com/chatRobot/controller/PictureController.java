@@ -73,10 +73,10 @@ public class PictureController {
         /**
          * @Description: 商品模型文件 上传处理
          */
+        System.out.println(goodsId);
         String filePath;
         try {
             filePath = imgEditor.uploadFileWithFlag(file, session);
-
             return Msg.success().add("filePath", filePath);
         } catch (Exception e) {
             e.printStackTrace();
