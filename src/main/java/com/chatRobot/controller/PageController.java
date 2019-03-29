@@ -214,6 +214,8 @@ public class PageController {
         * @Author: sun xiaoming
         * @Description: 对模型文件进行设置上传。参数设置。
         */
+        List<GoodsModel> modelList = goodsService.selectAllGoodsModel();
+        model.addAttribute("GoodsModelList",modelList);
         Goods goods = goodsService.selectGoodsWithId(goodsId);
         model.addAttribute("Goods",goods);
         return "FileProduct";

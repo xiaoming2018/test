@@ -2,6 +2,7 @@ package com.chatRobot.controller;
 
 import com.chatRobot.model.Goods;
 import com.chatRobot.model.GoodsCart;
+import com.chatRobot.model.GoodsModel;
 import com.chatRobot.model.Msg;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
@@ -189,7 +190,7 @@ public class GoodsController {
         }
     }
 
-    // goodsinfo 更新商品信息
+    // goodsinfo 更新基础商品信息 无modelfile 属性
     @ResponseBody
     @RequestMapping("/GoodsUpdate")
     public Msg updateProduct(Goods goods) {
@@ -211,6 +212,29 @@ public class GoodsController {
         }
     }
 
+    // add modelFile to database and update goodsInfo table
+    @ResponseBody
+    @RequestMapping("/GoodsModelFileUpdate")
+    public Msg updateProductWithModelFile(Goods goods, GoodsModel goodsModel) {
+        System.out.println(goodsModel);
+        System.out.println(goods);
+        Date date = new Date();
+        goodsModel.setModelCreateTime(date);
+        goodsModel.setModelUpdateTime(date);
+        try {
+            // 添加 modelfile
+            int flag = goodsService.insertSelectModelFile(goodsModel);
+            if (flag == 1){
+                //GoodsModel goodsModel1 = goodsService.;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+        return null;
+    }
+
     // goodsinfo 删除商品
     @ResponseBody
     @RequestMapping("/GoodsDelete")
@@ -225,27 +249,29 @@ public class GoodsController {
                 // 批量删除
                 int flag = goodsService.deleteBygoodsIds(del_goodsIdList);
                 System.out.println(flag);
-                if(flag == goodsIds.length){
+                if (flag == goodsIds.length) {
                     return Msg.success();
-                }else{
+                } else {
                     return Msg.fail();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
                 return Msg.fail();
             }
-        }else{
-            try{
+        } else {
+            try {
                 int flag = goodsService.deleteBygoodId(Integer.parseInt(del_goodsIds));
-                if(flag == 1){
+                if (flag == 1) {
                     return Msg.success();
-                }else{
+                } else {
                     return Msg.fail();
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 return Msg.fail();
             }
         }
     }
+
+
 }

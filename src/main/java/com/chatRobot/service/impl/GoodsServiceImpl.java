@@ -5,6 +5,7 @@ import com.chatRobot.dao.GoodsModelMapper;
 import com.chatRobot.model.Goods;
 import com.chatRobot.model.GoodsExample;
 import com.chatRobot.model.GoodsModel;
+import com.chatRobot.model.GoodsModelExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -65,6 +66,23 @@ public class GoodsServiceImpl {
     // delete by goodsId one
     public int deleteBygoodId(Integer goodsId){
         return goodsMapper.deleteByPrimaryKey(goodsId);
+    }
+
+    // select all good model
+    public List<GoodsModel> selectAllGoodsModel(){
+        GoodsModelExample example = new GoodsModelExample();
+        List<GoodsModel> goodsModellist = goodsModelMapper.selectByExample(example);
+        return goodsModellist;
+    }
+
+    // insertSelective modelFile
+    public int insertSelectModelFile(GoodsModel goodsModel){
+        return goodsModelMapper.insertSelective(goodsModel);
+    }
+
+    // select modelfile by example
+    public GoodsModel selectModelFilebyExample(){
+        return null;
     }
 
 }

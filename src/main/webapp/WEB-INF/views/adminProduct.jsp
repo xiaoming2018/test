@@ -69,6 +69,7 @@
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item"><a href="javascript:">基础信息管理</a></li>
                 <li class="layui-nav-item"><a href="javascript:">商品类型管理</a></li>
+                <li class="layui-nav-item"><a href="javascript:">商品模型管理</a></li>
                 <li class="layui-nav-item"><a href="">商品库存管理</a></li>
             </ul>
         </div>
