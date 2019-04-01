@@ -80,7 +80,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否新品：</label>
         <div class="layui-input-block">
-            <input type="checkbox" name="goodsIsnew" lay-text="是|否" value="${Goods.goodsIsnew}" lay-skin="switch">
+            <input type="checkbox" name="goodsIsnew" id="Isnew" lay-text="是|否" value="${Goods.goodsIsnew}" lay-skin="switch">
         </div>
     </div>
 
@@ -120,10 +120,12 @@
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
-
         debugger;
         var temp = ${Goods.goodsTypeId};
         $("#selectTypeId").val(temp);
+        if('${Goods.goodsIsnew}' == 'true'){
+            $("#Isnew").attr('checked','true');
+        }
         form.render();
 
         form.on('submit(formDemo)', function (data) {

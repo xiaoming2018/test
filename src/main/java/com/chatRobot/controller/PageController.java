@@ -175,17 +175,19 @@ public class PageController {
         /**
          * @Author: sun xiaoming
          * @Description: adminIndex 跳转到adminProduct 页面
-         * @Date: 2019/3/17 15:15
          */
-        PageHelper.startPage(pn, 6);
-        List<Goods> goodsList = goodsService.selectAllGoods();
-        //navigatePages : 连续显示的页数
-        PageInfo<Goods> pageInfo = new PageInfo(goodsList, 6);
-        model.addAttribute("goodList", goodsList);
-        // 将分页信息 查询得到数据信息 打包到 model中的pageinfo中。
-        model.addAttribute("PageInfo", pageInfo);
         return "adminProduct";
     }
+
+    @RequestMapping("/AdminProType")
+    public String adminProType(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
+        /**
+         * @Author: sun xiaoming
+         * @Description: 跳转到adminProtype 页面
+         */
+        return "adminProType";
+    }
+
 
     @RequestMapping("/getProductAdd")
     public String getProductAddJsp(Model model) {
@@ -208,17 +210,74 @@ public class PageController {
         return "EditProduct";
     }
 
+    @RequestMapping("/getProductDetail")
+    public String getProductDetail(Integer goodsId, Model model) {
+        /**
+         * @Author: sun xiaoming
+         * @Description: admin 下 返回商品详情页
+         */
+        try {
+            Goods goods = goodsService.selectGoodsWithId(goodsId);
+            GoodsModel goodsModel = goodsService.selectGoodsModelWithId(goods.getGoodsModelId());
+            GoodsType goodsType = goodsTypeService.selectWithTypeId(goods.getGoodsTypeId());
+            model.addAttribute("Goods", goods);
+            model.addAttribute("goodsModel", goodsModel);
+            model.addAttribute("goodsType", goodsType);
+            return "adminProductDetail";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "warn.jsp";
+        }
+    }
+
     @RequestMapping("/getProductFile")
     public String getProductFile(Integer goodsId, Model model) {
         /**
-        * @Author: sun xiaoming
-        * @Description: 对模型文件进行设置上传。参数设置。
-        */
+         * @Author: sun xiaoming
+         * @Description: 对模型文件进行设置上传。参数设置。
+         */
         List<GoodsModel> modelList = goodsService.selectAllGoodsModel();
-        model.addAttribute("GoodsModelList",modelList);
+        model.addAttribute("GoodsModelList", modelList);
         Goods goods = goodsService.selectGoodsWithId(goodsId);
-        model.addAttribute("Goods",goods);
+        model.addAttribute("Goods", goods);
         return "FileProduct";
     }
+
+    /*============================*/
+    // 商品类型处理
+    @RequestMapping("/getProductTypeAdd")
+    public String getProductTypeAdd() {
+        return "ProductType/ProductTypeAdd";
+    }
+
+    @RequestMapping("/getProductTypeEdit")
+    public String getProductTypeEdit(Integer goodstypeId, Model model) {
+        try {
+            GoodsType goodsType = goodsTypeService.selectWithTypeId(goodstypeId);
+            model.addAttribute("goodsType", goodsType);
+            return "ProductType/ProductTypeEdit";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("message", "根据typeId获取商品类型失败！");
+            return "warn";
+        }
+    }
+
+    @RequestMapping("/getProductTypeDetail")
+    public String getProductTypeDetail(Integer goodstypeId, Model model) {
+        /**
+        * @Description: 返回 goodstype的详细信息
+        */
+        try{
+            GoodsType goodsType = goodsTypeService.selectWithTypeId(goodstypeId);
+            model.addAttribute("goodsType",goodsType);
+            return "ProductType/ProductTypeDetail";
+        }catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("message","根据typeId查询商品模型信息失败！");
+            return "warn";
+        }
+    }
+
 
 }

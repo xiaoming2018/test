@@ -19,10 +19,36 @@ public class GoodsTypeServiceImpl {
     @Resource
     private GoodsTypeMapper goodsTypeMapper;
 
-    public List<GoodsType> selectAll(){
+    public List<GoodsType> selectAll() {
         GoodsTypeExample example = new GoodsTypeExample();
         List<GoodsType> goodsTypeList = goodsTypeMapper.selectByExample(example);
         return goodsTypeList;
     }
 
+    public GoodsType selectWithTypeId(Integer goodsTypeId) {
+        GoodsTypeExample example = new GoodsTypeExample();
+        GoodsTypeExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodstypeIdEqualTo(goodsTypeId);
+        List<GoodsType> goodsTypeList = goodsTypeMapper.selectByExample(example);
+        return goodsTypeList.get(0);
+    }
+
+    public int insertGoodsTypeSelective(GoodsType goodsType) {
+        return goodsTypeMapper.insertSelective(goodsType);
+    }
+
+    public int deleteBatchByTypeIds(List<Integer> typeIdList) {
+        GoodsTypeExample example = new GoodsTypeExample();
+        GoodsTypeExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodstypeIdIn(typeIdList);
+        return goodsTypeMapper.deleteByExample(example);
+    }
+
+    public int deleteByTypeId(Integer typeId) {
+        return goodsTypeMapper.deleteByPrimaryKey(typeId);
+    }
+
+    public int updateTypeSelective(GoodsType goodsType) {
+        return goodsTypeMapper.updateByPrimaryKeySelective(goodsType);
+    }
 }

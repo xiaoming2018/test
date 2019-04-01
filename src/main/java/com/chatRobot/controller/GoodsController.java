@@ -1,11 +1,9 @@
 package com.chatRobot.controller;
 
-import com.chatRobot.model.Goods;
-import com.chatRobot.model.GoodsCart;
-import com.chatRobot.model.GoodsModel;
-import com.chatRobot.model.Msg;
+import com.chatRobot.model.*;
 import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.chatRobot.service.impl.GoodsTypeServiceImpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +32,8 @@ public class GoodsController {
     GoodsCartServiceImpl goodsCartService;
     @Autowired
     GoodsServiceImpl goodsService;
+    @Autowired
+    GoodsTypeServiceImpl goodsTypeService;
 
     @RequestMapping("/add")
     @ResponseBody
@@ -152,14 +152,23 @@ public class GoodsController {
         }
     }
 
-    // 数据表格
+    // 商品基础信息数据表格
     @ResponseBody
     @RequestMapping("/GoodsData")
     public Msg getGoodsDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
-        System.out.println(page + limit);
         PageHelper.startPage(page, limit);
         List<Goods> goodsLists = goodsService.selectAllGoods();
         PageInfo pageInfo = new PageInfo(goodsLists, limit);
+        return Msg.success().add("PageInfo", pageInfo);
+    }
+
+    // 商品类型的数据表格
+    @ResponseBody
+    @RequestMapping("GoodsTypeData")
+    public Msg getGoodsTypeDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
+        PageHelper.startPage(page, limit);
+        List<GoodsType> goodsTypeList = goodsService.selectAllGoodsType();
+        PageInfo pageInfo = new PageInfo(goodsTypeList, limit);
         return Msg.success().add("PageInfo", pageInfo);
     }
 
@@ -216,23 +225,29 @@ public class GoodsController {
     @ResponseBody
     @RequestMapping("/GoodsModelFileUpdate")
     public Msg updateProductWithModelFile(Goods goods, GoodsModel goodsModel) {
-        System.out.println(goodsModel);
-        System.out.println(goods);
         Date date = new Date();
         goodsModel.setModelCreateTime(date);
         goodsModel.setModelUpdateTime(date);
         try {
             // 添加 modelfile
             int flag = goodsService.insertSelectModelFile(goodsModel);
-            if (flag == 1){
-                //GoodsModel goodsModel1 = goodsService.;
+            if (flag >= 1) {
+                GoodsModel goodsModel1 = goodsService.selectModelFilebyExample(goodsModel.getModelName(),
+                        goodsModel.getModelFile(), goodsModel.getModelType(), date);
+                goods.setGoodsModelId(goodsModel1.getModelId());
+                int updateflag = goodsService.updateByExampleSelective(goods);
+                if (updateflag >= 1) {
+                    return Msg.success().add("message", "modelfileId 更新成功！");
+                } else {
+                    return Msg.fail().add("message", "modelfileId 更新失败！");
+                }
+            } else {
+                return Msg.fail().add("message", "modelfile 插入失败！");
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-            return Msg.fail();
+            return Msg.fail().add("message", "modelfile 插入时出错！");
         }
-        return null;
     }
 
     // goodsinfo 删除商品
@@ -248,7 +263,6 @@ public class GoodsController {
             try {
                 // 批量删除
                 int flag = goodsService.deleteBygoodsIds(del_goodsIdList);
-                System.out.println(flag);
                 if (flag == goodsIds.length) {
                     return Msg.success();
                 } else {
@@ -273,5 +287,80 @@ public class GoodsController {
         }
     }
 
+    // 商品类型处理
+    // 添加商品类型
+    @ResponseBody
+    @RequestMapping("/GoodsTypeAdd")
+    public Msg goodsTypeAdd(GoodsType goodsType) {
+        Date date = new Date();
+        goodsType.setGoodstypeCreatetime(date);
+        goodsType.setGoodstypeUpdatatime(date);
+        try {
+            int flag = goodsTypeService.insertGoodsTypeSelective(goodsType);
+            if (flag == 1) {
+                return Msg.success().add("message", "商品类型添加成功");
+            } else {
+                return Msg.fail().add("message", "商品类型添加失败");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "商品类型添加失败！");
+        }
+    }
 
+    // 删除批量或单独删除商品类型
+    @ResponseBody
+    @RequestMapping("/GoodsTypeDelete")
+    public Msg goodsTypeDelete(String del_goodstypeIds) {
+        if (del_goodstypeIds.contains("-")) {
+            List<Integer> del_goodstypeIdsList = new ArrayList<>();
+            String[] typeIds = del_goodstypeIds.split("-");
+            for (String string : typeIds) {
+                del_goodstypeIdsList.add(Integer.parseInt(string));
+            }
+            try {
+                // 批量删除
+                int flag = goodsTypeService.deleteBatchByTypeIds(del_goodstypeIdsList);
+                if (flag == typeIds.length) {
+                    return Msg.success().add("message", "删除成功！");
+                } else {
+                    return Msg.fail().add("message", "删除失败！");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail();
+            }
+        } else {
+            try {
+                int flag = goodsTypeService.deleteByTypeId(Integer.parseInt(del_goodstypeIds));
+                if (flag == 1) {
+                    return Msg.success();
+                } else {
+                    return Msg.fail();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail();
+            }
+        }
+    }
+
+    // 更新商品类型
+    @ResponseBody
+    @RequestMapping("/GoodsTypeUpdate")
+    public Msg goodstypeUpdate(GoodsType goodsType) {
+        Date date = new Date();
+        goodsType.setGoodstypeUpdatatime(date);
+        try {
+            int flag = goodsTypeService.updateTypeSelective(goodsType);
+            if (flag == 1) {
+                return Msg.success();
+            } else {
+                return Msg.fail();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
 }

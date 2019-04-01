@@ -2,13 +2,12 @@ package com.chatRobot.service.impl;
 
 import com.chatRobot.dao.GoodsMapper;
 import com.chatRobot.dao.GoodsModelMapper;
-import com.chatRobot.model.Goods;
-import com.chatRobot.model.GoodsExample;
-import com.chatRobot.model.GoodsModel;
-import com.chatRobot.model.GoodsModelExample;
+import com.chatRobot.dao.GoodsTypeMapper;
+import com.chatRobot.model.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +24,9 @@ public class GoodsServiceImpl {
 
     @Resource
     private GoodsModelMapper goodsModelMapper;
+
+    @Resource
+    private GoodsTypeMapper goodsTypeMapper;
 
     // select all goods
     public List<Goods> selectAllGoods() {
@@ -81,8 +83,20 @@ public class GoodsServiceImpl {
     }
 
     // select modelfile by example
-    public GoodsModel selectModelFilebyExample(){
-        return null;
+    public GoodsModel selectModelFilebyExample(String modelName, String modelFile, String modelType, Date createTime){
+        GoodsModelExample example = new GoodsModelExample();
+        GoodsModelExample.Criteria criteria = example.createCriteria();
+        criteria.andModelCreateTimeEqualTo(createTime);
+        criteria.andModelNameEqualTo(modelName);
+        criteria.andModelFileEqualTo(modelFile);
+        criteria.andModelTypeEqualTo(modelType);
+        List<GoodsModel> goodsModelList = goodsModelMapper.selectByExample(example);
+        return goodsModelList.get(0);
+    }
+
+    // select all goodstype
+    public List<GoodsType> selectAllGoodsType(){
+        return goodsTypeMapper.selectByExample(new GoodsTypeExample());
     }
 
 }
