@@ -201,7 +201,7 @@
         var password = $(":password").val();
         if(account == ""  || password == "") return;
         $.ajax({
-            url:"<%=path%>/servlet/AdminIndex",
+            url:"<%=path%>/servlet/adminIndex",
             data:"account="+account+"&password="+password,
             async:false, // 使用同步
             success:function (result) {
@@ -209,7 +209,7 @@
                 console.log(result);
                 if(result.code == 100){
                     layer.msg("登陆成功");
-                    location.href="<%=path%>/page/AdminIndex";
+                    location.href="<%=path%>/page/adminIndex";
                 }else {
                     if(result.extend.flag == "wrong"){
                         layer.msg("密码错误，请重新输入");

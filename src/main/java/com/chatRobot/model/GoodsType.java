@@ -45,6 +45,7 @@ public class GoodsType {
         return goodstypeCreatetime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setGoodstypeCreatetime(Date goodstypeCreatetime) {
         this.goodstypeCreatetime = goodstypeCreatetime;
     }
@@ -54,6 +55,7 @@ public class GoodsType {
         return goodstypeUpdatatime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setGoodstypeUpdatatime(Date goodstypeUpdatatime) {
         this.goodstypeUpdatatime = goodstypeUpdatatime;
     }

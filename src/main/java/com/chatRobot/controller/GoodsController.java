@@ -164,12 +164,23 @@ public class GoodsController {
 
     // 商品类型的数据表格
     @ResponseBody
-    @RequestMapping("GoodsTypeData")
+    @RequestMapping("/GoodsTypeData")
     public Msg getGoodsTypeDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
         PageHelper.startPage(page, limit);
         List<GoodsType> goodsTypeList = goodsService.selectAllGoodsType();
         PageInfo pageInfo = new PageInfo(goodsTypeList, limit);
         return Msg.success().add("PageInfo", pageInfo);
+    }
+
+    // 商品模型文件的数据表格
+    @ResponseBody
+    @RequestMapping("/GoodsModelFile")
+    public Msg getGoodsModelFileDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit){
+        System.out.println(limit);
+        PageHelper.startPage(page,limit);
+        List<GoodsModel> goodsModelList = goodsService.selectAllGoodsModel();
+        PageInfo pageInfo = new PageInfo(goodsModelList,limit);
+        return Msg.success().add("PageInfo",pageInfo);
     }
 
     // Goodsinfo 添加商品
@@ -287,7 +298,7 @@ public class GoodsController {
         }
     }
 
-    // 商品类型处理
+    /*================================== 商品类型处理 ==========================================*/
     // 添加商品类型
     @ResponseBody
     @RequestMapping("/GoodsTypeAdd")

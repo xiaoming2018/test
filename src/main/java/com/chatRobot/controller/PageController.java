@@ -141,10 +141,10 @@ public class PageController {
     }
 
     // admin 未开发页面提示
-    @RequestMapping("/AdminWarn")
+    @RequestMapping("/adminWarn")
     public String PageToAdminWarn(Model model) {
         model.addAttribute("message", "页面正在开发中。。");
-        return "AdminWarn";
+        return "admin/adminWarn";
     }
 
     @RequestMapping("/warn")
@@ -153,41 +153,51 @@ public class PageController {
         return "warn";
     }
 
-    @RequestMapping("/Admin")
+    /*================= admin 请求 ================*/
+
+    @RequestMapping("/admin")
     public String PageToAdmin() {
         // 跳转到登陆界面
-        return "adminLogin";
+        return "admin/adminLogin";
     }
 
-    @RequestMapping("/AdminIndex")
+    @RequestMapping("/adminIndex")
     public String PageToAdminIndex(HttpSession session) {
         // 跳转到后台管理主界面
         if (session.getAttribute("admin") == null) {
             //若管理员未登陆
-            return "adminLogin";
+            return "admin/adminLogin";
         } else {
-            return "adminIndex";
+            return "admin/adminIndex";
         }
     }
 
-    @RequestMapping("/AdminProduct")
-    public String adminProductwith(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
+    @RequestMapping("/adminProduct")
+    public String adminProductwith() {
         /**
          * @Author: sun xiaoming
          * @Description: adminIndex 跳转到adminProduct 页面
          */
-        return "adminProduct";
+        return "admin/adminProduct/adminProduct";
     }
 
-    @RequestMapping("/AdminProType")
-    public String adminProType(@RequestParam(value = "pn", defaultValue = "1") Integer pn, Model model) {
+    @RequestMapping("/adminProType")
+    public String adminProType() {
         /**
          * @Author: sun xiaoming
          * @Description: 跳转到adminProtype 页面
          */
-        return "adminProType";
+        return "admin/adminProduct/adminProType";
     }
 
+    @RequestMapping("/adminProModelFile")
+    public String adminProModelFile() {
+        /**
+         * @Author: sun xiaoming
+         * @Description: 跳转到adminProModel jsp
+         */
+        return "admin/adminProduct/adminProModel";
+    }
 
     @RequestMapping("/getProductAdd")
     public String getProductAddJsp(Model model) {
@@ -198,7 +208,7 @@ public class PageController {
         // 数据准备 查询到所有的产品类型
         List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
         model.addAttribute("goodsTypeList", goodsTypeList);
-        return "AddProduct";
+        return "admin/adminProduct/ProductBase/ProductBaseAdd";
     }
 
     @RequestMapping("/getProductEdit")
@@ -207,7 +217,7 @@ public class PageController {
         List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
         model.addAttribute("goodsTypeList", goodsTypeList);
         model.addAttribute("Goods", goods);
-        return "EditProduct";
+        return "admin/adminProduct/ProductBase/EditProduct";
     }
 
     @RequestMapping("/getProductDetail")
@@ -223,10 +233,10 @@ public class PageController {
             model.addAttribute("Goods", goods);
             model.addAttribute("goodsModel", goodsModel);
             model.addAttribute("goodsType", goodsType);
-            return "adminProductDetail";
+            return "admin/adminProduct/ProductBase/adminProductDetail";
         } catch (Exception e) {
             e.printStackTrace();
-            return "warn.jsp";
+            return "warn";
         }
     }
 
@@ -240,14 +250,14 @@ public class PageController {
         model.addAttribute("GoodsModelList", modelList);
         Goods goods = goodsService.selectGoodsWithId(goodsId);
         model.addAttribute("Goods", goods);
-        return "FileProduct";
+        return "admin/adminProduct/ProductBase/FileProduct";
     }
 
     /*============================*/
     // 商品类型处理
     @RequestMapping("/getProductTypeAdd")
     public String getProductTypeAdd() {
-        return "ProductType/ProductTypeAdd";
+        return "admin/adminProduct/ProductType/ProductTypeAdd";
     }
 
     @RequestMapping("/getProductTypeEdit")
@@ -255,7 +265,7 @@ public class PageController {
         try {
             GoodsType goodsType = goodsTypeService.selectWithTypeId(goodstypeId);
             model.addAttribute("goodsType", goodsType);
-            return "ProductType/ProductTypeEdit";
+            return "admin/adminProduct/ProductType/ProductTypeEdit";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", "根据typeId获取商品类型失败！");
@@ -266,18 +276,21 @@ public class PageController {
     @RequestMapping("/getProductTypeDetail")
     public String getProductTypeDetail(Integer goodstypeId, Model model) {
         /**
-        * @Description: 返回 goodstype的详细信息
-        */
-        try{
+         * @Description: 返回 goodstype的详细信息
+         */
+        try {
             GoodsType goodsType = goodsTypeService.selectWithTypeId(goodstypeId);
-            model.addAttribute("goodsType",goodsType);
-            return "ProductType/ProductTypeDetail";
-        }catch (Exception e){
+            model.addAttribute("goodsType", goodsType);
+            return "admin/adminProduct/ProductType/ProductTypeDetail";
+        } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message","根据typeId查询商品模型信息失败！");
-            return "warn";
+            model.addAttribute("message", "根据typeId查询商品模型信息失败！");
+            return "Warn";
         }
     }
+
+    /*============================*/
+    // 商品模型处理
 
 
 }

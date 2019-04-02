@@ -151,7 +151,7 @@ public class UserLoginController {
         return "index";
     }
 
-    @RequestMapping("/AdminIndex")
+    @RequestMapping("/adminIndex")
     @ResponseBody
     public Msg managerLogin(String account, String password, HttpSession session) {
         /**
@@ -172,10 +172,10 @@ public class UserLoginController {
         }
     }
 
-    @RequestMapping("/AdminLogout")
-    public String AdminLogout(HttpSession session){
+    @RequestMapping("/adminLogout")
+    public String adminLogout(HttpSession session){
         session.removeAttribute("admin");
-        return "adminLogin";
+        return "admin/adminLogin";
     }
 
 }

@@ -64,6 +64,6 @@
         </div>
     </div>
 </div>
-<% response.setHeader("refresh", "5;/ChatRobot/page/AdminIndex"); %>
+<% response.setHeader("refresh", "5;/ChatRobot/page/adminIndex"); %>
 </body>
 </html>

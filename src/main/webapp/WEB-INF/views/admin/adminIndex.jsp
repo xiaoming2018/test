@@ -38,16 +38,16 @@
         <div class="layui-logo">The WebGL 商品管理后台</div>
         <!-- 头部区域（可配合layui已有的水平导航） -->
         <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="<%=path%>/page/AdminIndex">控制台</a></li>
-            <li class="layui-nav-item"><a href="<%=path%>/page/AdminProduct">商品管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminIndex">控制台</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">商品管理</a></li>
             <li class="layui-nav-item"><a href="">用户管理</a></li>
             <li class="layui-nav-item"><a href="">订单管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
-                    <dd><a href="<%=path%>/page/AdminWarn">邮件管理</a></dd>
-                    <dd><a href="<%=path%>/page/AdminWarn">消息管理</a></dd>
-                    <dd><a href="<%=path%>/page/AdminWarn">授权管理</a></dd>
+                    <dd><a href="<%=path%>/page/adminWarn">邮件管理</a></dd>
+                    <dd><a href="<%=path%>/page/adminWarn">消息管理</a></dd>
+                    <dd><a href="<%=path%>/page/adminWarn">授权管理</a></dd>
                 </dl>
             </li>
         </ul>
@@ -62,7 +62,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="<%=path%>/servlet/AdminLogout">退了</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/servlet/adminLogout">退了</a></li>
         </ul>
     </div>
 
