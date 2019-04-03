@@ -175,12 +175,11 @@ public class GoodsController {
     // 商品模型文件的数据表格
     @ResponseBody
     @RequestMapping("/GoodsModelFile")
-    public Msg getGoodsModelFileDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit){
-        System.out.println(limit);
-        PageHelper.startPage(page,limit);
+    public Msg getGoodsModelFileDataJson(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
+        PageHelper.startPage(page, limit);
         List<GoodsModel> goodsModelList = goodsService.selectAllGoodsModel();
-        PageInfo pageInfo = new PageInfo(goodsModelList,limit);
-        return Msg.success().add("PageInfo",pageInfo);
+        PageInfo pageInfo = new PageInfo(goodsModelList, limit);
+        return Msg.success().add("PageInfo", pageInfo);
     }
 
     // Goodsinfo 添加商品
@@ -374,4 +373,30 @@ public class GoodsController {
             return Msg.fail();
         }
     }
+
+    /*================================== 商品模型处理 ==========================================*/
+    // 商品模型文件添加
+    @ResponseBody
+    @RequestMapping("/GoodsModelFileAdd")
+    public Msg goodsModelFileAdd(GoodsModel goodsModel) {
+        Date date = new Date();
+        goodsModel.setModelCreateTime(date);
+        goodsModel.setModelUpdateTime(date);
+        try {
+            // 唯一性检验
+            //List<GoodsModel> goodsModeltemp = goodsService.selectByModelName();
+
+
+            int flag = goodsService.insertSelectModelFile(goodsModel);
+            if (flag == 1) {
+                return Msg.success().add("message","添加成功！");
+            }else {
+                return Msg.fail().add("message","模型添加失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "后台数据库添加modelfile 失败！");
+        }
+    }
+
 }

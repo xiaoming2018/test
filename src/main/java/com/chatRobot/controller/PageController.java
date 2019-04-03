@@ -291,6 +291,13 @@ public class PageController {
 
     /*============================*/
     // 商品模型处理
-
+    @RequestMapping("/getProductModelFileAdd")
+    public String getProductModelFileAdd(){
+        /**
+        * @Author: sun xiaoming
+        * @Description: adminProModel jsp 请求 返回 addModelFile.jsp
+        */
+        return "admin/adminProduct/ProductModel/ProductModelAdd";
+    }
 
 }

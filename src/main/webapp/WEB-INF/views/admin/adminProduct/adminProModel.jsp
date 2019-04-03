@@ -108,8 +108,8 @@
                 {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
                 {field: 'modelId', title: 'ID', width: 100, sort: true, fixed: 'left'},
                 {field: 'modelName', title: '模型名称', width: 200},
-                {field: 'modelFile', title: '模型地址', width: 150, sort: true},
-                {field: 'modelType', title: '模型类型', width: 150, sort: true},
+                {field: 'modelFile', title: '模型地址', width: 600},
+                {field: 'modelType', title: '模型类型', width: 150},
                 {field: 'modelCreateTime', title: '创建时间', width: 150, sort: true},
                 {field: 'modelUpdateTime', title: '更新时间', width: 150, sort: true},
                 {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
@@ -123,9 +123,9 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['700px', '800px'],
+                        area: ['600px', '400px'],
                         title: '模型添加',
-                        content: '<%=path%>/page/getProductAdd',
+                        content: '<%=path%>/page/getProductModelFileAdd',
                         maxmin: 'true',
                         end: function () {
                             location.reload();

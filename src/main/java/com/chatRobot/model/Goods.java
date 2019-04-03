@@ -34,10 +34,8 @@ public class Goods {
 
     private Integer goodsSellAmount;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date goodsCreateTime;
 
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date goodsUpdateTime;
 
     public Goods(Integer goodsId, String goodsName, BigDecimal goodsPrice, Integer goodsTypeId, Integer goodsModelId, String goodsDesc, Float goodsDiscount, String goodsPicture, Boolean goodsIsnew, Boolean goodsIsrecommend, String goodsStatus, String goodsRemark, Integer goodsAmount, Integer goodsSellAmount, Date goodsCreateTime, Date goodsUpdateTime) {
@@ -179,6 +177,7 @@ public class Goods {
         return goodsCreateTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setGoodsCreateTime(Date goodsCreateTime) {
         this.goodsCreateTime = goodsCreateTime;
     }
@@ -187,6 +186,7 @@ public class Goods {
         return goodsUpdateTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setGoodsUpdateTime(Date goodsUpdateTime) {
         this.goodsUpdateTime = goodsUpdateTime;
     }
