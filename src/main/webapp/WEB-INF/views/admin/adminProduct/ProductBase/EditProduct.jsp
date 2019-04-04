@@ -121,7 +121,7 @@
         var form = layui.form;
         //监听提交
         debugger;
-        var temp = ${Goods.goodsTypeId};
+        var temp = "${Goods.goodsTypeId}";
         $("#selectTypeId").val(temp);
         if('${Goods.goodsIsnew}' == 'true'){
             $("#Isnew").attr('checked','true');

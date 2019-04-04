@@ -300,4 +300,30 @@ public class PageController {
         return "admin/adminProduct/ProductModel/ProductModelAdd";
     }
 
+    @RequestMapping("/getProductModelFileEdit")
+    public String getProductModelFileEdit(Integer goodsModelFileId,Model model){
+        /**
+        * @Description: adminProMode jsp 请求 返回 editModelFile.jsp
+        */
+        try{
+            GoodsModel goodsModel = goodsService.selectGoodsModelWithId(goodsModelFileId);
+            model.addAttribute("GoodsModelFile",goodsModel);
+            return "admin/adminProduct/ProductModel/ProductModelEdit";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "admin/adminWarn";
+        }
+    }
+
+    /*============================*/
+    // 商品库存处理
+    @RequestMapping("/adminProStorge")
+    public String getAdminProStroge(){
+        /**
+        * @Description: 获取商品库存页面
+        */
+        return "admin/adminProduct/adminProStorge";
+    }
+
+
 }

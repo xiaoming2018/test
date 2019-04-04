@@ -124,7 +124,7 @@
                     layer.open({
                         type: 2,
                         area: ['600px', '400px'],
-                        title: '模型添加',
+                        title: '商品模型添加',
                         content: '<%=path%>/page/getProductModelFileAdd',
                         maxmin: 'true',
                         end: function () {
@@ -136,20 +136,20 @@
                     // 删除操作
                     data = checkStatus.data;
                     if (data.length >= 1) {
-                        var del_goodsIds = "";
-                        var del_goodsName = "";
+                        var del_goodsModelIds = "";
+                        var del_goodsModelName = "";
                         for (var i = 0; i < data.length; i++) {
-                            del_goodsName += data[i].goodsName + ',';
-                            del_goodsIds += data[i].goodsId + '-';
+                            del_goodsModelName += data[i].modelName + ',';
+                            del_goodsModelIds += data[i].modelId + '-';
                         }
-                        del_goodsName = del_goodsName.substring(0, del_goodsName.length - 1);
-                        del_goodsIds = del_goodsIds.substring(0, del_goodsIds.length - 1);
-                        layer.confirm('确认删除 ' + del_goodsName + ' 等模型吗？', {
+                        del_goodsModelName = del_goodsModelName.substring(0, del_goodsModelName.length - 1);
+                        del_goodsModelIds = del_goodsModelIds.substring(0, del_goodsModelIds.length - 1);
+                        layer.confirm('确认删除 ' + del_goodsModelName + ' 等模型吗？', {
                             btn: ['确认', '取消'],
                             yes: function (index) {
                                 $.ajax({
-                                    url: "<%=path%>/Goods/GoodsDelete",
-                                    data: "del_goodsIds=" + del_goodsIds,
+                                    url: "<%=path%>/Goods/GoodsModelDelete",
+                                    data: "del_goodsModelIds=" + del_goodsModelIds,
                                     async: false,
                                     success: function (result) {
                                         debugger;
@@ -176,14 +176,16 @@
                     break;
                 case 'update':
                     data = checkStatus.data;
+                    debugger;
+                    var temp = data[0].modelId;
                     if (data.length > 1) {
                         layer.msg("请只选择一条数据进行编辑！");
                     } else if (data.length == 1) {
                         layer.open({
                             type: 2,
-                            area: ['700px', '800px'],
-                            title: '商品编辑',
-                            content: '<%=path%>/page/getProductEdit?&goodsId=' + data[0].goodsId,
+                            area: ['600px', '400px'],
+                            title: '商品模型编辑',
+                            content: '<%=path%>/page/getProductModelFileEdit?&goodsModelFileId=' + data[0].modelId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
@@ -201,10 +203,10 @@
             var data = obj.data;
             if (obj.event === 'detail') {
                 // 商品细节
-                layer.msg('ID：' + data.goodsName + ' 的查看操作');
+                layer.msg('ID：' + data.modelName + ' 的查看操作');
                 layer.open({
                     type: 2,
-                    area: ['700px', '800px'],
+                    area: ['600px', '400px'],
                     title: '商品编辑',
                     content: '<%=path%>/page/getProductDetail?&goodsId=' + data.goodsId,
                     maxmin: 'true',
@@ -213,12 +215,12 @@
                     }
                 });
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除 ' + data.goodsName + ' 么?', {
+                layer.confirm('真的删除 ' + data.modelName + ' 么?', {
                     btn: ['确认', '取消'],
                     yes: function (index) {
                         $.ajax({
-                            url: "<%=path%>/Goods/GoodsDelete",
-                            data: "del_goodsIds=" + data.goodsId,
+                            url: "<%=path%>/Goods/GoodsModelDelete",
+                            data: "del_goodsModelIds=" + data.modelId,
                             async: false,
                             success: function (result) {
                                 debugger;
@@ -242,30 +244,20 @@
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['700px', '800px'],
-                    title: '商品编辑',
-                    content: '<%=path%>/page/getProductEdit?&goodsId=' + data.goodsId,
+                    area: ['600px', '400px'],
+                    title: '商品模型编辑',
+                    content: '<%=path%>/page/getProductModelFileEdit?&goodsModelFileId=' + data.modelId,
                     maxmin: 'true',
                     end: function () {
                         location.reload();
                     }
                 });
-            } else if (obj.event === 'modelfile') {
-                layer.open({
-                    type:2,
-                    area:['800px','800px'],
-                    title:'3D模型展示',
-                    content:'<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
-                    maxmin : 'true',
-                })
             }
         });
     })
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modelfile">模型</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>

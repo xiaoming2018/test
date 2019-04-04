@@ -383,19 +383,78 @@ public class GoodsController {
         goodsModel.setModelCreateTime(date);
         goodsModel.setModelUpdateTime(date);
         try {
-            // 唯一性检验
-            //List<GoodsModel> goodsModeltemp = goodsService.selectByModelName();
-
-
-            int flag = goodsService.insertSelectModelFile(goodsModel);
-            if (flag == 1) {
-                return Msg.success().add("message","添加成功！");
-            }else {
-                return Msg.fail().add("message","模型添加失败！");
+            // 姓名唯一性检验
+            List<GoodsModel> goodsModelTemp = goodsService.selectByModelName(goodsModel.getModelName());
+            if (goodsModelTemp.size() == 0) {
+                int flag = goodsService.insertSelectModelFile(goodsModel);
+                if (flag == 1) {
+                    return Msg.success().add("message", "添加成功！");
+                } else {
+                    return Msg.fail().add("message", "模型添加失败！");
+                }
+            } else {
+                return Msg.fail().add("message", "模型名称已存在,请重新命名！");
             }
         } catch (Exception e) {
             e.printStackTrace();
             return Msg.fail().add("message", "后台数据库添加modelfile 失败！");
+        }
+    }
+
+    // 商品模型文件更新
+    @ResponseBody
+    @RequestMapping("/GoodsModelUpdate")
+    public Msg goodsModelUpdate(GoodsModel goodsModel) {
+        Date date = new Date();
+        goodsModel.setModelUpdateTime(date);
+        try {
+            int flag = goodsService.updateModelFileBySelective(goodsModel);
+            if (flag == 1) {
+                return Msg.success();
+            } else {
+                return Msg.fail();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
+
+    // 商品模型文件删除
+    @ResponseBody
+    @RequestMapping("/GoodsModelDelete")
+    public Msg goodsModelDelete(String del_goodsModelIds) {
+        System.out.println(del_goodsModelIds);
+        if (del_goodsModelIds.contains("-")) {
+            List<Integer> del_goodsModelIdList = new ArrayList<>();
+            String[] goodsModelIds = del_goodsModelIds.split("-");
+            for (String string : goodsModelIds) {
+                del_goodsModelIdList.add(Integer.parseInt(string));
+            }
+            try {
+                // 批量删除 modelfile with modelfileIds
+                int flag = goodsService.deleteModelFileWithIds(del_goodsModelIdList);
+                if (flag == goodsModelIds.length) {
+                    return Msg.success().add("message", "批量删除成功！");
+                } else {
+                    return Msg.fail().add("message", "modelFile删除失败！");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail().add("message", "批量删除modelfile失败！");
+            }
+        } else {
+            try {
+                int flag = goodsService.deleteModelById(Integer.parseInt(del_goodsModelIds));
+                if (flag == 1) {
+                    return Msg.success().add("message", "根据modelfileId,删除model成功！");
+                } else {
+                    return Msg.fail().add("message", "根据单一modelfileId,删除model失败!");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail().add("message", "根据modelfileId删除失败");
+            }
         }
     }
 

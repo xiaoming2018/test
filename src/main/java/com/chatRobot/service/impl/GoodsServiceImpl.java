@@ -66,24 +66,24 @@ public class GoodsServiceImpl {
     }
 
     // delete by goodsId one
-    public int deleteBygoodId(Integer goodsId){
+    public int deleteBygoodId(Integer goodsId) {
         return goodsMapper.deleteByPrimaryKey(goodsId);
     }
 
     // select all good model
-    public List<GoodsModel> selectAllGoodsModel(){
+    public List<GoodsModel> selectAllGoodsModel() {
         GoodsModelExample example = new GoodsModelExample();
         List<GoodsModel> goodsModellist = goodsModelMapper.selectByExample(example);
         return goodsModellist;
     }
 
     // insertSelective modelFile
-    public int insertSelectModelFile(GoodsModel goodsModel){
+    public int insertSelectModelFile(GoodsModel goodsModel) {
         return goodsModelMapper.insertSelective(goodsModel);
     }
 
     // select modelfile by example
-    public GoodsModel selectModelFilebyExample(String modelName, String modelFile, String modelType, Date createTime){
+    public GoodsModel selectModelFilebyExample(String modelName, String modelFile, String modelType, Date createTime) {
         GoodsModelExample example = new GoodsModelExample();
         GoodsModelExample.Criteria criteria = example.createCriteria();
         criteria.andModelCreateTimeEqualTo(createTime);
@@ -95,8 +95,33 @@ public class GoodsServiceImpl {
     }
 
     // select all goodstype
-    public List<GoodsType> selectAllGoodsType(){
+    public List<GoodsType> selectAllGoodsType() {
         return goodsTypeMapper.selectByExample(new GoodsTypeExample());
     }
 
+    // select modelFileByname
+    public List<GoodsModel> selectByModelName(String goodsModelName) {
+        GoodsModelExample example = new GoodsModelExample();
+        GoodsModelExample.Criteria criteria = example.createCriteria();
+        criteria.andModelNameEqualTo(goodsModelName);
+        return goodsModelMapper.selectByExample(example);
+    }
+
+    // update modelFileBySelective
+    public int updateModelFileBySelective(GoodsModel goodsModel){
+        return goodsModelMapper.updateByPrimaryKeySelective(goodsModel);
+    }
+
+    // delete modelfileByIds
+    public int deleteModelFileWithIds(List<Integer> goodsModelFileIds){
+        GoodsModelExample example = new GoodsModelExample();
+        GoodsModelExample.Criteria criteria = example.createCriteria();
+        criteria.andModelIdIn(goodsModelFileIds);
+        return goodsModelMapper.deleteByExample(example);
+    }
+
+    // delete modelfileById
+    public int deleteModelById(Integer ModelId){
+        return goodsModelMapper.deleteByPrimaryKey(ModelId);
+    }
 }
