@@ -2,6 +2,7 @@ package com.chatRobot.controller;
 
 import com.chatRobot.model.ImgEditor;
 import com.chatRobot.model.Msg;
+import com.chatRobot.model.POIUtil;
 import com.chatRobot.model.Parameters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import java.io.*;
+import java.util.List;
 
 
 @Controller
@@ -83,4 +86,47 @@ public class PictureController {
             return Msg.fail();
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/ExcelFileUpload")
+    public Msg ExcelFileUpload(MultipartFile file) {
+        // excel 文件上传
+        System.out.println(file.getName());
+        // excel 处理类 处理
+        try {
+            List<String[]> listValue = POIUtil.readExcel(file);
+            System.out.println(listValue);
+            // 处理结束 页面展示
+            return Msg.success().add("listValue", listValue);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
+
+    @RequestMapping("/DownloadFile")
+    public String downloadExcelFile(String fileName, HttpServletResponse response) {
+        System.out.println(fileName);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition", "attachment;fileName=" + fileName);
+        try {
+            String path = "E:\\test";
+            InputStream inputStream = new FileInputStream(new File(path + File.separator + fileName));
+            OutputStream os = response.getOutputStream();
+            byte[] b = new byte[2048];
+            int length;
+            while ((length = inputStream.read(b)) > 0) {
+                os.write(b,0,length);
+            }
+            os.close();
+            inputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -74,15 +74,59 @@
         </div>
     </div>
     <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <h2>this is the storge jsp</h2>
+        <br>
         <%-- 文件模板上传 预览 提交 入库 完毕 --%>
-
+        <button class="layui-btn layui-btn-normal" id="fileDownload">模板下载</button>
+        <a href="<%=path%>/file/DownloadFile?fileName=muban.xlsx" >模板下载test</a>
+        <button type="button" class="layui-btn" id="fileUpload"><i class="layui-icon"></i>文件上传</button>
+        <%-- 文件数据解析 --%>
+            <div style="padding: 15px;" id="body">
+                <table class="layui-hide" id="demo" lay-filter="test"></table>
+            </div>
     </div>
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University
     </div>
 </div>
+<script type="text/javascript">
+    layui.use('upload', function () {
+        var upload = layui.upload;
+        upload.render({
+            elem: "#fileUpload",
+            url: "<%=path%>/file/ExcelFileUpload",
+            accept:'file',
+            exts:'xls|xlsx',
+            done: function (result) {
+                if (result.code == 100) {
+                    debugger;
+                    layer.msg("excel文件上传成功！");
+                } else {
+                    layer.msg("excel文件上传失败, " + result.extend.message);
+                }
+            },
+            error:function () {
+                layer.msg("文件上上传接口出错！");
+            }
+        })
+    })
+    $(function () {
+        $("#fileDownload").click(function () {
+            $.ajax({
+                url:"<%=path%>/file/DownloadFile",
+                data:"fileName=muban.xlsx",
+                type:"post",
+                error:function () {
+                    layer.msg("网络问题，模板下载失败！");
+                }
+            })
+        })
+    });
+
+    layui.use('layer', function(){
+        var layer = layui.layer;
+    });
+</script>
+
 </body>
 </html>
