@@ -76,13 +76,14 @@
     <div class="layui-body">
         <br>
         <%-- 文件模板上传 预览 提交 入库 完毕 --%>
-        <button class="layui-btn layui-btn-normal" id="fileDownload">模板下载</button>
-        <a href="<%=path%>/file/DownloadFile?fileName=muban.xlsx" >模板下载test</a>
+        &nbsp;&nbsp;<button class="layui-btn layui-btn-normal" id="fileDownload">模板下载</button>
         <button type="button" class="layui-btn" id="fileUpload"><i class="layui-icon"></i>文件上传</button>
+        <a href="<%=path%>/file/Download"> 文件下载测试 </a>
         <%-- 文件数据解析 --%>
             <div style="padding: 15px;" id="body">
                 <table class="layui-hide" id="demo" lay-filter="test"></table>
             </div>
+        <div id="aherf"></div>
     </div>
     <div class="layui-footer">
         <!-- 底部固定区域 -->
@@ -112,14 +113,12 @@
     })
     $(function () {
         $("#fileDownload").click(function () {
-            $.ajax({
-                url:"<%=path%>/file/DownloadFile",
-                data:"fileName=muban.xlsx",
-                type:"post",
-                error:function () {
-                    layer.msg("网络问题，模板下载失败！");
-                }
-            })
+            // 创建a标签，设置属性，并出发点击下载
+            var $a = $("<a></a>");
+            $a.attr("href","<%=path%>/file/DownloadFile?fileName=muban.xlsx");
+            $("#aherf").append($a);
+            $a[0].click();
+            $a.remove();
         })
     });
 

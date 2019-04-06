@@ -1,11 +1,11 @@
 package com.chatRobot.controller;
 
-import com.chatRobot.model.ImgEditor;
-import com.chatRobot.model.Msg;
-import com.chatRobot.model.POIUtil;
-import com.chatRobot.model.Parameters;
+import com.chatRobot.dao.GoodsMapper;
+import com.chatRobot.model.*;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +23,9 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "file")
 public class PictureController {
+
+    @Autowired
+    GoodsMapper goodsMapper;
 
     ImgEditor imgEditor = new ImgEditor();
     public String filePathFinal = "";
@@ -117,7 +120,7 @@ public class PictureController {
             byte[] b = new byte[2048];
             int length;
             while ((length = inputStream.read(b)) > 0) {
-                os.write(b,0,length);
+                os.write(b, 0, length);
             }
             os.close();
             inputStream.close();
@@ -127,6 +130,40 @@ public class PictureController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @RequestMapping("/Download")
+    public void downloadExcel(HttpServletResponse response) {
+        response.setHeader("Content-Disposition", "库存上传模板.xls");
+
+        HSSFWorkbook wk;
+        OutputStream outputStream = null;
+        try {
+            outputStream = response.getOutputStream();
+            Goods good = goodsMapper.selectByPrimaryKey(1);
+
+            List<Goods> lists = null;
+            lists.add(good);
+            String sheetName = "上传库存表";
+            String[] header = {"商品ID", "商品名称", "价格", "折扣", "是否新品", "状态", "库存", "产品描述"};
+            String[] columns = {"goodsId","goodsName","goodsPrice","goodsDiscount","goodsIsnew","goodsStatus","goodsAmount","goodsDesc"};
+            wk = POIUtil.export(sheetName,header,columns,lists);
+            wk.write(outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("导出excel表格出错");
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    logger.info("输出文件流 关闭出错！");
+                }
+            }
+        }
+
+
     }
 
 }

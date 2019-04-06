@@ -1,11 +1,17 @@
 package com.chatRobot.model;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -128,5 +134,53 @@ public class POIUtil {
                 break;
         }
         return cellValue;
+    }
+
+    /*
+     * 输出excel文件输出
+     */
+    public static HSSFWorkbook export(String sheetName, String[] headers, String[] columns, List<Goods> lists) throws Exception {
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet(sheetName);
+        sheet.setDefaultColumnWidth(11);
+        HSSFCellStyle style = wb.createCellStyle();
+        HSSFRow row = sheet.createRow(0);
+        style.setAlignment(HorizontalAlignment.CENTER); // 文本单元格 水平居中
+        style.setVerticalAlignment(VerticalAlignment.CENTER); //  垂直居中
+        for (int i = 0; i < headers.length; i++) {
+            HSSFCell headcell = row.createCell(i);
+            headcell.setCellValue(headers[i]);
+            headcell.setCellStyle(style); // 设置单元格格式
+        }
+        Iterator<Goods> it = lists.iterator();
+        int rowIndex = 0;
+        while (it.hasNext()) {
+            rowIndex++;
+            row = sheet.createRow(rowIndex);
+            Goods t = it.next();
+            Field[] fields = t.getClass().getDeclaredFields();
+            for (int i = 0; i < fields.length; i++) {
+                Field field = fields[i];
+                String fieldName = field.getName();
+                for (int j = 0; j < columns.length; j++) {
+                    if (fieldName.equals(columns[j])) {
+                        String getMethodName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1); //  设置反射类名
+                        Class<? extends Object> cls = t.getClass();
+                        Method getMethod = cls.getMethod(getMethodName, new Class[]{});
+                        Object val = getMethod.invoke(t, new Object[]{});
+                        String textVal;
+                        if (null != val) {
+                            textVal = val.toString();
+                        } else {
+                            textVal = null;
+                        }
+                        HSSFCell hssfCell = row.createCell(j);
+                        hssfCell.setCellValue(textVal);
+                        hssfCell.setCellStyle(style);
+                    }
+                }
+            }
+        }
+        return wb;
     }
 }
