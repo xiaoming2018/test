@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -29,13 +31,13 @@ public class POIUtil {
     /*
      * 读入excel 文件解析后返回
      */
-    public static List<String[]> readExcel(MultipartFile file) throws IOException {
+    public static List<Goods> readExcel(MultipartFile file) throws IOException {
         //检查文件
         checkFile(file);
         //获得workbook工作簿对象
         Workbook workbook = getWorkBook(file);
         //创建返回对象，把每行中的值作为一个数组返回，所有行作为一个集合返回
-        List<String[]> list = new ArrayList<>();
+        List<Goods> list = new ArrayList<>();
         if (workbook != null) {
             for (int sheetNum = 0; sheetNum < workbook.getNumberOfSheets(); sheetNum++) {
                 // 获取当前sheet工作表
@@ -57,13 +59,32 @@ public class POIUtil {
                     int firstCellNum = row.getFirstCellNum();
                     // 获取当前行的列数
                     int lastCellNum = row.getPhysicalNumberOfCells();
-                    String[] cells = new String[row.getPhysicalNumberOfCells()];
-                    // 循环当前行
-                    for (int cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {
-                        Cell cell = row.getCell(cellNum);
-                        cells[cellNum] = getCellValue(cell);
+                    //String[] cells = new String[row.getPhysicalNumberOfCells()];
+                    // 循环当前行 模板
+                    Goods good = new Goods();
+                    good.setGoodsId((int) row.getCell(0).getNumericCellValue());
+                    good.setGoodsName(row.getCell(1).getStringCellValue());
+                    good.setGoodsPrice(BigDecimal.valueOf(row.getCell(2).getNumericCellValue()));
+                    good.setGoodsDiscount((float)row.getCell(3).getNumericCellValue());
+                    if( (int)row.getCell(4).getNumericCellValue() == 1){
+                        good.setGoodsIsnew(true);
+                    }else{
+                        good.setGoodsIsnew(false);
                     }
-                    list.add(cells);
+                    if((int)row.getCell(5).getNumericCellValue() == 1){
+                        good.setGoodsStatus("1");
+                    }else{
+                        good.setGoodsStatus("0");
+                    }
+                    good.setGoodsAmount((int)row.getCell(6).getNumericCellValue());
+                    good.setGoodsDesc(row.getCell(7).getStringCellValue());
+                    good.setGoodsUpdateTime(new Date());
+                    good.setGoodsCreateTime(new Date());
+                    //for (int cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {
+                    //    Cell cell = row.getCell(cellNum);
+                    //    cells[cellNum] = getCellValue(cell);
+                    //}
+                    list.add(good);
                 }
             }
         }
@@ -85,16 +106,9 @@ public class POIUtil {
     }
 
     public static Workbook getWorkBook(MultipartFile file) {
-        //File file1 = new File("E://test//" + file.getOriginalFilename());
-        //try{
-        //    file.transferTo(file1);
-        //}catch (IOException e){
-        //    e.printStackTrace();
-        //}
         Workbook workbook = null;
         try {
             InputStream is = file.getInputStream();
-            //InputStream is = new FileInputStream(file1);
             workbook = WorkbookFactory.create(is);
             is.close();
         } catch (IOException e) {

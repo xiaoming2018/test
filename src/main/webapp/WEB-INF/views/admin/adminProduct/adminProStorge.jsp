@@ -81,7 +81,8 @@
         <a href="<%=path%>/file/Download"> 文件下载测试 </a>
         <%-- 文件数据解析 --%>
             <div style="padding: 15px;" id="body">
-                <table class="layui-hide" id="demo" lay-filter="test"></table>
+                <table class="layui-hide" id="demo" lay-filter="test">
+                </table>
             </div>
         <div id="aherf"></div>
     </div>
@@ -91,8 +92,9 @@
     </div>
 </div>
 <script type="text/javascript">
-    layui.use('upload', function () {
+    layui.use(['upload','table'], function () {
         var upload = layui.upload;
+        var table = layui.table;
         upload.render({
             elem: "#fileUpload",
             url: "<%=path%>/file/ExcelFileUpload",
@@ -102,6 +104,8 @@
                 if (result.code == 100) {
                     debugger;
                     layer.msg("excel文件上传成功！");
+                    // 解析数据表格
+                    bulid_goods_table(result.extend.listValue);
                 } else {
                     layer.msg("excel文件上传失败, " + result.extend.message);
                 }
@@ -111,7 +115,9 @@
             }
         })
     })
+
     $(function () {
+        // button 点击事件下载
         $("#fileDownload").click(function () {
             // 创建a标签，设置属性，并出发点击下载
             var $a = $("<a></a>");
@@ -125,6 +131,17 @@
     layui.use('layer', function(){
         var layer = layui.layer;
     });
+
+    // 解析数据表格
+    function bulid_goods_table(listValue){
+        $("#demo").empty();
+        // 表头设计
+        var thead = $("<thead></thead>");
+        $.each(listValue,function (index,item) {
+            var goodid = $("<td>")
+        })
+    }
+
 </script>
 
 </body>

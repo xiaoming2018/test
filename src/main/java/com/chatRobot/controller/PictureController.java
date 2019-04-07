@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -97,7 +98,8 @@ public class PictureController {
         System.out.println(file.getName());
         // excel 处理类 处理
         try {
-            List<String[]> listValue = POIUtil.readExcel(file);
+            List<Goods> listValue = POIUtil.readExcel(file);
+            // 数据查看 前端页面展示
             System.out.println(listValue);
             // 处理结束 页面展示
             return Msg.success().add("listValue", listValue);
@@ -134,7 +136,15 @@ public class PictureController {
 
     @RequestMapping("/Download")
     public void downloadExcel(HttpServletResponse response) {
-        response.setHeader("Content-Disposition", "库存上传模板.xls");
+        response.setHeader("Content-Type","text/html;charset=UTF-8");
+        response.setCharacterEncoding("utf-8");
+        String fileName = "上传库存模板.xls";
+        try{
+            response.setHeader("Content-Disposition","attachment; filename="+ java.net.URLEncoder.encode(fileName,"UTF-8") );
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
 
         HSSFWorkbook wk;
         OutputStream outputStream = null;
@@ -142,7 +152,7 @@ public class PictureController {
             outputStream = response.getOutputStream();
             Goods good = goodsMapper.selectByPrimaryKey(1);
 
-            List<Goods> lists = null;
+            List<Goods> lists = new ArrayList<>();
             lists.add(good);
             String sheetName = "上传库存表";
             String[] header = {"商品ID", "商品名称", "价格", "折扣", "是否新品", "状态", "库存", "产品描述"};
