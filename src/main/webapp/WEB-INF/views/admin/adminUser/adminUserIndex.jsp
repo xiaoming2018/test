@@ -1,14 +1,14 @@
 <%--
   Created by IntelliJ IDEA.
   User: sun xiaoming
-  Date: 2019/4/1
-  Time: 15:44
+  Date: 2019/4/8
+  Time: 21:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>theWebGL</title>
+    <title>adminUserIndex</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -18,6 +18,17 @@
 
     <script src="<%=path%>/resource/layui/layui.js"></script>
     <script src="<%=path%>/resource/js/jquery3.3.1.js"></script>
+    <style type="text/css">
+        .layui-table-cell {
+            height: 58px !important;
+            white-space: normal;
+        }
+
+        .layui-table img {
+            max-height: 48px;
+            max-width: 48px;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -49,7 +60,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="<%=path%>/servlet/adminLogout">退了</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/servlet/adminLogout">退出</a></li>
         </ul>
     </div>
 
@@ -57,10 +68,8 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">基础信息管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProType">商品类型管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProModelFile">商品模型管理</a></li>
-                <li class="layui-nav-item"><a href="">商品库存管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminBaseUser">基本用户管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminManagerUser">管理员用户管理</a></li>
             </ul>
         </div>
     </div>
@@ -87,11 +96,11 @@
         table.render({
             elem: '#demo',
             height: 'full-160',
-            cellMinWidth: '80',
-            url: '<%=path%>/Goods/GoodsTypeData',
+            cellMinWidth: '50',
+            url: '<%=path%>/User/UsersData',
             page: true,
             toolbar: 'default',
-            loading:'true',
+            loading: 'true',
             limit: 30,
             response: {
                 statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
@@ -106,11 +115,17 @@
             },
             cols: [[
                 {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
-                {field: 'goodstypeId', title: 'ID', width: 200, sort: true, fixed: 'left'},
-                {field: 'goodstypeName', title: '商品类型名称', width: 300},
-                {field: 'goodstypeCreatetime', title: '创建时间', width: 300, sort: true},
-                {field: 'goodstypeUpdatatime', title: '更新时间', width: 300, sort: true},
-                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 200}
+                {field: 'userId', title: 'ID', width: 50, sort: true, fixed: 'left'},
+                {field: 'userName', title: '姓名', width: 100, style: "text-algin:center"},
+                {field: 'userNickname', title: '昵称', width: 150, algin: 'center'},
+                {field: 'userEmail', title: '邮箱', width: 250},
+                {field: 'userPhoneNumber', title: '联系方式', width: 150},
+                {field: 'userAddress', title: '地址', width: 200},
+                {field: 'userPassword', title: '密码', width: 140},
+                {field: 'userPicture', title: '头像', width: 80, templet: "#imgtmp"},
+                {field: 'userCreateTime', title: '创建时间', width: 180, sort: true},
+                {field: 'userUpdateTime', title: '更新时间', width: 180, sort: true},
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
             ]]
         });
 
@@ -121,9 +136,9 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['400px', '300px'],
-                        title: '商品类型添加',
-                        content: '<%=path%>/page/getProductTypeAdd',
+                        area: ['700px', '800px'],
+                        title: '商品添加',
+                        content: '<%=path%>/page/getProductAdd',
                         maxmin: 'true',
                         end: function () {
                             location.reload();
@@ -134,20 +149,20 @@
                     // 删除操作
                     data = checkStatus.data;
                     if (data.length >= 1) {
-                        var del_goodstypeIds = "";
-                        var del_goodstypeName = "";
+                        var del_goodsIds = "";
+                        var del_goodsName = "";
                         for (var i = 0; i < data.length; i++) {
-                            del_goodstypeName += data[i].goodstypeName + ',';
-                            del_goodstypeIds += data[i].goodstypeId + '-';
+                            del_goodsName += data[i].goodsName + ',';
+                            del_goodsIds += data[i].goodsId + '-';
                         }
-                        del_goodstypeName = del_goodstypeName.substring(0, del_goodstypeName.length - 1);
-                        del_goodstypeIds = del_goodstypeIds.substring(0, del_goodstypeIds.length - 1);
-                        layer.confirm('确认删除 ' + del_goodstypeName + ' 等商品类型吗？', {
+                        del_goodsName = del_goodsName.substring(0, del_goodsName.length - 1);
+                        del_goodsIds = del_goodsIds.substring(0, del_goodsIds.length - 1);
+                        layer.confirm('确认删除 ' + del_goodsName + ' 等商品吗？', {
                             btn: ['确认', '取消'],
                             yes: function (index) {
                                 $.ajax({
-                                    url: "<%=path%>/Goods/GoodsTypeDelete",
-                                    data: "del_goodstypeIds=" + del_goodstypeIds,
+                                    url: "<%=path%>/Goods/GoodsDelete",
+                                    data: "del_goodsIds=" + del_goodsIds,
                                     async: false,
                                     success: function (result) {
                                         debugger;
@@ -179,9 +194,9 @@
                     } else if (data.length == 1) {
                         layer.open({
                             type: 2,
-                            area: ['400px', '300px'],
-                            title: '商品类型编辑',
-                            content: '<%=path%>/page/getProductTypeEdit?&goodstypeId=' + data[0].goodstypeId,
+                            area: ['700px', '800px'],
+                            title: '商品编辑',
+                            content: '<%=path%>/page/getProductEdit?&goodsId=' + data[0].goodsId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
@@ -199,24 +214,24 @@
             var data = obj.data;
             if (obj.event === 'detail') {
                 // 商品细节
-                layer.msg('ID：' + data.goodstypeName + ' 的查看操作');
+                layer.msg('ID：' + data.goodsName + ' 的查看操作');
                 layer.open({
                     type: 2,
-                    area: ['500px', '300px'],
-                    title: '商品详情',
-                    content: '<%=path%>/page/getProductTypeDetail?&goodstypeId=' + data.goodstypeId,
+                    area: ['700px', '800px'],
+                    title: '商品编辑',
+                    content: '<%=path%>/page/getProductDetail?&goodsId=' + data.goodsId,
                     maxmin: 'true',
                     end: function () {
                         location.reload();
                     }
                 });
             } else if (obj.event === 'del') {
-                layer.confirm('真的删除 ' + data.goodstypeName + ' 么?', {
+                layer.confirm('真的删除 ' + data.goodsName + ' 么?', {
                     btn: ['确认', '取消'],
                     yes: function (index) {
                         $.ajax({
-                            url: "<%=path%>/Goods/GoodsTypeDelete",
-                            data: "del_goodstypeIds=" + data.goodstypeId,
+                            url: "<%=path%>/Goods/GoodsDelete",
+                            data: "del_goodsIds=" + data.goodsId,
                             async: false,
                             success: function (result) {
                                 debugger;
@@ -240,37 +255,35 @@
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['400px', '300px'],
+                    area: ['700px', '800px'],
                     title: '商品编辑',
-                    content: '<%=path%>/page/getProductTypeEdit?&goodstypeId=' + data.goodstypeId,
+                    content: '<%=path%>/page/getProductEdit?&goodsId=' + data.goodsId,
                     maxmin: 'true',
                     end: function () {
                         location.reload();
                     }
                 });
+            } else if (obj.event === 'modelfile') {
+                layer.open({
+                    type: 2,
+                    area: ['800px', '800px'],
+                    title: '3D模型展示',
+                    content: '<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
+                    maxmin: 'true',
+                })
             }
         });
     })
 
 </script>
 <script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modelfile">模型</a>
     <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="status">
-    {{#  if(d.goodsStatus == 0){ }}
-    上市
-    {{#  } else { }}
-    下架
-    {{#  } }}
-</script>
-<script type="text/html" id="IsNew">
-    {{#  if(d.goodsIsnew == true){}}
-    是
-    {{#  } else { }}
-    否
-    {{#  } }}
+<script type="text/html" id="imgtmp">
+    <img src="<%=path%>/{{d.userPicture}}">
 </script>
 </body>
 </html>

@@ -95,13 +95,10 @@ public class PictureController {
     @RequestMapping("/ExcelFileUpload")
     public Msg ExcelFileUpload(MultipartFile file) {
         // excel 文件上传
-        System.out.println(file.getName());
         // excel 处理类 处理
         try {
             List<Goods> listValue = POIUtil.readExcel(file);
             // 数据查看 前端页面展示
-            System.out.println(listValue);
-            // 处理结束 页面展示
             return Msg.success().add("listValue", listValue);
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,16 +133,15 @@ public class PictureController {
 
     @RequestMapping("/Download")
     public void downloadExcel(HttpServletResponse response) {
-        response.setHeader("Content-Type","text/html;charset=UTF-8");
+        response.setHeader("Content-Type", "text/html;charset=UTF-8");
         response.setCharacterEncoding("utf-8");
         String fileName = "上传库存模板.xls";
-        try{
-            response.setHeader("Content-Disposition","attachment; filename="+ java.net.URLEncoder.encode(fileName,"UTF-8") );
-        }catch (Exception e){
+        try {
+            response.setHeader("Content-Disposition", "attachment; filename=" + java.net.URLEncoder.encode(fileName, "UTF-8"));
+        } catch (Exception e) {
             e.printStackTrace();
             return;
         }
-
         HSSFWorkbook wk;
         OutputStream outputStream = null;
         try {
@@ -156,8 +152,8 @@ public class PictureController {
             lists.add(good);
             String sheetName = "上传库存表";
             String[] header = {"商品ID", "商品名称", "价格", "折扣", "是否新品", "状态", "库存", "产品描述"};
-            String[] columns = {"goodsId","goodsName","goodsPrice","goodsDiscount","goodsIsnew","goodsStatus","goodsAmount","goodsDesc"};
-            wk = POIUtil.export(sheetName,header,columns,lists);
+            String[] columns = {"goodsId", "goodsName", "goodsPrice", "goodsDiscount", "goodsIsnew", "goodsStatus", "goodsAmount", "goodsDesc"};
+            wk = POIUtil.export(sheetName, header, columns, lists);
             wk.write(outputStream);
         } catch (Exception e) {
             e.printStackTrace();
@@ -172,8 +168,6 @@ public class PictureController {
                 }
             }
         }
-
-
     }
 
 }

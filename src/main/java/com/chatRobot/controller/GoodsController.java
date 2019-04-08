@@ -9,6 +9,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -424,7 +425,6 @@ public class GoodsController {
     @ResponseBody
     @RequestMapping("/GoodsModelDelete")
     public Msg goodsModelDelete(String del_goodsModelIds) {
-        System.out.println(del_goodsModelIds);
         if (del_goodsModelIds.contains("-")) {
             List<Integer> del_goodsModelIdList = new ArrayList<>();
             String[] goodsModelIds = del_goodsModelIds.split("-");
@@ -458,4 +458,41 @@ public class GoodsController {
         }
     }
 
+    // 根据模板文件 进行商品添加，入库
+    @ResponseBody
+    @RequestMapping("/AddGoodsList")
+    public Msg addGoofsList(@RequestBody List<Goods> goodslist) {
+        // 商品的唯一性检验 对于已经存在的商品进行库存的叠加，对于未入库的商品进行入库操作
+        int count = 0;
+        for (int i = 0; i < goodslist.size(); i++) {
+            Goods good;
+            try {
+                good = goodsService.selectGoodsWithId(goodslist.get(i).getGoodsId());
+                if (good == null) {
+                    int flag = goodsService.insertSelective(goodslist.get(i));
+                    if (flag == 0) {
+                        return Msg.fail().add("message", "list-添加商品失败");
+                    } else {
+                        count++;
+                    }
+                }else{
+                    good.setGoodsAmount(good.getGoodsAmount() + goodslist.get(i).getGoodsAmount());
+                    int flag = goodsService.updateByExampleSelective(good);
+                    if(flag == 1){
+                        count++;
+                    }else{
+                        return Msg.fail().add("message","list-更新数据失败！");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail().add("message", "goodslist 添加失败！");
+            }
+        }
+        if (count == goodslist.size()) {
+            return Msg.success().add("message", "商品入库成功");
+        } else {
+            return Msg.fail().add("message", "商品入库失败");
+        }
+    }
 }

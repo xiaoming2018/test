@@ -32,4 +32,10 @@ public class UserServiceImpl implements IUserService {
         return userMapper.insertSelective(user);
     }
 
+    // admin select all users
+    public List<User> selectAllUsers(){
+        UserExample example = new UserExample();
+        return userMapper.selectByExample(example);
+    }
+
 }

@@ -78,12 +78,17 @@
         <%-- 文件模板上传 预览 提交 入库 完毕 --%>
         &nbsp;&nbsp;<button class="layui-btn layui-btn-normal" id="fileDownload">模板下载</button>
         <button type="button" class="layui-btn" id="fileUpload"><i class="layui-icon"></i>文件上传</button>
-        <a href="<%=path%>/file/Download"> 文件下载测试 </a>
+        <%--<a href="<%=path%>/file/Download"> 文件下载测试 </a>--%>
         <%-- 文件数据解析 --%>
-            <div style="padding: 15px;" id="body">
-                <table class="layui-hide" id="demo" lay-filter="test">
-                </table>
-            </div>
+        <div style="padding: 15px;" id="body">
+            <table id="demo" class="layui-table">
+            </table>
+        </div>
+        <%-- 设置提交按钮，进行库存的入库操作 --%>
+        <div id="button">
+            &nbsp;&nbsp;
+        </div>
+        <%-- 自动点击 下载文件 --%>
         <div id="aherf"></div>
     </div>
     <div class="layui-footer">
@@ -92,14 +97,14 @@
     </div>
 </div>
 <script type="text/javascript">
-    layui.use(['upload','table'], function () {
+    layui.use(['upload', 'table'], function () {
         var upload = layui.upload;
         var table = layui.table;
         upload.render({
             elem: "#fileUpload",
             url: "<%=path%>/file/ExcelFileUpload",
-            accept:'file',
-            exts:'xls|xlsx',
+            accept: 'file',
+            exts: 'xls|xlsx',
             done: function (result) {
                 if (result.code == 100) {
                     debugger;
@@ -110,7 +115,7 @@
                     layer.msg("excel文件上传失败, " + result.extend.message);
                 }
             },
-            error:function () {
+            error: function () {
                 layer.msg("文件上上传接口出错！");
             }
         })
@@ -121,28 +126,75 @@
         $("#fileDownload").click(function () {
             // 创建a标签，设置属性，并出发点击下载
             var $a = $("<a></a>");
-            $a.attr("href","<%=path%>/file/DownloadFile?fileName=muban.xlsx");
+            //$a.attr("href", "<%=path%>/file/DownloadFile?fileName=muban.xlsx");
+            $a.attr("href","<%=path%>/file/Download");
             $("#aherf").append($a);
             $a[0].click();
             $a.remove();
         })
     });
 
-    layui.use('layer', function(){
+    layui.use('layer', function () {
         var layer = layui.layer;
     });
 
     // 解析数据表格
-    function bulid_goods_table(listValue){
+    function bulid_goods_table(listValue) {
         $("#demo").empty();
         // 表头设计
         var thead = $("<thead></thead>");
-        $.each(listValue,function (index,item) {
-            var goodid = $("<td>")
+        var tr = $("<tr></tr>");
+        var th = $("<th></th>").append("ID");
+        var th1 = $("<th></th>").append("商品名称");
+        var th2 = $("<th></th>").append("价格");
+        var th3 = $("<th></th>").append("库存");
+        tr.append(th).append(th1).append(th2).append(th3);
+        thead.append(tr);
+        $("#demo").append(thead);
+        var tbody = $("<tbody></tbody>");
+        $("#demo").append(tbody);
+        $("#demo tbody").empty();
+
+        $.each(listValue, function (index, item) {
+            var goodsId = $("<td></td>").append(item.goodsId);
+            var goodsName = $("<td></td>").append(item.goodsName);
+            var goodsPrice = $("<td></td>").append(item.goodsPrice);
+            var goodsAmount = $("<td></td>").append(item.goodsAmount);
+
+            $("<tr></tr>").append(goodsId).append(goodsName)
+                .append(goodsPrice).append(goodsAmount)
+                .appendTo("#demo tbody");
+        })
+
+        var btn = $("<button></button>").addClass("layui-btn layui-btn-normal").append("入库操作");
+        $("#button").append(btn);
+        btn.click(function () {
+            debugger;
+            console.log(listValue);//对象数组
+            console.log(JSON.stringify(listValue));
+            $.ajax({
+                contentType: "application/json",
+                url: "<%=path%>/Goods/AddGoodsList",
+                data: JSON.stringify(listValue),
+                dataType: "json",
+                method: 'post',
+                success: function (result) {
+                    debugger;
+                    if (result.code == 100) {
+                        layer.msg(result.extend.message);
+                        // 入库成功后，进行表格的隐藏或删除。 以及入库按钮隐藏
+                        $("#demo").empty();
+                        $("#button").empty();
+                    } else {
+                        layer.msg(result.extend.message);
+                    }
+                },
+                error: function () {
+                    layer.msg("入库请求失败！");
+                }
+            })
         })
     }
-
 </script>
-
 </body>
 </html>

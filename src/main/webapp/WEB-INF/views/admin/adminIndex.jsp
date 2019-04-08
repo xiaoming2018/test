@@ -31,6 +31,9 @@
     <script src="<%=path%>/resource/js/bootstrap-3.1.1.min.js"></script>
     <script src="<%=path%>/resource/layui/layui.js"></script>
 
+    <%-- 引入表格插件--%>
+    <script src="<%=path%>/static/plugin/echarts/echarts.js"></script>
+
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -40,8 +43,8 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="<%=path%>/page/adminIndex">控制台</a></li>
             <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户管理</a></li>
-            <li class="layui-nav-item"><a href="">订单管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminUser">用户管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminOrder">订单管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
@@ -69,7 +72,7 @@
     <div class="layui-side layui-bg-black">
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
                 <li class="layui-nav-item">
                     <a class="" href="javascript:">订单统计</a>
                     <dl class="layui-nav-child">
@@ -85,7 +88,11 @@
     </div>
     <div class="layui-body">
         <!-- 内容主体区域 -->
-        <div style="padding: 15px;">控制台可视化数据解析</div>
+        <div style="padding: 15px;">
+            <div id="main" style="width: 600px;height:400px;"></div>
+            <div id="main_test" style="width: 600px;height:400px;"></div>
+        </div>
+
     </div>
     <div class="layui-footer">
         <!-- 底部固定区域 -->
@@ -93,8 +100,48 @@
     </div>
 </div>
 <script type="text/javascript">
-    layui.use('element', function(){
+    layui.use('element', function () {
         var element = layui.element;
+    });
+
+    var myChart = echarts.init(document.getElementById("main"));
+    var Chart = echarts.init(document.getElementById("main_test"));
+    var option = {
+        title: {
+            text: 'ECharts 入门示例'
+        },
+        tooltip: {},
+        legend: {
+            data: ['销量']
+        },
+        xAxis: {
+            data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+        },
+        yAxis: {},
+        series: [{
+            name: '销量',
+            type: 'bar',
+            data: [5, 20, 36, 10, 10, 20]
+        }]
+    };
+
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.setOption(option);
+    Chart.setOption({
+        series: [
+            {
+                name: '访问来源',
+                type: 'pie',
+                radius: '55%',
+                data: [
+                    {value: 235, name: '视频广告'},
+                    {value: 274, name: '联盟广告'},
+                    {value: 310, name: '邮件营销'},
+                    {value: 335, name: '直接访问'},
+                    {value: 400, name: '搜索引擎'}
+                ]
+            }
+        ]
     });
 </script>
 </body>

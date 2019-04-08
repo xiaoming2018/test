@@ -325,5 +325,13 @@ public class PageController {
         return "admin/adminProduct/adminProStorge";
     }
 
+    /*==========  admin 用户管理 =================*/
+    @RequestMapping("/adminUser")
+    public String getadminUser(){
+        /**
+        * @Description: adminIndex 进入 用户管理页面
+        */
+        return "admin/adminUser/adminUserIndex";
+    }
 
 }

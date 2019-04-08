@@ -37,8 +37,8 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="<%=path%>/page/adminIndex">控制台</a></li>
             <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户管理</a></li>
-            <li class="layui-nav-item"><a href="">订单管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminUser">用户管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminOrder">订单管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
@@ -101,7 +101,7 @@
             url: '<%=path%>/Goods/GoodsData',
             page: true,
             toolbar: 'default',
-            loading:'true',
+            loading: 'true',
             limit: 30,
             response: {
                 statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
@@ -266,11 +266,11 @@
                 });
             } else if (obj.event === 'modelfile') {
                 layer.open({
-                    type:2,
-                    area:['800px','800px'],
-                    title:'3D模型展示',
-                    content:'<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
-                    maxmin : 'true',
+                    type: 2,
+                    area: ['800px', '800px'],
+                    title: '3D模型展示',
+                    content: '<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
+                    maxmin: 'true',
                 })
             }
         });
