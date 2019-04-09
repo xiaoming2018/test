@@ -2,13 +2,13 @@
   Created by IntelliJ IDEA.
   User: sun xiaoming
   Date: 2019/4/8
-  Time: 21:15
+  Time: 21:05
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>adminBaseUser</title>
+    <title>adminUserIndex</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -18,6 +18,17 @@
 
     <script src="<%=path%>/resource/layui/layui.js"></script>
     <script src="<%=path%>/resource/js/jquery3.3.1.js"></script>
+    <style type="text/css">
+        .layui-table-cell {
+            height: 58px !important;
+            white-space: normal;
+        }
+
+        .layui-table img {
+            max-height: 48px;
+            max-width: 48px;
+        }
+    </style>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -85,11 +96,11 @@
         table.render({
             elem: '#demo',
             height: 'full-160',
-            cellMinWidth: '80',
-            url: '<%=path%>/Goods/GoodsData',
+            cellMinWidth: '50',
+            url: '<%=path%>/User/UsersData',
             page: true,
             toolbar: 'default',
-            loading:'true',
+            loading: 'true',
             limit: 30,
             response: {
                 statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
@@ -104,16 +115,16 @@
             },
             cols: [[
                 {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
-                {field: 'goodsId', title: 'ID', width: 100, sort: true, fixed: 'left'},
-                {field: 'goodsName', title: '商品名称', width: 200},
-                {field: 'goodsPrice', title: '价格', width: 150, sort: true},
-                {field: 'goodsDiscount', title: '折扣', width: 150, sort: true},
-                {field: 'goodsIsnew', title: '是否新品', width: 150, templet: '#IsNew'},
-                {field: 'goodsStatus', title: '状态', width: 150, templet: '#status'},
-                {field: 'goodsAmount', title: '库存', width: 140, sort: true},
-                {field: 'goodsSellAmount', title: '已售', width: 140, sort: true},
-                {field: 'goodsCreateTime', title: '创建时间', width: 180, sort: true},
-                {field: 'goodsUpdateTime', title: '更新时间', width: 180, sort: true},
+                {field: 'userId', title: 'ID', width: 50, sort: true, fixed: 'left'},
+                {field: 'userName', title: '姓名', width: 100, style: "text-algin:center"},
+                {field: 'userNickname', title: '昵称', width: 150, algin: 'center'},
+                {field: 'userEmail', title: '邮箱', width: 250},
+                {field: 'userPhoneNumber', title: '联系方式', width: 150},
+                {field: 'userAddress', title: '地址', width: 200},
+                {field: 'userPassword', title: '密码', width: 140},
+                {field: 'userPicture', title: '头像', width: 80, templet: "#imgtmp"},
+                {field: 'userCreateTime', title: '创建时间', width: 180, sort: true},
+                {field: 'userUpdateTime', title: '更新时间', width: 180, sort: true},
                 {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
             ]]
         });
@@ -125,9 +136,9 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['700px', '800px'],
-                        title: '商品添加',
-                        content: '<%=path%>/page/getProductAdd',
+                        area: ['600px', '700px'],
+                        title: '用户添加',
+                        content: '<%=path%>/page/getUserAdd',
                         maxmin: 'true',
                         end: function () {
                             location.reload();
@@ -138,20 +149,20 @@
                     // 删除操作
                     data = checkStatus.data;
                     if (data.length >= 1) {
-                        var del_goodsIds = "";
-                        var del_goodsName = "";
+                        var del_userIds = "";
+                        var del_userName = "";
                         for (var i = 0; i < data.length; i++) {
-                            del_goodsName += data[i].goodsName + ',';
-                            del_goodsIds += data[i].goodsId + '-';
+                            del_userName += data[i].userName + ',';
+                            del_userIds += data[i].userId + '-';
                         }
-                        del_goodsName = del_goodsName.substring(0, del_goodsName.length - 1);
-                        del_goodsIds = del_goodsIds.substring(0, del_goodsIds.length - 1);
-                        layer.confirm('确认删除 ' + del_goodsName + ' 等商品吗？', {
+                        del_userName = del_userName.substring(0, del_userName.length - 1);
+                        del_userIds = del_userIds.substring(0, del_userIds.length - 1);
+                        layer.confirm('确认删除 ' + del_userName + ' 等商品吗？', {
                             btn: ['确认', '取消'],
                             yes: function (index) {
                                 $.ajax({
-                                    url: "<%=path%>/Goods/GoodsDelete",
-                                    data: "del_goodsIds=" + del_goodsIds,
+                                    url: "<%=path%>/User/UserDelete",
+                                    data: "del_userIds=" + del_userIds,
                                     async: false,
                                     success: function (result) {
                                         debugger;
@@ -183,9 +194,9 @@
                     } else if (data.length == 1) {
                         layer.open({
                             type: 2,
-                            area: ['700px', '800px'],
-                            title: '商品编辑',
-                            content: '<%=path%>/page/getProductEdit?&goodsId=' + data[0].goodsId,
+                            area: ['600px', '700px'],
+                            title: '用户编辑',
+                            content: '<%=path%>/page/getUserEdit?&userId=' + data[0].userId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
@@ -197,30 +208,16 @@
                     break;
             }
         });
-
         // 表格操作 详情 删除 编辑处理函数
         table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'detail') {
-                // 商品细节
-                layer.msg('ID：' + data.goodsName + ' 的查看操作');
-                layer.open({
-                    type: 2,
-                    area: ['700px', '800px'],
-                    title: '商品编辑',
-                    content: '<%=path%>/page/getProductDetail?&goodsId=' + data.goodsId,
-                    maxmin: 'true',
-                    end: function () {
-                        location.reload();
-                    }
-                });
-            } else if (obj.event === 'del') {
-                layer.confirm('真的删除 ' + data.goodsName + ' 么?', {
+            if (obj.event === 'del') {
+                layer.confirm('真的删除 ' + data.userName + ' 么?', {
                     btn: ['确认', '取消'],
                     yes: function (index) {
                         $.ajax({
-                            url: "<%=path%>/Goods/GoodsDelete",
-                            data: "del_goodsIds=" + data.goodsId,
+                            url: "<%=path%>/User/UserDelete",
+                            data: "del_userIds=" + data.userId,
                             async: false,
                             success: function (result) {
                                 debugger;
@@ -244,46 +241,25 @@
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['700px', '800px'],
-                    title: '商品编辑',
-                    content: '<%=path%>/page/getProductEdit?&goodsId=' + data.goodsId,
+                    area: ['700px', '600px'],
+                    title: '用户编辑',
+                    content: '<%=path%>/page/getUserEdit?&userId=' + data.userId,
                     maxmin: 'true',
                     end: function () {
                         location.reload();
                     }
                 });
-            } else if (obj.event === 'modelfile') {
-                layer.open({
-                    type:2,
-                    area:['800px','800px'],
-                    title:'3D模型展示',
-                    content:'<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
-                    maxmin : 'true',
-                })
             }
         });
     })
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modelfile">模型</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="status">
-    {{#  if(d.goodsStatus == 0){ }}
-    上市
-    {{#  } else { }}
-    下架
-    {{#  } }}
-</script>
-<script type="text/html" id="IsNew">
-    {{#  if(d.goodsIsnew == true){}}
-    是
-    {{#  } else { }}
-    否
-    {{#  } }}
+<script type="text/html" id="imgtmp">
+    <img src="<%=path%>/{{d.userPicture}}">
 </script>
 </body>
 </html>

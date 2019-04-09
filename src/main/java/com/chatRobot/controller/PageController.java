@@ -1,10 +1,7 @@
 package com.chatRobot.controller;
 
 import com.chatRobot.model.*;
-import com.chatRobot.service.impl.GoodsCartServiceImpl;
-import com.chatRobot.service.impl.GoodsServiceImpl;
-import com.chatRobot.service.impl.GoodsTypeServiceImpl;
-import com.chatRobot.service.impl.UserServiceImpl;
+import com.chatRobot.service.impl.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +30,8 @@ public class PageController {
     private UserServiceImpl userService;
     @Autowired
     private GoodsTypeServiceImpl goodsTypeService;
+    @Autowired
+    private ManagerServiceImpl managerService;
 
 
     @RequestMapping("/toIndex")
@@ -326,12 +325,68 @@ public class PageController {
     }
 
     /*==========  admin 用户管理 =================*/
+
     @RequestMapping("/adminUser")
     public String getadminUser(){
         /**
         * @Description: adminIndex 进入 用户管理页面
         */
         return "admin/adminUser/adminUserIndex";
+    }
+
+    // admin get UserAdd jsp
+    @RequestMapping("/getUserAdd")
+    public String getUserAdd(){
+        /**
+        * @Description: 获取 admin UserAdd jsp页面
+        */
+        return "admin/adminUser/adminBaseUser/adminBaseUseradd";
+    }
+
+    // admin get UserEdit jsp
+    @RequestMapping("/getUserEdit")
+    public String getUserEdit(Integer userId, Model model){
+        // 获取 admin UserEdit jsp页面
+        try{
+            User user = userService.selectByPrimaryKey(userId);
+            model.addAttribute("User",user);
+            return "admin/adminUser/adminBaseUser/adminBaseUserEdit";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "warn";
+        }
+    }
+
+    // 左侧功能区点击时返回admin User base jsp
+    @RequestMapping("/adminBaseUser")
+    public String getadminBseUserJsp(){
+        return "admin/adminUser/adminBaseUser/adminBaseUser";
+    }
+
+    // 左侧功能区 点击是返回 admin User base jsp
+    @RequestMapping("/adminManagerUser")
+    public String getadminManagerUserJsp(){
+        return "admin/adminUser/adminManager/adminManager";
+    }
+
+    // admin manager add jsp
+    @RequestMapping("/getManagerAdd")
+    public String getManagerAdd(){
+        return "admin/adminUser/adminManager/adminManagerAdd";
+    }
+
+    // admin manager edit jsp
+    @RequestMapping("/getManagerEdit")
+    public String getgetManagerEdit(Integer managerId,Model model){
+        Manager manager = managerService.selectByManagerId(managerId);
+        model.addAttribute("Manager",manager);
+        return "admin/adminUser/adminManager/adminManagerEdit";
+    }
+
+    /*========================== 订单管理 =========================================*/
+    @RequestMapping("/adminOrder")
+    public String getadminOrder(){
+        return "admin/adminOrder/adminOrderIndex";
     }
 
 }

@@ -1,5 +1,7 @@
 package com.chatRobot.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Manager {
@@ -97,6 +99,7 @@ public class Manager {
         return createTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
@@ -105,6 +108,7 @@ public class Manager {
         return updateTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }

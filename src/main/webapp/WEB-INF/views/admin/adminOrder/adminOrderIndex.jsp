@@ -1,14 +1,24 @@
 <%--
   Created by IntelliJ IDEA.
   User: sun xiaoming
-  Date: 2019/4/8
-  Time: 21:18
+  Date: 2019/4/9
+  Time: 21:46
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!--输出,条件,迭代标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fmt" %>
+<!--数据格式化标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="sql" %>
+<!--数据库相关标签库-->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="fn" %>
+<!--常用函数标签库-->
+<%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>adminManagerUser</title>
+    <title>adminOrderIndexJsp</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -49,7 +59,7 @@
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="<%=path%>/servlet/adminLogout">退出</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/servlet/adminLogout">退了</a></li>
         </ul>
     </div>
 
@@ -57,8 +67,10 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminBaseUser">基本用户管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminManagerUser">管理员用户管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">订单信息管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProType">商品类型管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProModelFile">商品模型管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProStorge">商品库存管理</a></li>
             </ul>
         </div>
     </div>
@@ -89,7 +101,7 @@
             url: '<%=path%>/Goods/GoodsData',
             page: true,
             toolbar: 'default',
-            loading:'true',
+            loading: 'true',
             limit: 30,
             response: {
                 statusCode: 100 //重新规定成功的状态码为 200，table 组件默认为 0
@@ -254,11 +266,11 @@
                 });
             } else if (obj.event === 'modelfile') {
                 layer.open({
-                    type:2,
-                    area:['800px','800px'],
-                    title:'3D模型展示',
-                    content:'<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
-                    maxmin : 'true',
+                    type: 2,
+                    area: ['800px', '800px'],
+                    title: '3D模型展示',
+                    content: '<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
+                    maxmin: 'true',
                 })
             }
         });

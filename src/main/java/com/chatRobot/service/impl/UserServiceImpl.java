@@ -38,4 +38,22 @@ public class UserServiceImpl implements IUserService {
         return userMapper.selectByExample(example);
     }
 
+    // admin update User Selective
+    public int updateUserBySelective(User user){
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    // admin delete User with UserIdList
+    public int deleteUserByUserIds(List<Integer> userIds){
+        UserExample example = new UserExample();
+        UserExample.Criteria criteria = example.createCriteria();
+        criteria.andUserIdIn(userIds);
+        return userMapper.deleteByExample(example);
+    }
+
+    // admin delete user with userId (single)
+    public int deleteUserById(Integer userId){
+        return userMapper.deleteByPrimaryKey(userId);
+    }
+
 }

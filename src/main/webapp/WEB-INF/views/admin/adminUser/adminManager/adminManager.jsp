@@ -2,13 +2,13 @@
   Created by IntelliJ IDEA.
   User: sun xiaoming
   Date: 2019/4/8
-  Time: 21:05
+  Time: 21:18
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>adminUserIndex</title>
+    <title>adminManagerUser</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -29,6 +29,7 @@
             max-width: 48px;
         }
     </style>
+
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -96,8 +97,8 @@
         table.render({
             elem: '#demo',
             height: 'full-160',
-            cellMinWidth: '50',
-            url: '<%=path%>/User/UsersData',
+            cellMinWidth: '80',
+            url: '<%=path%>/User/ManagerData',
             page: true,
             toolbar: 'default',
             loading: 'true',
@@ -115,17 +116,16 @@
             },
             cols: [[
                 {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
-                {field: 'userId', title: 'ID', width: 50, sort: true, fixed: 'left'},
-                {field: 'userName', title: '姓名', width: 100, style: "text-algin:center"},
-                {field: 'userNickname', title: '昵称', width: 150, algin: 'center'},
-                {field: 'userEmail', title: '邮箱', width: 250},
-                {field: 'userPhoneNumber', title: '联系方式', width: 150},
-                {field: 'userAddress', title: '地址', width: 200},
-                {field: 'userPassword', title: '密码', width: 140},
-                {field: 'userPicture', title: '头像', width: 80, templet: "#imgtmp"},
-                {field: 'userCreateTime', title: '创建时间', width: 180, sort: true},
-                {field: 'userUpdateTime', title: '更新时间', width: 180, sort: true},
-                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
+                {field: 'managerId', title: 'ID', width: 80, sort: true, fixed: 'left'},
+                {field: 'managerName', title: '管理员名称', width: 180},
+                {field: 'managerAccount', title: '管理员账户', width: 180},
+                {field: 'managerPassword', title: '密码', width: 200},
+                {field: 'managerEmail', title: '邮箱', width: 200},
+                {field: 'managerPicture', title: '头像', width: 80, templet: '#status'},
+                {field: 'managerPhone', title: '联系方式', width: 200},
+                {field: 'createTime', title: '创建时间', width: 200, sort: true},
+                {field: 'updateTime', title: '更新时间', width: 200, sort: true},
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 240}
             ]]
         });
 
@@ -136,9 +136,9 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['600px', '700px'],
-                        title: '用户添加',
-                        content: '<%=path%>/page/getUserAdd',
+                        area: ['700px', '800px'],
+                        title: '管理员添加',
+                        content: '<%=path%>/page/getManagerAdd',
                         maxmin: 'true',
                         end: function () {
                             location.reload();
@@ -149,20 +149,20 @@
                     // 删除操作
                     data = checkStatus.data;
                     if (data.length >= 1) {
-                        var del_userIds = "";
-                        var del_userName = "";
+                        var del_managerIds = "";
+                        var del_managerName = "";
                         for (var i = 0; i < data.length; i++) {
-                            del_userName += data[i].userName + ',';
-                            del_userIds += data[i].userId + '-';
+                            del_managerName += data[i].managerName + ',';
+                            del_managerIds += data[i].managerId + '-';
                         }
-                        del_userName = del_userName.substring(0, del_userName.length - 1);
-                        del_userIds = del_userIds.substring(0, del_userIds.length - 1);
-                        layer.confirm('确认删除 ' + del_userName + ' 等商品吗？', {
+                        del_managerName = del_managerName.substring(0, del_managerName.length - 1);
+                        del_managerIds = del_managerIds.substring(0, del_managerIds.length - 1);
+                        layer.confirm('确认删除 ' + del_managerName + ' 等商品吗？', {
                             btn: ['确认', '取消'],
                             yes: function (index) {
                                 $.ajax({
-                                    url: "<%=path%>/User/UserDelete",
-                                    data: "del_userIds=" + del_userIds,
+                                    url: "<%=path%>/User/ManagerDelete",
+                                    data: "del_managerIds=" + del_managerIds,
                                     async: false,
                                     success: function (result) {
                                         debugger;
@@ -194,9 +194,9 @@
                     } else if (data.length == 1) {
                         layer.open({
                             type: 2,
-                            area: ['600px', '700px'],
-                            title: '用户编辑',
-                            content: '<%=path%>/page/getUserEdit?&userId=' + data[0].userId,
+                            area: ['700px', '800px'],
+                            title: '管理员信息编辑',
+                            content: '<%=path%>/page/getManagerEdit?&managerId=' + data[0].managerId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
@@ -208,16 +208,17 @@
                     break;
             }
         });
+
         // 表格操作 详情 删除 编辑处理函数
         table.on('tool(test)', function (obj) {
             var data = obj.data;
             if (obj.event === 'del') {
-                layer.confirm('真的删除 ' + data.userName + ' 么?', {
+                layer.confirm('真的删除 ' + data.managerName + ' 么?', {
                     btn: ['确认', '取消'],
                     yes: function (index) {
                         $.ajax({
-                            url: "<%=path%>/User/UserDelete",
-                            data: "del_userIds=" + data.userId,
+                            url: "<%=path%>/User/ManagerDelete",
+                            data: "del_managerIds=" + data.managerId,
                             async: false,
                             success: function (result) {
                                 debugger;
@@ -226,7 +227,7 @@
                                     parent.layer.close(index);
                                     location.reload();
                                 } else {
-                                    layer.msg("删除失败");
+                                    layer.msg(result.extend.message);
                                 }
                             },
                             error: function () {
@@ -241,9 +242,9 @@
             } else if (obj.event === 'edit') {
                 layer.open({
                     type: 2,
-                    area: ['700px', '600px'],
-                    title: '用户编辑',
-                    content: '<%=path%>/page/getUserEdit?&userId=' + data.userId,
+                    area: ['700px', '800px'],
+                    title: '管理员编辑',
+                    content: '<%=path%>/page/getManagerEdit?&managerId=' + data.managerId,
                     maxmin: 'true',
                     end: function () {
                         location.reload();
@@ -258,8 +259,8 @@
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
-<script type="text/html" id="imgtmp">
-    <img src="<%=path%>/{{d.userPicture}}">
+<script type="text/html" id="status">
+    <img src="<%=path%>/{{d.managerPicture}}">
 </script>
 </body>
 </html>
