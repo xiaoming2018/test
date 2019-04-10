@@ -36,6 +36,18 @@ public class GoodsController {
     @Autowired
     GoodsTypeServiceImpl goodsTypeService;
 
+    @ResponseBody
+    @RequestMapping("/GetGoods")
+    public Msg getGoods(Integer goodsId){
+        try{
+            Goods goods = goodsService.selectGoodsWithId(goodsId);
+            return Msg.success().add("Goods",goods);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Msg.fail().add("message","查询good失败！");
+        }
+    }
+
     @RequestMapping("/add")
     @ResponseBody
     public Msg addGoodsInShopCart(Integer goodsId, Integer userId, Integer goodsAmount) {

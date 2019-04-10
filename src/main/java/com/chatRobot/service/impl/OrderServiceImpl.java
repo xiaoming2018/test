@@ -32,4 +32,10 @@ public class OrderServiceImpl {
         return orderList;
     }
 
+    // get admin all orders
+    public List<Order> selectAllOrders(){
+        OrderExample example = new OrderExample();
+        return orderMapper.selectByExample(example);
+    }
+
 }

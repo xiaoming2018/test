@@ -291,24 +291,24 @@ public class PageController {
     /*============================*/
     // 商品模型处理
     @RequestMapping("/getProductModelFileAdd")
-    public String getProductModelFileAdd(){
+    public String getProductModelFileAdd() {
         /**
-        * @Author: sun xiaoming
-        * @Description: adminProModel jsp 请求 返回 addModelFile.jsp
-        */
+         * @Author: sun xiaoming
+         * @Description: adminProModel jsp 请求 返回 addModelFile.jsp
+         */
         return "admin/adminProduct/ProductModel/ProductModelAdd";
     }
 
     @RequestMapping("/getProductModelFileEdit")
-    public String getProductModelFileEdit(Integer goodsModelFileId,Model model){
+    public String getProductModelFileEdit(Integer goodsModelFileId, Model model) {
         /**
-        * @Description: adminProMode jsp 请求 返回 editModelFile.jsp
-        */
-        try{
+         * @Description: adminProMode jsp 请求 返回 editModelFile.jsp
+         */
+        try {
             GoodsModel goodsModel = goodsService.selectGoodsModelWithId(goodsModelFileId);
-            model.addAttribute("GoodsModelFile",goodsModel);
+            model.addAttribute("GoodsModelFile", goodsModel);
             return "admin/adminProduct/ProductModel/ProductModelEdit";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "admin/adminWarn";
         }
@@ -317,41 +317,41 @@ public class PageController {
     /*============================*/
     // 商品库存处理
     @RequestMapping("/adminProStorge")
-    public String getAdminProStroge(){
+    public String getAdminProStroge() {
         /**
-        * @Description: 获取商品库存页面
-        */
+         * @Description: 获取商品库存页面
+         */
         return "admin/adminProduct/adminProStorge";
     }
 
     /*==========  admin 用户管理 =================*/
 
     @RequestMapping("/adminUser")
-    public String getadminUser(){
+    public String getadminUser() {
         /**
-        * @Description: adminIndex 进入 用户管理页面
-        */
+         * @Description: adminIndex 进入 用户管理页面
+         */
         return "admin/adminUser/adminUserIndex";
     }
 
     // admin get UserAdd jsp
     @RequestMapping("/getUserAdd")
-    public String getUserAdd(){
+    public String getUserAdd() {
         /**
-        * @Description: 获取 admin UserAdd jsp页面
-        */
+         * @Description: 获取 admin UserAdd jsp页面
+         */
         return "admin/adminUser/adminBaseUser/adminBaseUseradd";
     }
 
     // admin get UserEdit jsp
     @RequestMapping("/getUserEdit")
-    public String getUserEdit(Integer userId, Model model){
+    public String getUserEdit(Integer userId, Model model) {
         // 获取 admin UserEdit jsp页面
-        try{
+        try {
             User user = userService.selectByPrimaryKey(userId);
-            model.addAttribute("User",user);
+            model.addAttribute("User", user);
             return "admin/adminUser/adminBaseUser/adminBaseUserEdit";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return "warn";
         }
@@ -359,34 +359,50 @@ public class PageController {
 
     // 左侧功能区点击时返回admin User base jsp
     @RequestMapping("/adminBaseUser")
-    public String getadminBseUserJsp(){
+    public String getadminBseUserJsp() {
         return "admin/adminUser/adminBaseUser/adminBaseUser";
     }
 
     // 左侧功能区 点击是返回 admin User base jsp
     @RequestMapping("/adminManagerUser")
-    public String getadminManagerUserJsp(){
+    public String getadminManagerUserJsp() {
         return "admin/adminUser/adminManager/adminManager";
     }
 
     // admin manager add jsp
     @RequestMapping("/getManagerAdd")
-    public String getManagerAdd(){
+    public String getManagerAdd() {
         return "admin/adminUser/adminManager/adminManagerAdd";
     }
 
     // admin manager edit jsp
     @RequestMapping("/getManagerEdit")
-    public String getgetManagerEdit(Integer managerId,Model model){
+    public String getgetManagerEdit(Integer managerId, Model model) {
         Manager manager = managerService.selectByManagerId(managerId);
-        model.addAttribute("Manager",manager);
+        model.addAttribute("Manager", manager);
         return "admin/adminUser/adminManager/adminManagerEdit";
     }
 
     /*========================== 订单管理 =========================================*/
     @RequestMapping("/adminOrder")
-    public String getadminOrder(){
+    public String getadminOrder() {
         return "admin/adminOrder/adminOrderIndex";
+    }
+
+    // admin order add jsp
+    @RequestMapping("/getOrderAdd")
+    public String getOrderadd(Model model) {
+        try {
+            List<User> users = userService.selectAllUsers();
+            List<Goods> goods = goodsService.selectAllGoods();
+            model.addAttribute("Users", users);
+            model.addAttribute("Goods", goods);
+            return "admin/adminOrder/adminOrderAdd";
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("message", "order数据查询失败，请重新操作");
+            return "admin/adminWarn";
+        }
     }
 
 }

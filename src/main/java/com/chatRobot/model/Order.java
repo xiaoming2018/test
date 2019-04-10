@@ -1,5 +1,7 @@
 package com.chatRobot.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Order {
@@ -78,6 +80,7 @@ public class Order {
         return orderTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setOrderTime(Date orderTime) {
         this.orderTime = orderTime;
     }
@@ -86,6 +89,7 @@ public class Order {
         return orderCreateTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setOrderCreateTime(Date orderCreateTime) {
         this.orderCreateTime = orderCreateTime;
     }
@@ -94,6 +98,7 @@ public class Order {
         return orderUpdateTime;
     }
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     public void setOrderUpdateTime(Date orderUpdateTime) {
         this.orderUpdateTime = orderUpdateTime;
     }

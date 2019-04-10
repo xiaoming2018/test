@@ -67,10 +67,8 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">订单信息管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProType">商品类型管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProModelFile">商品模型管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProStorge">商品库存管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">未完成订单管理</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/adminProType">已完成订单管理</a></li>
             </ul>
         </div>
     </div>
@@ -98,7 +96,7 @@
             elem: '#demo',
             height: 'full-160',
             cellMinWidth: '80',
-            url: '<%=path%>/Goods/GoodsData',
+            url: '<%=path%>/order/orderData',
             page: true,
             toolbar: 'default',
             loading: 'true',
@@ -116,17 +114,50 @@
             },
             cols: [[
                 {type: 'checkbox', fixed: 'left', style: 'height:28px;'},
-                {field: 'goodsId', title: 'ID', width: 100, sort: true, fixed: 'left'},
-                {field: 'goodsName', title: '商品名称', width: 200},
-                {field: 'goodsPrice', title: '价格', width: 150, sort: true},
-                {field: 'goodsDiscount', title: '折扣', width: 150, sort: true},
-                {field: 'goodsIsnew', title: '是否新品', width: 150, templet: '#IsNew'},
-                {field: 'goodsStatus', title: '状态', width: 150, templet: '#status'},
-                {field: 'goodsAmount', title: '库存', width: 140, sort: true},
-                {field: 'goodsSellAmount', title: '已售', width: 140, sort: true},
-                {field: 'goodsCreateTime', title: '创建时间', width: 180, sort: true},
-                {field: 'goodsUpdateTime', title: '更新时间', width: 180, sort: true},
-                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 216}
+                {field: 'orderId', title: 'ID', width: 100, sort: true, fixed: 'left'},
+                {
+                    field: 'userId', title: '用户名称', width: 200, templet: function (d) {
+                        var name = "";
+                        $.ajax({
+                            url: "<%=path%>/User/GetUser",
+                            data: "userId=" + d.userId,
+                            type:"post",
+                            async: false,
+                            success: function (result) {
+                                debugger;
+                                console.log(result);
+                                if (result.code == 100) {
+                                    console.log(result.extend.User.userName);
+                                    name = result.extend.User.userName;
+                                }
+                            }
+                        })
+                        return name;
+                    }
+                },
+                {field: 'goodsId', title: '商品名称', width: 150, templet: function (d) {
+                        var goodsName = "";
+                        $.ajax({
+                            url: "<%=path%>/Goods/GetGoods",
+                            data: "goodsId=" + d.goodsId,
+                            type:"post",
+                            async: false,
+                            success: function (result) {
+                                debugger;
+                                console.log(result);
+                                if (result.code == 100) {
+                                    goodsName = result.extend.Goods.goodsName;
+                                }
+                            }
+                        })
+                        return goodsName;
+                    }},
+                {field: 'goodsAmount', title: '订单数量', width: 150},
+                {field: 'orderStatus', title: '订单状态', width: 150},
+                {field: 'orderTime', title: '下单时间', width: 140},
+                {field: 'orderCreateTime', title: '创建时间', width: 140, sort: true},
+                {field: 'orderUpdateTime', title: '更新时间', width: 180, sort: true},
+                {fixed: 'right', title: '操作', toolbar: '#barDemo', width: 250}
             ]]
         });
 
@@ -138,8 +169,8 @@
                     layer.open({
                         type: 2,
                         area: ['700px', '800px'],
-                        title: '商品添加',
-                        content: '<%=path%>/page/getProductAdd',
+                        title: '订单添加',
+                        content: '<%=path%>/page/getOrderAdd',
                         maxmin: 'true',
                         end: function () {
                             location.reload();
@@ -278,19 +309,18 @@
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="modelfile">模型</a>
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">详情</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">确认订单</a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">取消订单</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除订单</a>
 </script>
-<script type="text/html" id="status">
+<script type="text/html" id="GetUser">
     {{#  if(d.goodsStatus == 0){ }}
     上市
     {{#  } else { }}
     下架
     {{#  } }}
 </script>
-<script type="text/html" id="IsNew">
+<script type="text/html" id="GetGood">
     {{#  if(d.goodsIsnew == true){}}
     是
     {{#  } else { }}

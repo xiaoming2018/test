@@ -5,10 +5,13 @@ import com.chatRobot.service.impl.GoodsCartServiceImpl;
 import com.chatRobot.service.impl.GoodsServiceImpl;
 import com.chatRobot.service.impl.OrderServiceImpl;
 import com.chatRobot.service.impl.UserServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -155,5 +158,33 @@ public class OrderController {
         }else{
             return Msg.fail();
         }
+    }
+
+    // admin order index data
+    @ResponseBody
+    @RequestMapping("/orderData")
+    public Msg getorderData(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit){
+        try{
+            // 联表查询
+            PageHelper.startPage(page,limit);
+            List<Order> managerList = orderService.selectAllOrders();
+            PageInfo pageInfo = new PageInfo(managerList,limit);
+            return Msg.success().add("PageInfo", pageInfo);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Msg.fail().add("message","");
+        }
+    }
+
+    // admin order add
+    @ResponseBody
+    @RequestMapping("/OrderAdd")
+    public Msg getOrderAdd(Order order){
+        Date date = new Date();
+        order.setOrderCreateTime(date);
+        order.setOrderUpdateTime(date);
+
+
+        return null;
     }
 }

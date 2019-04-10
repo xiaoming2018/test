@@ -46,6 +46,19 @@ public class UserController {
         }
     }
 
+    // 根据UserId 获取 User
+    @ResponseBody
+    @RequestMapping("/User/GetUser")
+    public Msg getUser(Integer userId){
+        try{
+            User user = userService.selectByPrimaryKey(userId);
+            return Msg.success().add("User",user);
+        }catch (Exception e){
+            e.printStackTrace();
+            return Msg.fail().add("message","获取user失败");
+        }
+    }
+
     // 普通用户添加
     @ResponseBody
     @RequestMapping("/User/UserAdd")
