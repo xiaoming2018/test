@@ -98,10 +98,10 @@ public class OrderController {
             }
             //订单数据入库后，进行订单展示。
             //订单生成，，购物车内容删除。
-            for (int i=0;i<goodsCartList.size();i++){
+            for (int i = 0; i < goodsCartList.size(); i++) {
                 // 通过userId 删除 购物车记录
-                int flag = goodsCartService.deleteByUserIdAndGoodsId(goodsCartList.get(i).getUserId(),goodsCartList.get(i).getGoodsId());
-                if(flag == 0){
+                int flag = goodsCartService.deleteByUserIdAndGoodsId(goodsCartList.get(i).getUserId(), goodsCartList.get(i).getGoodsId());
+                if (flag == 0) {
                     return "warn";
                 }
             }
@@ -154,8 +154,8 @@ public class OrderController {
                 totalPrice += goods.getGoodsPrice().doubleValue() * orderList.get(i).getGoodsAmount();
                 goodsList.add(goods);
             }
-            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount",totalGoodsAmount);
-        }else{
+            return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount", totalGoodsAmount);
+        } else {
             return Msg.fail();
         }
     }
@@ -163,28 +163,173 @@ public class OrderController {
     // admin order index data
     @ResponseBody
     @RequestMapping("/orderData")
-    public Msg getorderData(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit){
-        try{
+    public Msg getorderData(@RequestParam(value = "page", defaultValue = "1") Integer page, @RequestParam(value = "limit", defaultValue = "30") Integer limit) {
+        try {
             // 联表查询
-            PageHelper.startPage(page,limit);
+            PageHelper.startPage(page, limit);
             List<Order> managerList = orderService.selectAllOrders();
-            PageInfo pageInfo = new PageInfo(managerList,limit);
+            PageInfo pageInfo = new PageInfo(managerList, limit);
             return Msg.success().add("PageInfo", pageInfo);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return Msg.fail().add("message","");
+            return Msg.fail().add("message", "");
         }
     }
 
     // admin order add
     @ResponseBody
     @RequestMapping("/OrderAdd")
-    public Msg getOrderAdd(Order order){
+    public Msg getOrderAdd(Order order) {
+        System.out.println(order.toString());
         Date date = new Date();
-        order.setOrderCreateTime(date);
-        order.setOrderUpdateTime(date);
+        // 订单唯一性检验 根据userId and goodsId 为联合主键
+        try {
+            List<Order> orderList = orderService.selectByUserIdAndGoodsId(order.getUserId(), order.getGoodsId());
+            if (orderList.size() == 0) {
+                // 新增
+                order.setOrderCreateTime(date);
+                order.setOrderUpdateTime(date);
+                order.setOrderTime(date);
+                try {
+                    int flag = orderService.insertSelective(order);
+                    if (flag == 1) {
+                        return Msg.success().add("message", "添加订单成功！");
+                    } else {
+                        return Msg.fail().add("message", "order订单添加失败！");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Msg.fail().add("message", "order 添加成功！");
+                }
+            } else {
+                // amount 更新
+                order.setOrderId(orderList.get(0).getOrderId());
+                order.setGoodsAmount(order.getGoodsAmount() + orderList.get(0).getGoodsAmount());
+                order.setOrderUpdateTime(date);
+                order.setOrderCreateTime(orderList.get(0).getOrderCreateTime());
+                order.setOrderTime(orderList.get(0).getOrderTime());
+                try {
+                    int flag = orderService.updateOrderByselective(order);
+                    if (flag == 1) {
+                        return Msg.success();
+                    } else {
+                        return Msg.fail().add("message", "合并order订单数据出错!");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return Msg.fail().add("message", "order订单更新失败！");
+                }
+            }
 
-
-        return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "查询订单数据失败！");
+        }
     }
+
+    // admin order edit
+    @ResponseBody
+    @RequestMapping("/OrderEdit")
+    public Msg getOrderEdit(Order order) {
+        Date date = new Date();
+        order.setOrderUpdateTime(date);
+        order.setOrderUpdateTime(date);
+        try {
+            int flag = orderService.updateOrderByselective(order);
+            if (flag == 1) {
+                return Msg.success();
+            } else {
+                return Msg.fail().add("message", "order数据update失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail();
+        }
+    }
+
+    // admin order delete
+    @ResponseBody
+    @RequestMapping("/OrderDelete")
+    public Msg getOrderDelete(String del_orderIds) {
+        if (del_orderIds.contains("-")) {
+            // 批量删除
+            List<Integer> del_orderIdList = new ArrayList<>();
+            String[] del_orderId = del_orderIds.split("_");
+            for (String string : del_orderId) {
+                del_orderIdList.add(Integer.parseInt(string));
+            }
+            try {
+                int flag = orderService.deleteByorderList(del_orderIdList);
+                if (flag == del_orderId.length) {
+                    return Msg.success();
+                } else {
+                    return Msg.fail().add("message", "批量删除 orderList 出错！");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail().add("message", "批量删除 order 出错！");
+            }
+        } else {
+            // 单一删除
+            try {
+                int flag = orderService.deleteOrderByOrderId(Integer.parseInt(del_orderIds));
+                if (flag == 1) {
+                    return Msg.success();
+                } else {
+                    return Msg.fail().add("message", "删除order");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Msg.fail().add("message", "单一删除 order 出错！");
+            }
+        }
+    }
+
+    // admin order confirm
+    @ResponseBody
+    @RequestMapping("/orderConfirm")
+    public Msg orderConfirm(Integer orderId) {
+        try {
+            Order order = orderService.selectByOrderId(orderId);
+            String status = order.getOrderStatus();
+            if (status.equals("未确认")) {
+                order.setOrderStatus("已确认");
+                if (1 == orderService.updateOrderByselective(order)) {
+                    return Msg.success().add("message", "订单确认成功！");
+                } else {
+                    return Msg.fail().add("message","订单数据更新失败！");
+                }
+            } else {
+                return Msg.fail().add("message", "订单已经确认，无须重复确认！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "order 确认失败！");
+        }
+    }
+
+    // admin order unconfrim
+    @ResponseBody
+    @RequestMapping("/orderUnconfrim")
+    public Msg orderUnconfrim(Integer orderId){
+        try {
+            Order order = orderService.selectByOrderId(orderId);
+            String status = order.getOrderStatus();
+            if (status.equals("已确认")) {
+                order.setOrderStatus("未确认");
+                if (1 == orderService.updateOrderByselective(order)) {
+                    return Msg.success().add("message", "订单取消成功！");
+                } else {
+                    return Msg.fail().add("message","订单数据取消失败！");
+                }
+            } else {
+                return Msg.fail().add("message", "订单已经取消，无须重复确认！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "order 确认失败！");
+        }
+    }
+
+
 }

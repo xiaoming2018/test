@@ -1,6 +1,7 @@
 package com.chatRobot.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -15,10 +16,13 @@ public class Order {
 
     private String orderStatus;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderCreateTime;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date orderUpdateTime;
 
     public Order(Integer orderId, Integer userId, Integer goodsId, Integer goodsAmount, String orderStatus, Date orderTime, Date orderCreateTime, Date orderUpdateTime) {

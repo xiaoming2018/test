@@ -67,8 +67,8 @@
         <div class="layui-side-scroll">
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">未完成订单管理</a></li>
-                <li class="layui-nav-item"><a href="<%=path%>/page/adminProType">已完成订单管理</a></li>
+                <li class="layui-nav-item"><a href="">未完成订单管理</a></li>
+                <li class="layui-nav-item"><a href="">已完成订单管理</a></li>
             </ul>
         </div>
     </div>
@@ -121,13 +121,10 @@
                         $.ajax({
                             url: "<%=path%>/User/GetUser",
                             data: "userId=" + d.userId,
-                            type:"post",
+                            type: "post",
                             async: false,
                             success: function (result) {
-                                debugger;
-                                console.log(result);
                                 if (result.code == 100) {
-                                    console.log(result.extend.User.userName);
                                     name = result.extend.User.userName;
                                 }
                             }
@@ -135,23 +132,23 @@
                         return name;
                     }
                 },
-                {field: 'goodsId', title: '商品名称', width: 150, templet: function (d) {
+                {
+                    field: 'goodsId', title: '商品名称', width: 150, templet: function (d) {
                         var goodsName = "";
                         $.ajax({
                             url: "<%=path%>/Goods/GetGoods",
                             data: "goodsId=" + d.goodsId,
-                            type:"post",
+                            type: "post",
                             async: false,
                             success: function (result) {
-                                debugger;
-                                console.log(result);
                                 if (result.code == 100) {
                                     goodsName = result.extend.Goods.goodsName;
                                 }
                             }
                         })
                         return goodsName;
-                    }},
+                    }
+                },
                 {field: 'goodsAmount', title: '订单数量', width: 150},
                 {field: 'orderStatus', title: '订单状态', width: 150},
                 {field: 'orderTime', title: '下单时间', width: 140},
@@ -168,7 +165,7 @@
                 case 'add':
                     layer.open({
                         type: 2,
-                        area: ['700px', '800px'],
+                        area: ['600px', '400px'],
                         title: '订单添加',
                         content: '<%=path%>/page/getOrderAdd',
                         maxmin: 'true',
@@ -181,33 +178,29 @@
                     // 删除操作
                     data = checkStatus.data;
                     if (data.length >= 1) {
-                        var del_goodsIds = "";
-                        var del_goodsName = "";
+                        var del_orderIds = "";
                         for (var i = 0; i < data.length; i++) {
-                            del_goodsName += data[i].goodsName + ',';
-                            del_goodsIds += data[i].goodsId + '-';
+                            del_orderIds += data[i].orderId + '-';
                         }
-                        del_goodsName = del_goodsName.substring(0, del_goodsName.length - 1);
-                        del_goodsIds = del_goodsIds.substring(0, del_goodsIds.length - 1);
-                        layer.confirm('确认删除 ' + del_goodsName + ' 等商品吗？', {
+                        del_orderIds = del_orderIds.substring(0, del_orderIds.length - 1);
+                        layer.confirm('确认删除ID: ' + del_orderIds + ' 等订单吗？', {
                             btn: ['确认', '取消'],
                             yes: function (index) {
                                 $.ajax({
-                                    url: "<%=path%>/Goods/GoodsDelete",
-                                    data: "del_goodsIds=" + del_goodsIds,
+                                    url: "<%=path%>/order/OrderDelete",
+                                    data: "del_orderIds=" + del_orderIds,
                                     async: false,
                                     success: function (result) {
-                                        debugger;
                                         if (result.code == 100) {
                                             layer.msg("删除成功");
                                             parent.layer.close(index);
-                                            location.reload();
+                                            location.reload(); // 重新加载页面
                                         } else {
-                                            layer.msg("删除失败");
+                                            layer.msg(result.extend.message);
                                         }
                                     },
                                     error: function () {
-                                        layer.msg("删除请求失败！");
+                                        layer.msg("删除请求网络错误！");
                                     }
                                 })
                             },
@@ -226,9 +219,9 @@
                     } else if (data.length == 1) {
                         layer.open({
                             type: 2,
-                            area: ['700px', '800px'],
-                            title: '商品编辑',
-                            content: '<%=path%>/page/getProductEdit?&goodsId=' + data[0].goodsId,
+                            area: ['600px', '400px'],
+                            title: '订单编辑',
+                            content: '<%=path%>/page/getOrderEdit?&orderId=' + data[0].orderId,
                             maxmin: 'true',
                             end: function () {
                                 location.reload();
@@ -244,39 +237,26 @@
         // 表格操作 详情 删除 编辑处理函数
         table.on('tool(test)', function (obj) {
             var data = obj.data;
-            if (obj.event === 'detail') {
+            if (obj.event === 'confirm') {
                 // 商品细节
-                layer.msg('ID：' + data.goodsName + ' 的查看操作');
-                layer.open({
-                    type: 2,
-                    area: ['700px', '800px'],
-                    title: '商品编辑',
-                    content: '<%=path%>/page/getProductDetail?&goodsId=' + data.goodsId,
-                    maxmin: 'true',
-                    end: function () {
-                        location.reload();
-                    }
-                });
-            } else if (obj.event === 'del') {
-                layer.confirm('真的删除 ' + data.goodsName + ' 么?', {
+                layer.confirm('确认ID: ' + data.orderId + ' 订单么?', {
                     btn: ['确认', '取消'],
                     yes: function (index) {
                         $.ajax({
-                            url: "<%=path%>/Goods/GoodsDelete",
-                            data: "del_goodsIds=" + data.goodsId,
+                            url: "<%=path%>/order/orderConfirm",
+                            data: "orderId=" + data.orderId,
                             async: false,
                             success: function (result) {
-                                debugger;
                                 if (result.code == 100) {
-                                    layer.msg("删除成功");
+                                    layer.msg(result.extend.message);
                                     parent.layer.close(index);
                                     location.reload();
                                 } else {
-                                    layer.msg("删除失败");
+                                    layer.msg(result.extend.message);
                                 }
                             },
                             error: function () {
-                                layer.msg("删除请求失败！");
+                                layer.msg("确认订单请求失败！");
                             }
                         })
                     },
@@ -284,24 +264,57 @@
                         parent.layer.close(index);
                     }
                 })
-            } else if (obj.event === 'edit') {
-                layer.open({
-                    type: 2,
-                    area: ['700px', '800px'],
-                    title: '商品编辑',
-                    content: '<%=path%>/page/getProductEdit?&goodsId=' + data.goodsId,
-                    maxmin: 'true',
-                    end: function () {
-                        location.reload();
+            } else if (obj.event === 'unconfirm') {
+                layer.confirm('确认 取消 ' + data.orderId + ' 订单么?', {
+                    btn: ['确认', '取消'],
+                    yes: function (index) {
+                        $.ajax({
+                            url: "<%=path%>/order/orderUnconfrim",
+                            data: "orderId=" + data.orderId,
+                            async: false,
+                            success: function (result) {
+                                debugger;
+                                if (result.code == 100) {
+                                    parent.layer.close(index);
+                                    location.reload();
+                                } else {
+                                    layer.msg("订单取消失败");
+                                }
+                            },
+                            error: function () {
+                                layer.msg("订单取消请求失败！");
+                            }
+                        })
+                    },
+                    btn2: function (index) {
+                        parent.layer.close(index);
                     }
-                });
-            } else if (obj.event === 'modelfile') {
-                layer.open({
-                    type: 2,
-                    area: ['800px', '800px'],
-                    title: '3D模型展示',
-                    content: '<%=path%>/page/getProductFile?&goodsId=' + data.goodsId,
-                    maxmin: 'true',
+                })
+            } else if (obj.event === 'del') {
+                layer.confirm('确认删除 ' + data.orderId + ' 订单么?', {
+                    btn: ['确认', '取消'],
+                    yes: function (index) {
+                        $.ajax({
+                            url: "<%=path%>/order/OrderDelete",
+                            data: "del_orderIds=" + data.orderId,
+                            async: false,
+                            success: function (result) {
+                                debugger;
+                                if (result.code == 100) {
+                                    parent.layer.close(index);
+                                    location.reload();
+                                } else {
+                                    layer.msg("订单删除失败");
+                                }
+                            },
+                            error: function () {
+                                layer.msg("订单删除请求失败！");
+                            }
+                        })
+                    },
+                    btn2: function (index) {
+                        parent.layer.close(index);
+                    }
                 })
             }
         });
@@ -309,23 +322,9 @@
 
 </script>
 <script type="text/html" id="barDemo">
-    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">确认订单</a>
-    <a class="layui-btn layui-btn-xs" lay-event="edit">取消订单</a>
+    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="confirm">确认订单</a>
+    <a class="layui-btn layui-btn-xs" lay-event="unconfirm">取消订单</a>
     <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除订单</a>
-</script>
-<script type="text/html" id="GetUser">
-    {{#  if(d.goodsStatus == 0){ }}
-    上市
-    {{#  } else { }}
-    下架
-    {{#  } }}
-</script>
-<script type="text/html" id="GetGood">
-    {{#  if(d.goodsIsnew == true){}}
-    是
-    {{#  } else { }}
-    否
-    {{#  } }}
 </script>
 </body>
 </html>

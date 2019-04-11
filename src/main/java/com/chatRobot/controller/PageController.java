@@ -32,6 +32,8 @@ public class PageController {
     private GoodsTypeServiceImpl goodsTypeService;
     @Autowired
     private ManagerServiceImpl managerService;
+    @Autowired
+    private OrderServiceImpl orderService;
 
 
     @RequestMapping("/toIndex")
@@ -401,6 +403,24 @@ public class PageController {
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("message", "order数据查询失败，请重新操作");
+            return "admin/adminWarn";
+        }
+    }
+
+    // admin get order Edit jsp
+    @RequestMapping("/getOrderEdit")
+    public String getOrderAdd(Integer orderId, Model model) {
+        try{
+            Order order = orderService.selectByOrderId(orderId);
+            model.addAttribute("Order",order);
+            List<User> users = userService.selectAllUsers();
+            List<Goods> goods = goodsService.selectAllGoods();
+            model.addAttribute("Users", users);
+            model.addAttribute("Goods", goods);
+            return "admin/adminOrder/adminOrderEdit";
+        }catch (Exception e){
+            e.printStackTrace();
+            model.addAttribute("message","查询order订单失败！");
             return "admin/adminWarn";
         }
     }

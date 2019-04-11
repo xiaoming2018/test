@@ -84,7 +84,7 @@
         form.on('submit(formDemo)', function (data) {
             //layer.msg(JSON.stringify(data.field));
             $.ajax({
-                url: "<%=path%>/Order/OrderAdd",
+                url: "<%=path%>/order/OrderAdd",
                 dataType: 'json',
                 data: data.field,
                 success: function (data) {

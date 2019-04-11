@@ -120,7 +120,6 @@
     layui.use('form', function () {
         var form = layui.form;
         //监听提交
-        debugger;
         var temp = "${Goods.goodsTypeId}";
         $("#selectTypeId").val(temp);
         if('${Goods.goodsIsnew}' == 'true'){
@@ -137,7 +136,6 @@
                 data: data.field,
                 success: function (data) {
                     if (data.code == 100) {
-                        console.log(data);
                         layer.msg("更新成功！");
                         parent.layer.close(index);
                     } else {

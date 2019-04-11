@@ -38,4 +38,36 @@ public class OrderServiceImpl {
         return orderMapper.selectByExample(example);
     }
 
+    // get Order by orderId
+    public Order selectByOrderId(Integer orderId){
+        return orderMapper.selectByPrimaryKey(orderId);
+    }
+
+    // update order by orderselective
+    public int updateOrderByselective(Order order){
+        return orderMapper.updateByPrimaryKeySelective(order);
+    }
+
+    // delete order by orderId only
+    public int deleteOrderByOrderId(Integer orderId){
+        return orderMapper.deleteByPrimaryKey(orderId);
+    }
+
+    // delete order by orderList
+    public int deleteByorderList(List<Integer> del_orderList){
+        OrderExample orderExample = new OrderExample();
+        OrderExample.Criteria criteria = orderExample.createCriteria();
+        criteria.andOrderIdIn(del_orderList);
+        return orderMapper.deleteByExample(orderExample);
+    }
+
+    // 联合主键 唯一性检验
+    public List<Order> selectByUserIdAndGoodsId(Integer userId,Integer goodsId){
+        OrderExample orderExample = new OrderExample();
+        OrderExample.Criteria criteria = orderExample.createCriteria();
+        criteria.andUserIdEqualTo(userId);
+        criteria.andGoodsIdEqualTo(goodsId);
+        return orderMapper.selectByExample(orderExample);
+    }
+
 }
