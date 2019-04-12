@@ -18,7 +18,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>TheWebGL</title>
+    <title>ConsoleDayOrder</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -89,9 +89,7 @@
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 50px;">
-            <div id="main" style="margin: auto; width: 1200px;height:800px;">
-                the webGL controller
-            </div>
+            <div id="main" style="margin: auto; width: 1200px;height:800px;">每日订单统计</div>
         </div>
     </div>
     <div class="layui-footer">
@@ -103,6 +101,66 @@
     layui.use('element', function () {
         var element = layui.element;
     });
+    var myChart = echarts.init(document.getElementById("main"));
+    var option = {
+        title: {
+            text: '每日订单统计'
+        },
+        tooltip: {},
+        legend: {
+            data: ['订单数量']
+        },
+        xAxis: {
+            data: []
+        },
+        yAxis: {},
+        series: [{
+            name: '订单数量',
+            type: 'bar',
+            data: []
+        }]
+    };
+    // 使用刚指定的配置项和数据显示图表。
+    myChart.showLoading();// 数据加载完成之前显示一段简单的loading动画
+
+    var date = []; // 时间数组，（实际用来盛放x轴的坐标值）
+    var numbers = []; // 订单数量数组，（实际用来盛放y轴的坐标值）
+    $.ajax({
+        type: "post",
+        async: true,
+        url: "<%=path%>/Console/getOrderBydays",
+        dataType: "json",
+        success: function (result) {
+            if (result.code == 100) {
+                // 处理返回数据 填入表格
+                debugger;
+                console.log(result);
+                for (var i = 0; i < result.extend.pastDaysList.length; i++) {
+                    date.push(result.extend.pastDaysList[i]);
+                    numbers.push(result.extend.orderList[i]);
+                }
+                myChart.hideLoading();
+                myChart.setOption({
+                    xAxis: {
+                        data: date
+                    },
+                    series: [{
+                        name: '订单数量',
+                        type: 'bar',
+                        data: numbers
+                    }]
+
+                })
+            } else {
+                layer.msg("数据加载失败，请刷新页面！");
+            }
+        },
+        error: function () {
+            layer.msg("表格数据网络请求出错！");
+            myChart.hideLoading();
+        }
+    })
+    myChart.setOption(option);
 </script>
 </body>
 </html>

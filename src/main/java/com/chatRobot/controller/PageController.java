@@ -410,19 +410,37 @@ public class PageController {
     // admin get order Edit jsp
     @RequestMapping("/getOrderEdit")
     public String getOrderAdd(Integer orderId, Model model) {
-        try{
+        try {
             Order order = orderService.selectByOrderId(orderId);
-            model.addAttribute("Order",order);
+            model.addAttribute("Order", order);
             List<User> users = userService.selectAllUsers();
             List<Goods> goods = goodsService.selectAllGoods();
             model.addAttribute("Users", users);
             model.addAttribute("Goods", goods);
             return "admin/adminOrder/adminOrderEdit";
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            model.addAttribute("message","查询order订单失败！");
+            model.addAttribute("message", "查询order订单失败！");
             return "admin/adminWarn";
         }
+    }
+
+    // admin get console day order jsp
+    @RequestMapping("/getConsoleDayOrder")
+    public String getConsoleDayOrder() {
+        return "admin/adminConsole/ConsoleDayOrder";
+    }
+
+    // admin get console month order jsp
+    @RequestMapping("/getConsoleMonthOrder")
+    public String getConsoleMonthOrder() {
+        return "admin/adminConsole/ConsoleMonthOrder";
+    }
+
+    // admin get console order total jsp
+    @RequestMapping("/getConsoleOrderTotal")
+    public String getConsoleOrderTotal() {
+        return "admin/adminConsole/ConsoleOrder";
     }
 
 }
