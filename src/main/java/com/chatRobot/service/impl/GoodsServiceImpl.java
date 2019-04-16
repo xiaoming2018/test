@@ -7,6 +7,7 @@ import com.chatRobot.model.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -108,12 +109,12 @@ public class GoodsServiceImpl {
     }
 
     // update modelFileBySelective
-    public int updateModelFileBySelective(GoodsModel goodsModel){
+    public int updateModelFileBySelective(GoodsModel goodsModel) {
         return goodsModelMapper.updateByPrimaryKeySelective(goodsModel);
     }
 
     // delete modelfileByIds
-    public int deleteModelFileWithIds(List<Integer> goodsModelFileIds){
+    public int deleteModelFileWithIds(List<Integer> goodsModelFileIds) {
         GoodsModelExample example = new GoodsModelExample();
         GoodsModelExample.Criteria criteria = example.createCriteria();
         criteria.andModelIdIn(goodsModelFileIds);
@@ -121,7 +122,21 @@ public class GoodsServiceImpl {
     }
 
     // delete modelfileById
-    public int deleteModelById(Integer ModelId){
+    public int deleteModelById(Integer ModelId) {
         return goodsModelMapper.deleteByPrimaryKey(ModelId);
     }
+
+    // 根据 goodsIds 查询 typeIds
+    public List<Integer> selectTypeIdsByGoodsIds(List<Integer> goodsIds) {
+        GoodsExample example = new GoodsExample();
+        GoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(goodsIds);
+        List<Goods> goodsList = goodsMapper.selectByExample(example);
+        List<Integer> typeIdList = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            typeIdList.add(goods.getGoodsTypeId());
+        }
+        return typeIdList;
+    }
+
 }

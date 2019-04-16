@@ -1,7 +1,6 @@
 package com.chatRobot.service.impl;
 
 import com.chatRobot.dao.OrderMapper;
-import com.chatRobot.model.GoodsType;
 import com.chatRobot.model.Order;
 import com.chatRobot.model.OrderExample;
 import org.springframework.stereotype.Service;
@@ -10,6 +9,7 @@ import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author sun xiaoming
@@ -95,11 +95,11 @@ public class OrderServiceImpl {
     public List<Integer> selectNumberOfOrderByMonth(List<String> pastDaysList) {
         List<Integer> orderNumber = new ArrayList<>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        for (int i = 0; i < pastDaysList.size()-1; i++) {
+        for (int i = 0; i < pastDaysList.size() - 1; i++) {
             OrderExample example = new OrderExample();
             OrderExample.Criteria criteria = example.createCriteria();
             try {
-                criteria.andOrderTimeBetween(sdf.parse(pastDaysList.get(i+1)),sdf.parse(pastDaysList.get(i)));
+                criteria.andOrderTimeBetween(sdf.parse(pastDaysList.get(i + 1)), sdf.parse(pastDaysList.get(i)));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -109,14 +109,10 @@ public class OrderServiceImpl {
         return orderNumber;
     }
 
-    // 根据 admin goodstype 查询订单数量
-    public List<Integer> selectNumberByGoodsType(List<GoodsType> goodsTypes){
-        List<Integer> orderNumberList = new ArrayList<>();
-        for(int i=0;i<goodsTypes.size();i++){
-            OrderExample example = new OrderExample();
-            OrderExample.Criteria criteria = example.createCriteria();
-        }
-        return null;
+    // 获取销量前10的 goodsId and totalNumber
+    public List<Map<Integer, Integer>> selectByLimit() {
+        return orderMapper.selectByLimit();
     }
+
 
 }

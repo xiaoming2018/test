@@ -1,6 +1,9 @@
 package com.chatRobot.controller;
 
+import com.chatRobot.model.GoodsType;
 import com.chatRobot.model.Msg;
+import com.chatRobot.service.impl.GoodsServiceImpl;
+import com.chatRobot.service.impl.GoodsTypeServiceImpl;
 import com.chatRobot.service.impl.OrderServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author sun xiaoming
@@ -25,6 +25,10 @@ public class ConsoleController {
 
     @Autowired
     private OrderServiceImpl orderService;
+    @Autowired
+    private GoodsServiceImpl goodsService;
+    @Autowired
+    private GoodsTypeServiceImpl goodsTypeService;
 
     public static String getPastDate(int past) {
         Calendar calendar = Calendar.getInstance();
@@ -83,14 +87,37 @@ public class ConsoleController {
     @ResponseBody
     @RequestMapping("/Console/getOrderTotal")
     public Msg getOrderTotal() {
-        // 根据商品销售数量的前十 查询
-        try {
-            //List<Integer> orderNumbers = orderService.selectNumberLimit(); // y 轴数据
-            //return Msg.success().add("orderNumbers", orderNumbers);
-            return null;
-        } catch (Exception e) {
+        try{
+            // 1 从 orderinfo 表中 获取销量前 10 的goodsId 和 数量
+            List<Map<Integer,Integer>> mapsList = orderService.selectByLimit();
+            System.out.println(mapsList.size());
+            List<Integer> goodsIds = new ArrayList<>(); // 保存 goodsId
+            List<Integer> goodsAmounts = new ArrayList<>(); // 保存
+            for (Map<Integer,Integer> map:mapsList) {
+                Iterator<Map.Entry<Integer,Integer>> it = map.entrySet().iterator();
+                while (it.hasNext()){
+                    Map.Entry<Integer,Integer> entry = it.next();
+                    goodsAmounts.add(entry.getValue());
+                    Map.Entry<Integer,Integer> entry1 = it.next();
+                    goodsIds.add(entry1.getValue());
+                }
+            }
+            System.out.println(goodsIds.toString());
+            // 2 从 goodsinfo 表中 获取 typeId 根据typeId进行 number 计算总量和
+            List<Integer> typeIds = goodsService.selectTypeIdsByGoodsIds(goodsIds);
+            // 获取所有商品类型
+            List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
+            // 双层循环，进行typeid 进行计算
+
+
+
+            // 3 从 goodtype 表中 获取类型名  根据数量进行 饼图的绘制
+            List<String> typeNames = goodsTypeService.selectWithIds(typeIds);
+            System.out.println(typeNames);
+        }catch (Exception e){
             e.printStackTrace();
-            return Msg.fail().add("message", "数据库操作失败！");
         }
+
+        return null;
     }
 }

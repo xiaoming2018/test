@@ -6,6 +6,7 @@ import com.chatRobot.model.GoodsTypeExample;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -50,5 +51,17 @@ public class GoodsTypeServiceImpl {
 
     public int updateTypeSelective(GoodsType goodsType) {
         return goodsTypeMapper.updateByPrimaryKeySelective(goodsType);
+    }
+
+    public List<String> selectWithIds(List<Integer> typeIds){
+        GoodsTypeExample example = new GoodsTypeExample();
+        GoodsTypeExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodstypeIdIn(typeIds);
+        List<GoodsType> goodsTypes = goodsTypeMapper.selectByExample(example);
+        List<String> typeNames = new ArrayList<>();
+        for (GoodsType goodsType:goodsTypes) {
+            typeNames.add(goodsType.getGoodstypeName());
+        }
+        return typeNames;
     }
 }

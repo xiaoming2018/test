@@ -2,8 +2,10 @@ package com.chatRobot.dao;
 
 import com.chatRobot.model.Order;
 import com.chatRobot.model.OrderExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface OrderMapper {
     long countByExample(OrderExample example);
@@ -17,6 +19,8 @@ public interface OrderMapper {
     int insertSelective(Order record);
 
     List<Order> selectByExample(OrderExample example);
+
+    List<Map<Integer,Integer>> selectByLimit();
 
     Order selectByPrimaryKey(Integer orderId);
 
