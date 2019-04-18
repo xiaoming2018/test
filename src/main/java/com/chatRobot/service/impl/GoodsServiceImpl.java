@@ -139,4 +139,16 @@ public class GoodsServiceImpl {
         return typeIdList;
     }
 
+    // 根据 goodsIds 查询 goodsNames
+    public List<String> selectGoodsNames(List<Integer> goodsIds) {
+        GoodsExample example = new GoodsExample();
+        GoodsExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(goodsIds);
+        List<Goods> goodsList = goodsMapper.selectByExample(example);
+        List<String> goodsNameList = new ArrayList<>();
+        for (Goods goods : goodsList) {
+            goodsNameList.add(goods.getGoodsName());
+        }
+        return goodsNameList;
+    }
 }

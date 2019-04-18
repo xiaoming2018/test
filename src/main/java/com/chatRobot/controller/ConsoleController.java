@@ -48,6 +48,17 @@ public class ConsoleController {
         return result;
     }
 
+    public static void solveresult(List<Map<Integer, Integer>> mapsList, List<Integer> goodsIds, List<Integer> goodsAmounts) {
+        for (Map<Integer, Integer> map : mapsList) {
+            Iterator<Map.Entry<Integer, Integer>> it = map.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<Integer, Integer> entry = it.next();
+                goodsAmounts.add(entry.getValue());
+                Map.Entry<Integer, Integer> entry1 = it.next();
+                goodsIds.add(entry1.getValue());
+            }
+        }
+    }
 
     // get order number by days  获取最近7天订单数据
     @ResponseBody
@@ -87,37 +98,56 @@ public class ConsoleController {
     @ResponseBody
     @RequestMapping("/Console/getOrderTotal")
     public Msg getOrderTotal() {
-        try{
+        try {
             // 1 从 orderinfo 表中 获取销量前 10 的goodsId 和 数量
-            List<Map<Integer,Integer>> mapsList = orderService.selectByLimit();
+            List<Map<Integer, Integer>> mapsList = orderService.selectByLimit();
             System.out.println(mapsList.size());
             List<Integer> goodsIds = new ArrayList<>(); // 保存 goodsId
-            List<Integer> goodsAmounts = new ArrayList<>(); // 保存
-            for (Map<Integer,Integer> map:mapsList) {
-                Iterator<Map.Entry<Integer,Integer>> it = map.entrySet().iterator();
-                while (it.hasNext()){
-                    Map.Entry<Integer,Integer> entry = it.next();
-                    goodsAmounts.add(entry.getValue());
-                    Map.Entry<Integer,Integer> entry1 = it.next();
-                    goodsIds.add(entry1.getValue());
-                }
-            }
-            System.out.println(goodsIds.toString());
+            List<Integer> goodsAmounts = new ArrayList<>(); // 保存 goodsAmount
+            solveresult(mapsList, goodsIds, goodsAmounts);
             // 2 从 goodsinfo 表中 获取 typeId 根据typeId进行 number 计算总量和
             List<Integer> typeIds = goodsService.selectTypeIdsByGoodsIds(goodsIds);
             // 获取所有商品类型
-            List<GoodsType> goodsTypeList = goodsTypeService.selectAll();
-            // 双层循环，进行typeid 进行计算
-
-
-
-            // 3 从 goodtype 表中 获取类型名  根据数量进行 饼图的绘制
-            List<String> typeNames = goodsTypeService.selectWithIds(typeIds);
-            System.out.println(typeNames);
-        }catch (Exception e){
+            List<GoodsType> goodsTypeList = goodsTypeService.selectAll();  // 将所有的类型进行展示，根据商品类型数量显示
+            Integer[] totalNumberList = new Integer[goodsTypeList.size()]; // 开辟与 type类型同等大小的 totalnumber
+            for (int i = 0; i < goodsTypeList.size(); i++) {
+                totalNumberList[i] = 0; // 初始化数组
+            }
+            List<String> typeNames = new ArrayList<>();
+            for (GoodsType goodsType : goodsTypeList) {
+                typeNames.add(goodsType.getGoodstypeName()); // 获取所有的类型名
+            }
+            // 双层循环，进行typeId 进行计算数量
+            for (int i = 0; i < typeIds.size(); i++) {
+                for (GoodsType goodsType : goodsTypeList) {
+                    if (typeIds.get(i) == goodsType.getGoodstypeId()) {
+                        totalNumberList[typeIds.get(i)] += Integer.parseInt(String.valueOf(goodsAmounts.get(i)));
+                        continue;
+                    }
+                }
+            }
+            return Msg.success().add("totalNumberList", totalNumberList).add("typeNames", typeNames);
+        } catch (Exception e) {
             e.printStackTrace();
+            return Msg.fail().add("message", "获取统计信息时出错！");
         }
+    }
 
-        return null;
+    // get Product best sell
+    @ResponseBody
+    @RequestMapping("/Console/getProductSell")
+    public Msg getProductSell() {
+        try {
+            List<Map<Integer, Integer>> mapsList = orderService.selectByLimit();
+            System.out.println(mapsList.size());
+            List<Integer> goodsIds = new ArrayList<>(); // 保存 goodsId
+            List<Integer> goodsAmounts = new ArrayList<>(); // 保存 goodsAmount
+            solveresult(mapsList, goodsIds, goodsAmounts);
+            List<String> goodsNames = goodsService.selectGoodsNames(goodsIds); // 获取商品名称。
+            return Msg.success().add("goodsAmount", goodsAmounts).add("goodsNames", goodsNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Msg.fail().add("message", "查询热卖商品出错！");
+        }
     }
 }
