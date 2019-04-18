@@ -81,17 +81,14 @@
                         <dd><a href="<%=path%>/page/getConsoleOrderTotal">销量统计</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">热销产品</a></li>
-                <li class="layui-nav-item"><a href="">满意度统计</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/getConsoleProductSell">热销产品</a></li>
             </ul>
         </div>
     </div>
     <div class="layui-body">
         <!-- 内容主体区域 -->
         <div style="padding: 50px;">
-            <div id="main" style="margin: auto; width: 1200px;height:800px;">
-                the webGL controller
-            </div>
+            <div id="main" style="margin: auto; width: 1200px;height:800px;"></div>
         </div>
     </div>
     <div class="layui-footer">

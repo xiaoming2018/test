@@ -443,4 +443,10 @@ public class PageController {
         return "admin/adminConsole/ConsoleOrder";
     }
 
+    //admin get console product sell jsp
+    @RequestMapping("/getConsoleProductSell")
+    public String getConsoleProductSell() {
+        return "admin/adminConsole/ConsoleProductSell";
+    }
+
 }

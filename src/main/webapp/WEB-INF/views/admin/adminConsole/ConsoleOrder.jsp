@@ -81,8 +81,7 @@
                         <dd><a href="<%=path%>/page/getConsoleOrderTotal">销量统计</a></dd>
                     </dl>
                 </li>
-                <li class="layui-nav-item"><a href="">热销产品</a></li>
-                <li class="layui-nav-item"><a href="">满意度统计</a></li>
+                <li class="layui-nav-item"><a href="<%=path%>/page/getConsoleProductSell">热销产品</a></li>
             </ul>
         </div>
     </div>
@@ -104,7 +103,7 @@
     var myChart = echarts.init(document.getElementById("main"));
     var option = {
         title: {
-            text: '订单统计'
+            text: '类型销售统计'
         },
         tooltip: {},
         legend: {
@@ -115,7 +114,7 @@
         },
         yAxis: {},
         series: [{
-            name: '订单数量',
+            name: '类型数量',
             type: 'bar',
             data: []
         }]
@@ -135,9 +134,9 @@
                 // 处理返回数据 填入表格
                 debugger;
                 console.log(result);
-                for (var i = 0; i < result.extend.pastDaysList.length; i++) {
-                    date.push(result.extend.pastDaysList[i]);
-                    numbers.push(result.extend.orderList[i]);
+                for (var i = 0; i < result.extend.totalNumberList.length; i++) {
+                    date.push(result.extend.typeNames[i]);
+                    numbers.push(result.extend.totalNumberList[i]);
                 }
                 myChart.hideLoading();
                 myChart.setOption({

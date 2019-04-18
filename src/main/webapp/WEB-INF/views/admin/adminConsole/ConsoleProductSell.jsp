@@ -18,7 +18,7 @@
 <%@ page isELIgnored="false" %>
 <html>
 <head>
-    <title>ConsoleMonthOrder</title>
+    <title>ConsoleProductSell</title>
     <% String path = request.getContextPath(); %>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -103,19 +103,19 @@
     var myChart = echarts.init(document.getElementById("main"));
     var option = {
         title: {
-            text: '每月订单统计'
+            text: '热销商品统计'
         },
         tooltip: {},
         legend: {
-            data: ['订单数量']
+            data: ['商品数量']
         },
         xAxis: {
             data: []
         },
         yAxis: {},
         series: [{
-            name: '订单数量',
-            type: 'line',
+            name: '商品数量',
+            type: 'bar',
             data: []
         }]
     };
@@ -127,18 +127,16 @@
     $.ajax({
         type: "post",
         async: true,
-        url: "<%=path%>/Console/getOrderByMonth",
+        url: "<%=path%>/Console/getProductSell",
         dataType: "json",
         success: function (result) {
             if (result.code == 100) {
                 // 处理返回数据 填入表格
                 debugger;
                 console.log(result);
-                for (var i = 0; i < result.extend.pastMonthList.length - 1; i++) {
-                    date.push(result.extend.pastMonthList[i]);
-                }
-                for (var i = 0; i < result.extend.orderList.length; i++) {
-                    numbers.push(result.extend.orderList[i]);
+                for (var i = 0; i < result.extend.goodsAmount.length; i++) {
+                    date.push(result.extend.goodsNames[i]);
+                    numbers.push(result.extend.goodsAmount[i]);
                 }
                 myChart.hideLoading();
                 myChart.setOption({
@@ -147,7 +145,7 @@
                     },
                     series: [{
                         name: '订单数量',
-                        type: 'line',
+                        type: 'bar',
                         data: numbers
                     }]
 

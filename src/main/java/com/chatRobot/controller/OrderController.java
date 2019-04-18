@@ -180,7 +180,6 @@ public class OrderController {
     @ResponseBody
     @RequestMapping("/OrderAdd")
     public Msg getOrderAdd(Order order) {
-        System.out.println(order.toString());
         Date date = new Date();
         // 订单唯一性检验 根据userId and goodsId 为联合主键
         try {

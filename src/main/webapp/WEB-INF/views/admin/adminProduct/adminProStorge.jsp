@@ -36,8 +36,8 @@
         <ul class="layui-nav layui-layout-left">
             <li class="layui-nav-item"><a href="<%=path%>/page/adminIndex">控制台</a></li>
             <li class="layui-nav-item"><a href="<%=path%>/page/adminProduct">商品管理</a></li>
-            <li class="layui-nav-item"><a href="">用户管理</a></li>
-            <li class="layui-nav-item"><a href="">订单管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminUser">用户管理</a></li>
+            <li class="layui-nav-item"><a href="<%=path%>/page/adminOrder">订单管理</a></li>
             <li class="layui-nav-item">
                 <a href="javascript:">其它系统</a>
                 <dl class="layui-nav-child">
