@@ -97,7 +97,6 @@ public class OrderController {
                 }
             }
             //订单数据入库后，进行订单展示。
-            //订单生成，，购物车内容删除。
             for (int i = 0; i < goodsCartList.size(); i++) {
                 // 通过userId 删除 购物车记录
                 int flag = goodsCartService.deleteByUserIdAndGoodsId(goodsCartList.get(i).getUserId(), goodsCartList.get(i).getGoodsId());

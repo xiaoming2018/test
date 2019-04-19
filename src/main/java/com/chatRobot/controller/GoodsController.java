@@ -8,7 +8,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -143,13 +142,13 @@ public class GoodsController {
     // 结算中心的更新
     @ResponseBody
     @RequestMapping("/updateCart")
-    public Msg updateGoodsCart(Integer userId, Model model) {
+    public Msg updateGoodsCart(Integer userId) {
         List<Goods> goodsList = new ArrayList<>();
         List<GoodsCart> goodsCartList = goodsCartService.selectByUserId(userId);
         double totalPrice = 0.0;
         int totalGoodsAmount = 0;
         if (!goodsCartList.isEmpty()) {
-            //如果购物车非空
+            //如果购物车非空 根据购物车获取 订单信息
             for (int i = 0; i < goodsCartList.size(); i++) {
                 Goods goods = goodsService.selectGoodsWithId(goodsCartList.get(i).getGoodsId());
                 // 返回购物车中商品数量 赋值给对应的商品数量
@@ -161,7 +160,7 @@ public class GoodsController {
             return Msg.success().add("goodsList", goodsList).add("totalPrice", totalPrice).add("totalGoodsAmount", totalGoodsAmount);
         } else {
             // 购物车为空
-            return Msg.fail();
+            return Msg.fail().add("message","购物车为空！");
         }
     }
 

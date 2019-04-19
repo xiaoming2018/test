@@ -151,8 +151,8 @@ public class PictureController {
             List<Goods> lists = new ArrayList<>();
             lists.add(good);
             String sheetName = "上传库存表";
-            String[] header = {"商品ID", "商品名称", "价格", "折扣", "是否新品", "状态", "库存", "产品描述"};
-            String[] columns = {"goodsId", "goodsName", "goodsPrice", "goodsDiscount", "goodsIsnew", "goodsStatus", "goodsAmount", "goodsDesc"};
+            String[] header = {"商品ID", "商品名称", "价格", "折扣", "库存"};
+            String[] columns = {"goodsId", "goodsName", "goodsPrice", "goodsDiscount", "goodsAmount"};
             wk = POIUtil.export(sheetName, header, columns, lists);
             wk.write(outputStream);
         } catch (Exception e) {

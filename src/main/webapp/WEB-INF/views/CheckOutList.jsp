@@ -39,9 +39,10 @@
     <script src="<%=path %>/resource/layui/layui.js"></script>
 
     <script type="text/javascript">
+        var layer;
         layui.use(['element', 'layer'], function () {
             var element = layui.element;
-            var layer = layui.layer;
+            layer = layui.layer;
         });
         $(function () {
             //页面加载完毕
@@ -55,8 +56,7 @@
                 $("#second").hide();
             }
             // 页面加载完毕，实现结算中心的数据解析
-            debugger;
-            check();
+            //check();
         });
 
         function check() {
@@ -170,12 +170,9 @@
                         <%-- 菜单栏 --%>
                         <h3>
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex"
-                                                      class="act">主页</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good"
-                                                      class="act">商品</a></li>
-                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture"
-                                                      class="act">家具</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/toIndex" class="act">主页</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Good" class="act">商品</a></li>
+                                <li class="active"><a href="${pageContext.request.contextPath}/page/Furniture" class="act">家具</a></li>
                                 <li class="active"><a href="${pageContext.request.contextPath}/page/Mail">联系我们</a></li>
                             </ul>
                         </h3>
@@ -203,8 +200,7 @@
 <div class="breadcrumbs">
     <div class="container">
         <ol class="breadcrumb breadcrumb1 animated wow slideInLeft" data-wow-delay=".5s">
-            <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home"
-                                                        aria-hidden="true"></span>首页</a></li>
+            <li><a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>首页</a></li>
             <li class="active">订单详情页</li>
         </ol>
         <br>
@@ -262,10 +258,10 @@
             </table>
         </div>
         <div class="checkout-left">
-            <div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">
-                <h4>价格中心</h4>
-                <ul id="checkBox"></ul>
-            </div>
+            <%--<div class="checkout-left-basket animated wow slideInLeft" data-wow-delay=".5s">--%>
+                <%--<h4>价格中心</h4>--%>
+                <%--<ul id="checkBox"></ul>--%>
+            <%--</div>--%>
             <div class="checkout-right-basket animated wow slideInRight" data-wow-delay=".5s">
                 <a href="<%=path %>/page/toIndex"><span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>继续购物</a>
             </div>

@@ -35,7 +35,7 @@
     <script src="<%=path %>/resource/layui/layui.js"></script>
 
     <script type="text/javascript">
-        layui.use(['element','layer'],function(){
+        layui.use(['element', 'layer'], function () {
             var element = layui.element;
             var layer = layui.layer;
         });
@@ -110,7 +110,8 @@
                         <a href="<%=path %>/mail.html">邮箱</a>
                     </li>
                     <li>
-                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890</li>
+                        <i class="glyphicon glyphicon-earphone" aria-hidden="true"></i>+1234 567 890
+                    </li>
                     <li>
                         <i class="glyphicon glyphicon-log-in" aria-hidden="true"></i>
                         <a href="<%=path %>/login.jsp">登陆</a>
@@ -124,7 +125,8 @@
                 <ul class="layui-nav">
                     <li class="layui-nav-item" lay-unselect="">
                         <a href="javascript:">
-                            <img src="${pageContext.request.contextPath}/${User.userPicture}" class="layui-nav-img">${User.userName}
+                            <img src="${pageContext.request.contextPath}/${User.userPicture}"
+                                 class="layui-nav-img">${User.userName}
                         </a>
                     </li>
                     <li class="layui-nav-item"><a href="<%=path%>/servlet/editPage?userId=${User.userId}">基本资料</a></li>
@@ -204,7 +206,8 @@
 
 <div class="checkout">
     <div class="container">
-        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">订单中包含: <span id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
+        <h3 class="animated wow slideInLeft" data-wow-delay=".5s">订单中包含: <span
+                id="goodsTotalAmount"> ${goodsList.size()} </span> 件商品</h3>
         <div class="checkout-right animated wow slideInUp" data-wow-delay=".5s">
             <table class="timetable_sub">
                 <thead>
@@ -218,28 +221,30 @@
                     <th>状态</th>
                 </tr>
                 </thead>
-                <% int i=0;%>
-                <c:forEach items="${goodsList}" var="goods">
-                    <tr class="${goods.goodsId}">
-                        <td class="invert"><%=i %></td>
+                <% int i = 0;%>
+                <c:forEach var="i" begin="0" end="${goodsList.size()-1}" step="1">
+                    <tr class="${goodsList[i].goodsId}">
+                        <td class="invert"><%=i %>
+                        </td>
                         <% i++;%>
                         <td class="invert-image">
-                            <a href="<%=path%>/page/toGoods?id=${goods.goodsId}">
-                                <img src="<%=path %>/${goods.goodsPicture}" class="img-responsive"/>
+                            <a href="<%=path%>/page/toGoods?id=${goodsList[i].goodsId}">
+                                <img src="<%=path %>/${goodsList[i].goodsPicture}" class="img-responsive" style="width: 120px"/>
                             </a>
                         </td>
                         <td class="invert">
                             <div class="quantity">
                                 <div class="quantity-select">
-                                    <div class="entry value"><span id="goodsAmount">${goods.goodsAmount}</span></div>
-                                    <div class="entry goodsIdValue" style="visibility:hidden"><span id="goodsId">${goods.goodsId}</span></div>
+                                    <div class="entry value"><span id="goodsAmount">${goodsList[i].goodsAmount}</span></div>
+                                    <div class="entry goodsIdValue" style="visibility:hidden"><span
+                                            id="goodsId">${goodsList[i].goodsId}</span></div>
                                 </div>
                             </div>
                         </td>
-                        <td class="invert">${goods.goodsName}</td>
+                        <td class="invert">${goodsList[i].goodsName}</td>
                         <td class="invert">￥5.00</td>
-                        <td class="invert">${goods.goodsPrice}</td>
-                        <td class="invert">${orderList.get(i).orderStatus}</td>
+                        <td class="invert">${goodsList[i].goodsPrice}</td>
+                        <td class="invert">${orderList[i].orderStatus}</td>
                     </tr>
                 </c:forEach>
             </table>
@@ -261,7 +266,7 @@
     <div class="container">
         <div class="footer-grids"></div>
         <div class="footer-logo animated wow slideInUp" data-wow-delay=".5s">
-            <h2><a href="<%=path %>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
+            <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
         </div>
         <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
             <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>
