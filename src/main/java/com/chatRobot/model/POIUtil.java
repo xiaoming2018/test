@@ -59,31 +59,35 @@ public class POIUtil {
                     int firstCellNum = row.getFirstCellNum();
                     // 获取当前行的列数
                     int lastCellNum = row.getPhysicalNumberOfCells();
-                    //String[] cells = new String[row.getPhysicalNumberOfCells()];
                     // 循环当前行 模板
+                    //Goods good = new Goods();
+                    //good.setGoodsId((int) row.getCell(0).getNumericCellValue());
+                    //good.setGoodsName(row.getCell(1).getStringCellValue());
+                    //good.setGoodsPrice(BigDecimal.valueOf(row.getCell(2).getNumericCellValue()));
+                    //good.setGoodsDiscount((float) row.getCell(3).getNumericCellValue());
+                    //if ((int) row.getCell(4).getNumericCellValue() == 1) {
+                    //    good.setGoodsIsnew(true);
+                    //} else {
+                    //    good.setGoodsIsnew(false);
+                    //}
+                    //if ((int) row.getCell(5).getNumericCellValue() == 1) {
+                    //    good.setGoodsStatus("1");
+                    //} else {
+                    //    good.setGoodsStatus("0");
+                    //}
+                    //good.setGoodsAmount((int) row.getCell(6).getNumericCellValue());
+                    //good.setGoodsDesc(row.getCell(7).getStringCellValue());
+                    //good.setGoodsUpdateTime(new Date());
+                    //good.setGoodsCreateTime(new Date());
                     Goods good = new Goods();
-                    good.setGoodsId((int) row.getCell(0).getNumericCellValue());
-                    good.setGoodsName(row.getCell(1).getStringCellValue());
-                    good.setGoodsPrice(BigDecimal.valueOf(row.getCell(2).getNumericCellValue()));
-                    good.setGoodsDiscount((float)row.getCell(3).getNumericCellValue());
-                    if( (int)row.getCell(4).getNumericCellValue() == 1){
-                        good.setGoodsIsnew(true);
-                    }else{
-                        good.setGoodsIsnew(false);
-                    }
-                    if((int)row.getCell(5).getNumericCellValue() == 1){
-                        good.setGoodsStatus("1");
-                    }else{
-                        good.setGoodsStatus("0");
-                    }
-                    good.setGoodsAmount((int)row.getCell(6).getNumericCellValue());
-                    good.setGoodsDesc(row.getCell(7).getStringCellValue());
+                    good.setGoodsId(Integer.valueOf(getCellValue(row.getCell(0))));
+                    good.setGoodsName(getCellValue(row.getCell(1)));
+                    // getCellValue(row.getCell(2)) Integer
+                    good.setGoodsPrice(new BigDecimal(getCellValue(row.getCell(2))));
+                    good.setGoodsDiscount(Float.valueOf(getCellValue(row.getCell(3))));
+                    good.setGoodsAmount(Integer.valueOf(getCellValue(row.getCell(4))));
                     good.setGoodsUpdateTime(new Date());
                     good.setGoodsCreateTime(new Date());
-                    //for (int cellNum = firstCellNum; cellNum < lastCellNum; cellNum++) {
-                    //    Cell cell = row.getCell(cellNum);
-                    //    cells[cellNum] = getCellValue(cell);
-                    //}
                     list.add(good);
                 }
             }
