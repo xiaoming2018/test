@@ -128,7 +128,7 @@
                                     name = result.extend.User.userName;
                                 }
                             }
-                        })
+                        });
                         return name;
                     }
                 },
@@ -145,7 +145,7 @@
                                     goodsName = result.extend.Goods.goodsName;
                                 }
                             }
-                        })
+                        });
                         return goodsName;
                     }
                 },

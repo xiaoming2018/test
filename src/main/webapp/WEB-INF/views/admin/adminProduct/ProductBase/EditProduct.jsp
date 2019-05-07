@@ -129,7 +129,6 @@
 
         form.on('submit(formDemo)', function (data) {
             //layer.msg(JSON.stringify(data.field));
-            debugger
             $.ajax({
                 url: "<%=path%>/Goods/GoodsUpdate",
                 dataType: 'json',

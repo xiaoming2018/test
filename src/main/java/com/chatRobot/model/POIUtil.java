@@ -184,8 +184,8 @@ public class POIUtil {
                     if (fieldName.equals(columns[j])) {
                         String getMethodName = "get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1); //  设置反射类名
                         Class<? extends Object> cls = t.getClass();
-                        Method getMethod = cls.getMethod(getMethodName, new Class[]{});
-                        Object val = getMethod.invoke(t, new Object[]{});
+                        Method getMethod = cls.getMethod(getMethodName);
+                        Object val = getMethod.invoke(t);
                         String textVal;
                         if (null != val) {
                             textVal = val.toString();

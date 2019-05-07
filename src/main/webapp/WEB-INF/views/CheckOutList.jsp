@@ -25,7 +25,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="keywords" content="Best Store"/>
-
     <link href='<%=path %>/resource/css/font.css' rel='stylesheet' type='text/css'>
     <link href='<%=path %>/resource/css/font1.css' rel='stylesheet' type='text/css'>
     <link href="<%=path %>/resource/css/jquery.countdown.css" rel="stylesheet">

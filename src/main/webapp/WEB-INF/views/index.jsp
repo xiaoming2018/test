@@ -242,7 +242,8 @@
                                 <div class="new-collections-grid1-image">
                                     <a href="<%=path%>/page/toGoods?id=${PageInfo.list[i].goodsId}"
                                        class="product-image">
-                                        <img src="<%=path%>/${PageInfo.list[i].goodsPicture}" style="width:300px;height:400px;"
+                                        <img src="<%=path%>/${PageInfo.list[i].goodsPicture}"
+                                             style="width:300px;height:400px;"
                                              class="img-responsive"/>
                                     </a>
                                     <div class="new-collections-grid1-image-pos">
@@ -265,7 +266,8 @@
                                 <div class="new-collections-grid1-image">
                                     <a href="<%=path%>/page/toGoods?id=${PageInfo.list[i+1].goodsId}"
                                        class="product-image">
-                                        <img src="<%=path%>/${PageInfo.list[i+1].goodsPicture}" style="width:300px;height:400px;"
+                                        <img src="<%=path%>/${PageInfo.list[i+1].goodsPicture}"
+                                             style="width:300px;height:400px;"
                                              class="img-responsive"/>
                                     </a>
                                     <div class="new-collections-grid1-image-pos">
@@ -395,8 +397,9 @@
                                 <div class="new-collections-grid1-image">
                                     <a href="<%=path%>/page/toGoods?id=${PageInfo.list[j].goodsId}"
                                        class="product-image">
-                                        <img src="<%=path%>/${PageInfo.list[j].goodsPicture}" style="width:300px;height:400px;"
-                                             class="img-responsive" />
+                                        <img src="<%=path%>/${PageInfo.list[j].goodsPicture}"
+                                             style="width:300px;height:400px;"
+                                             class="img-responsive"/>
                                     </a>
                                     <div class="new-collections-grid1-image-pos">
                                         <a href="<%=path%>/page/toGoods?id=${PageInfo.list[j].goodsId}">预览详情</a>
@@ -418,7 +421,8 @@
                                 <div class="new-collections-grid1-image">
                                     <a href="<%=path%>/page/toGoods?id=${PageInfo.list[j+1].goodsId}"
                                        class="product-image">
-                                        <img src="<%=path%>/${PageInfo.list[j+1].goodsPicture}" style="width:300px;height:400px;"
+                                        <img src="<%=path%>/${PageInfo.list[j+1].goodsPicture}"
+                                             style="width:300px;height:400px;"
                                              class="img-responsive"/>
                                     </a>
                                     <div class="new-collections-grid1-image-pos">
@@ -506,6 +510,7 @@
                                     })
                                 })
                             });
+
                             function addToshopCart(userId, goodsId) {
                                 var goodsamount = 1;
                                 $.ajax({

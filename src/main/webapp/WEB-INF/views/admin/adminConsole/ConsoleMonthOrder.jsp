@@ -160,7 +160,7 @@
             layer.msg("表格数据网络请求出错！");
             myChart.hideLoading();
         }
-    })
+    });
     myChart.setOption(option);
 </script>
 </body>

@@ -119,7 +119,7 @@
                 layer.msg("文件上上传接口出错！");
             }
         })
-    })
+    });
 
     $(function () {
         // button 点击事件下载
@@ -164,7 +164,7 @@
             $("<tr></tr>").append(goodsId).append(goodsName)
                 .append(goodsPrice).append(goodsAmount)
                 .appendTo("#demo tbody");
-        })
+        });
 
         var btn = $("<button></button>").addClass("layui-btn layui-btn-normal").append("入库操作");
         $("#button").append(btn);
