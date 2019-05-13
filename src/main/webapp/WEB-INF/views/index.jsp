@@ -159,7 +159,7 @@
                     <li><i class="glyphicon glyphicon-log-in" aria-hidden="true"></i><a
                             href="<%=path%>/login.jsp">登陆</a></li>
                     <li><i class="glyphicon glyphicon-book" aria-hidden="true"></i><a
-                            href="<%=path%>/register.html">注册</a></li>
+                            href="<%=path%>/register.jsp">注册</a></li>
                 </ul>
             </div>
             <div id="second" class="header-grid-left animated wow slideInLeft">
