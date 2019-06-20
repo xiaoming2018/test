@@ -82,7 +82,7 @@
     </div>
     <div class="layui-footer">
         <!-- 底部固定区域 -->
-        Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University
+        Copyright &copy; 2018.  Zhejiang Sci-Tech University
     </div>
 </div>
 <script type="text/javascript">

@@ -460,7 +460,7 @@
                 <h2><a href="<%=path%>/page/toIndex">Best Store <span>shop anywhere</span></a></h2>
             </div>
             <div class="copy-right animated wow slideInUp" data-wow-delay=".5s">
-                <p>Copyright &copy; 2018. Sunxm Zhejiang Sci-Tech University</p>
+                <p>Copyright &copy; 2018. Zhejiang Sci-Tech University</p>
             </div>
         </div>
     </div>
