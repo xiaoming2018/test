@@ -368,7 +368,6 @@
                                     })
                                 })
                             });
-
                             function addToshopCart(userId, goodsId) {
                                 var goodsamount = 1;
                                 debugger;
