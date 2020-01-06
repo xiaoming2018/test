@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Object loader 2</title>
+    <script type="text/javascript" src="webgl_resource/jquery3.3.1.js"></script>
+    <script src="webgl_resource/ply.js"></script>
+
+    <script src="webgl_resource/build/three.js"></script>
+    <script src="webgl_resource/js/controls/OrbitControls.js"></script>
+    <script src="webgl_resource/js/loaders/PLYLoader.js"></script>
+
+    <style type="text/css">
+        div#canvas-frame {
+            border: none;
+            cursor: pointer;
+            width: 720px;
+            height: 720px;
+        }
+    </style>
+</head>
+<body>
+
+    <button type="button" onclick="start()">展示模型</button>
+    <div id="canvas-frame" style="height:720px; width:720px"></div> <!-- 隐藏div -->
+</body>
+</html>

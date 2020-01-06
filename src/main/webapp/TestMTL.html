@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MTL and Model</title>
+    <script type="text/javascript" src="webgl_resource/jquery3.3.1.js"></script>
+    <script src="resource/js/jquery.min.js"></script>
+    <script src="webgl_resource/MTL.js"></script>
+    <script src="webgl_resource/build/three.js"></script>
+    <script src="webgl_resource/js/libs/stats.min.js"></script>
+    <script src="webgl_resource/js/libs/dat.gui.min.js"></script>
+    <script src="webgl_resource/js/loaders/OBJLoader.js"></script>
+    <script src="webgl_resource/js/loaders/MTLLoader.js"></script>
+    <script src="webgl_resource/js/loaders/DDSLoader.js"></script>
+    <script src="webgl_resource/js/controls/OrbitControls.js"></script>
+    <script type="module">
+    </script>
+    <!-- div 样式设置 -->
+    <style type="text/css">
+        div#canvas-frame {
+            border: none;
+            cursor: pointer;
+            width: 720px;
+            height: 720px;
+        }
+    </style>
+</head>
+<body>
+    <button type="button" onclick="start()">展示模型</button>
+    <div id="canvas-frame" style="height:720px; width:720px"></div> <!-- 隐藏div -->
+</body>
+</html>
